@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Carbon;
+  src: url('../../assets/fonts/Carbon.ttf');
+}
+
 main {
   --header-font: 'Helvetica Neue', monospace;
   --default-font: 'Carbon', monospace;
@@ -5,12 +10,17 @@ main {
   --visible-margin: 0;
   --nav-margin: calc(var(--layout-margin) * 0.5);
   --hot-pink: #FE069B;
+  --transparent-hot-pink: rgba(254, 6, 155, 0.5);
   --text-yellow: #ffedc7;
   --highlight-yellow: #FFB64E;
   padding: var(--layout-margin);
 }
 
-main.groovy h2 {
+a {
+  color: var(--text-yellow);
+}
+
+h2 {
   font-family: var(--header-font);
   font-weight: 900;
   font-size: 3rem;
@@ -33,4 +43,10 @@ main.groovy nav[aria-label='Main site'] {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media screen and (max-width: 600px) {
+  main.groovy nav[aria-label='Main site'] {
+    padding-bottom: calc(2 * var(--nav-margin));
+  }
 }

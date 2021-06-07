@@ -1,7 +1,7 @@
 import React from "react";
 import { Home, Book, Icons, Code, Palette, Question } from "./components/_icons"
 
-export const socialMedia = [
+export const externalLinks = [
   {
     name: 'github',
     url: 'https://github.com/gnoem'
@@ -11,7 +11,7 @@ export const socialMedia = [
     url: 'https://instagram.com/naomi.g.w'
   },
   {
-    name: 'portfolio',
+    name: 'dev portfolio',
     url: 'https://ngw.dev'
   }
 ]
@@ -40,6 +40,11 @@ export const pageConfig = {
     <>
       <h2>about</h2>
       <p>hi i'm naomi and this page is the little corner of the internet where i experiment with code / design in public</p>
+      <p>there is almost nothing here yet but im planning to add a ton soon so keep checking back!</p>
+      <h3>other places to find me online:</h3>
+      <ul>
+        {externalLinks.map(({ name, url }) => <li><a href={url} target="_blank">{name}</a></li>)}
+      </ul>
     </>
   ),
   notebook: (
@@ -72,7 +77,7 @@ export const pageConfig = {
 }
 
 const data = {
-  socialMedia,
+  externalLinks,
   navLinks
 }
 

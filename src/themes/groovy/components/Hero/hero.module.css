@@ -1,4 +1,5 @@
 .hero {
+  --hero-size: 40vw;
   width: 100%;
   height: 100%;
   display: flex;
@@ -8,10 +9,15 @@
 
 .hero::before {
   content: '';
-  --hero-size: 40vw;
   width: var(--hero-size);
   height: var(--hero-size);
   background: url('../../assets/hero.svg') no-repeat;
   background-size: contain;
   background-position: center;
+}
+
+@media screen and (max-width: 600px) {
+  .hero {
+    --hero-size: 80vw;
+  }
 }

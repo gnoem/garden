@@ -1,4 +1,5 @@
 .Wrapper {
+  --page-size: 50vw;
   width: 100%;
   height: 100%;
   display: flex;
@@ -8,10 +9,16 @@
 
 .Page {
   padding: var(--layout-margin);
-  width: 50vw;
-  max-height: 50vw;
+  width: var(--page-size);
+  max-height: var(--page-size);
   overflow: auto;
-  background: var(--hot-pink);
+  background: var(--transparent-hot-pink);
   color: var(--text-yellow);
   border: 1px solid var(--highlight-yellow);
+}
+
+@media screen and (max-width: 600px) {
+  .Page {
+    --page-size: 80vw;
+  }
 }

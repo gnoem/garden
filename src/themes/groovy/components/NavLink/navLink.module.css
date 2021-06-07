@@ -57,3 +57,9 @@
 .navLink * {
   fill: var(--hot-pink);
 }
+
+@media screen and (max-width: 600px) {
+  .navLink {
+    --button-size: 2.5rem;
+  }
+}
