@@ -1,0 +1,36 @@
+main {
+  --header-font: 'Helvetica Neue', monospace;
+  --default-font: 'Carbon', monospace;
+  --layout-margin: 5vw;
+  --visible-margin: 0;
+  --nav-margin: calc(var(--layout-margin) * 0.5);
+  --hot-pink: #FE069B;
+  --text-yellow: #ffedc7;
+  --highlight-yellow: #FFB64E;
+  padding: var(--layout-margin);
+}
+
+main.groovy h2 {
+  font-family: var(--header-font);
+  font-weight: 900;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+  text-transform: lowercase;
+  transform: scaleY(0.8);
+}
+
+main.groovy {
+  font-family: var(--default-font);
+}
+
+main.groovy nav[aria-label='Main site'] {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: var(--nav-margin);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

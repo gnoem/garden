@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "jsx": "react",
+    "lib": ["dom", "esnext", "es2015", "es2016", "es2017"],
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./build",
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ],
+    "target": "es2015",
+    "paths": {
+      "@components": ["components"],
+      "@config": ["config"],
+    }
+  },
+  "include": ["src", "global", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules/*", "public/*"]
+}
