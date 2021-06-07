@@ -1,4 +1,4 @@
-<center>
+<div align="center">
 
 <img src="src/themes/groovy/assets/hero.svg" width="100" />
 
@@ -6,4 +6,4 @@
 
 [code and design playground](https://naomi.vercel.app)
 
-</center>
+</div>
