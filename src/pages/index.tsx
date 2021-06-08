@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Head } from "@components";
 import "../styles/globals.css";
+import { Head } from "@components";
 import { Groovy } from "@themes";
 
 const layouts = {

@@ -120,7 +120,7 @@ export const pageConfig = {
         <li>cuter bullet points</li>
         <li>adjust window positions when page resizes</li>
         <li>resize windows from all edges not just bottom right corner, also needs to work with touch screens</li>
-        <li>clicking *any* button on inactive window should prevent default</li>
+        <li>loading screen maybe</li>
       </ul>
     </>
   )

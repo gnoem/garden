@@ -1,7 +1,7 @@
 import { useDataPath, useDragonDrop } from "@hooks";
 import { randomIntBetween } from "@utils";
 import { Icons } from "@components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as styles from "./window.module.css";
 
 interface IWindowProps {
@@ -15,7 +15,6 @@ interface IWindowProps {
 }
 
 const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focusWindow, switchToWindow, closeWindow, children }): JSX.Element => {
-  const exitRef = useRef(null);
   const [localRef, setLocalRef] = useState<HTMLDivElement | undefined>(null);
   const [ready, setReady] = useState<boolean>(false);
   const { initDragonDrop } = useDragonDrop(localRef);
@@ -52,7 +51,7 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
     setLocalRef(element);
   }
   const handleDivClick = (e) => {
-    if (exitRef.current?.contains?.(e.target)) return;
+    if (e.target.closest('button')) return;
     focusWindow();
   }
   return (
@@ -66,7 +65,7 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
             {name}
           </span>
           <div>
-            <button onMouseDown={closeWindow} ref={exitRef}><Icons.Times /></button>
+            <button onMouseDown={closeWindow}><Icons.Times /></button>
           </div>
         </Bar>
         <Content>
