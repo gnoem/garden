@@ -119,8 +119,8 @@ export const pageConfig = {
         <li>cuter scrollbars</li>
         <li>cuter bullet points</li>
         <li>adjust window positions when page resizes</li>
-        <li>analytics</li>
-        <li>probably should make it possible to resize windows from all edges not just bottom right corner</li>
+        <li>resize windows from all edges not just bottom right corner, also needs to work with touch screens</li>
+        <li>clicking *any* button on inactive window should prevent default</li>
       </ul>
     </>
   )
