@@ -1,9 +1,13 @@
 <div align="center">
 
-<img src="src/themes/groovy/assets/hero.svg" width="100" />
+<img src="src/themes/groovy/assets/hero.svg" width="250" />
 
-# 🌱 gnome's garden 🌱
+🌱
 
-[code and design playground](https://naomi.vercel.app)
+# planet naomi
+
+personal page / code + design playground, built with Gatsby & hosted on Vercel
+
+[&raquo; view live](https://naomi.vercel.app)
 
 </div>

@@ -11,7 +11,7 @@ export const externalLinks = [
     url: 'https://instagram.com/naomi.g.w'
   },
   {
-    name: 'dev portfolio',
+    name: 'ngw.dev',
     url: 'https://ngw.dev'
   }
 ]
@@ -26,9 +26,12 @@ export const navLinks = [
 
 export const siteMap = {
   misc: {
-    children: ['ideas']
+    children: ['ideas', 'reminders']
   },
   ideas: {
+    parent: 'misc'
+  },
+  reminders: {
     parent: 'misc'
   }
 }
@@ -49,9 +52,9 @@ export const pageConfig = {
       <p>hi i'm naomi and this page is the little corner of the internet where i experiment with code / design in public</p>
       <p>there is almost nothing here yet but im planning to add a ton soon so keep checking back!</p>
       <h3>other places to find me online:</h3>
-      <ul>
-        {externalLinks.map(({ name, url }) => <li><a href={url} target="_blank">{name}</a></li>)}
-      </ul>
+      <nav aria-label="External links" className="buttons">
+        {externalLinks.map(({ name, url }) => <a key={name} className="glossy" href={url} target="_blank">{name}</a>)}
+      </nav>
     </>
   ),
   notebook: (
@@ -76,7 +79,9 @@ export const pageConfig = {
     <>
       <h2>misc</h2>
       <p>like everything else here this is under construction</p>
-      {siteMap['misc'].children.map(pageName => <span data-path={pageName}></span>)}
+      <nav aria-label="Miscellaneous pages" className="buttons">
+        {siteMap['misc'].children.map(pageName => <span data-path={pageName}></span>)}
+      </nav>
     </>
   ),
   ideas: (
@@ -88,20 +93,34 @@ export const pageConfig = {
         <li>dream journal</li>
         <li>interactive virtual altar!!</li>
         <li>shrines to things i like</li>
+        <li>multiple site themes</li>
         <li>soundcloud</li>
         <li>guestbook or thing where people can say hi or contribute in some way</li>
         <li>polls!! anytime I want community input on a decision or just for fun</li>
         <li>or more open ended suggestion box like toad names ideas etc</li>
         <li>my criminal minds episode script</li>
-        <li>site affiliates if i had any friends who have a personal page like this</li>
+        <li>earthquake/volcano tracker</li>
+        <li>list of wikipedia contributions</li>
+        <li>site affiliates if i can find other people with similar things</li>
       </ul>
       <h3>code/art/theory intensive</h3>
       <ul>
         <li>mini MMO if I can figure out how to get <a href="https://vercel.com/guides/deploying-pusher-channels-with-vercel" target="_blank">websockets working on vercel</a></li>
         <li>closet organizer like on clueless where visitors can create outfits from my OWN WARDROBE and send them to me as suggestions</li>
-        <li>earthquake/volcano tracker</li>
         <li>tamagotchi simulator</li>
         <li>naomi's magic beans... one day</li>
+      </ul>
+    </>
+  ),
+  reminders: (
+    <>
+      <h2>reminders</h2>
+      <ul>
+        <li>cuter scrollbars</li>
+        <li>cuter bullet points</li>
+        <li>adjust window positions when page resizes</li>
+        <li>analytics</li>
+        <li>probably should make it possible to resize windows from all edges not just bottom right corner</li>
       </ul>
     </>
   )

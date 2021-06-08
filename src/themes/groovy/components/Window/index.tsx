@@ -95,7 +95,7 @@ const Content = ({ children }): JSX.Element => {
 const createButton = (open) => (path) => {
   const link = document.createElement('button');
   link.setAttribute('data-link', path);
-  link.className = styles.glossy;
+  link.className = 'glossy';
   link.innerHTML = path;
   link.onclick = () => open(path);
   return link;

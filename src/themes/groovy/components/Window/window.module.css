@@ -119,35 +119,6 @@
   max-height: 0;
 }
 
-.glossy {
-  padding: 0.5rem 1.5rem;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #f97a64, var(--highlight-yellow) 80%, #FFCC86);
-  color: var(--deep-pink);
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  transition: 0.2s;
-}
-
-.glossy:before {
-  --top-distance: 0.1875rem;
-  content: '';
-  z-index: 6;
-  position: absolute;
-  top: var(--top-distance);
-  width: calc(100% - calc(var(--top-distance) * 4));
-  height: 80%;
-  transform: scaleY(0.7);
-  transform-origin: top;
-  border-radius: 999px;
-  background: linear-gradient(hsla(0, 0%, 100%, 0.8), hsla(0, 0%, 100%, 0));
-  opacity: 0.6;
-}
-
 @media screen and (max-width: 600px) {
   .Window {
     max-width: 90vw;

@@ -37,7 +37,7 @@ h2 {
   margin-bottom: 1.5rem;
   line-height: 0.5;
   text-transform: lowercase;
-  transform: scaleY(0.9);
+  transform: scaleY(0.8);
 }
 
 main.groovy {
@@ -56,20 +56,58 @@ main.groovy nav[aria-label='Main site'] {
   justify-content: center;
 }
 
+main.groovy nav.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 -1rem -1rem 0;
+}
+
+main.groovy nav.buttons > * {
+  margin: 0 1rem 1rem 0;
+}
+
+.glossy {
+  padding: 0.5rem 1.5rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f97a64, var(--highlight-yellow) 80%, #FFCC86);
+  color: var(--deep-pink);
+  font-size: 0.875rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: 0.2s;
+}
+
+.glossy::before {
+  --top-distance: 0.125rem;
+  content: '';
+  z-index: 6;
+  position: absolute;
+  top: var(--top-distance);
+  width: calc(100% - calc(var(--top-distance) * 6));
+  height: 80%;
+  transform: scaleY(0.7);
+  transform-origin: top;
+  border-radius: 999px;
+  background: linear-gradient(hsla(0, 0%, 100%, 0.8), hsla(0, 0%, 100%, 0));
+  opacity: 0.7;
+}
+
+.glossy:hover {
+  transform: scale(1.1) rotate(-3deg);
+  color: rgb(172, 63, 0);
+  filter: hue-rotate(-60deg);
+}
+
 @media screen and (max-width: 600px) {
   main.groovy nav[aria-label='Main site'] {
     padding-bottom: calc(2 * var(--nav-margin));
   }
-}
-
-.groovy > ul {
-  position: fixed;
-  top: 0;
-  left: 0;
-  font-size: 1.2rem;
-}
-
-@media screen and (max-width: 600px) {
   h2 {
     font-size: 2.5rem;
   }
