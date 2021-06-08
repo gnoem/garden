@@ -67,10 +67,27 @@ export const pageConfig = {
   ),
   misc: (
     <>
-      <h2>miscellaneous</h2>
+      <h2>misc</h2>
+      <p>(notes to self)</p>
+      <h3>what else can i put on this site</h3>
       <ul>
+        <li>emoji art gallery</li>
         <li>dream journal</li>
-        <li>virtual altar</li>
+        <li>interactive virtual altar!!</li>
+        <li>shrines to things i like</li>
+        <li>guestbook or thing where people can contribute in some way</li>
+        <li>polls!! anytime I want community input on a decision or just for fun</li>
+        <li>or more open ended suggestion box like toad names ideas</li>
+        <li>my criminal minds episode script</li>
+        <li>site affiliates if i had any friends who have a personal page like this</li>
+      </ul>
+      <h3>code intensive</h3>
+      <ul>
+        <li>mini MMO if I can figure out how to get <a href="https://vercel.com/guides/deploying-pusher-channels-with-vercel" target="_blank">websockets working on vercel</a></li>
+        <li>closet organizer like on clueless where visitors can create outfits from my OWN WARDROBE and send them to me as suggestions</li>
+        <li>earthquake/volcano tracker</li>
+        <li>tamagotchi simulator</li>
+        <li>naomi's magic beans... one day</li>
       </ul>
     </>
   ),

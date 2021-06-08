@@ -1,0 +1,99 @@
+.Window {
+  --bar-padding: 0.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  overflow: auto;
+  background: var(--hot-pink-05);
+  color: var(--text-yellow);
+  border: 1px solid var(--highlight-yellow);
+  display: inline-grid;
+  grid-template:
+    'bar'     auto
+    'content' 1fr / 100%;
+  /* animation: windowLaunch 0.2s 1 forwards; */
+  border-radius: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+  resize: both;
+}
+
+.Window.ready {
+  opacity: 1;
+}
+
+.Window.active {
+  background: var(--hot-pink-08);
+  box-shadow: 0 0 1.5rem #FF5F9A;
+}
+
+.Window.closing {
+  opacity: 0;
+}
+
+.Bar {
+  padding: var(--bar-padding);
+  padding-left: calc(var(--bar-padding) * 1.5);
+  background: var(--hot-pink);
+  border-bottom: 1px solid var(--highlight-yellow);
+  line-height: 1;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  grid-area: bar;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: grab;
+}
+
+.Bar:active {
+  cursor: grabbing;
+}
+
+.Bar button {
+  background: var(--text-yellow);
+  color: var(--hot-pink);
+  width: 1.25rem;
+  height: 1.25rem;
+  font-size: 0.8rem;
+  line-height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 999px;
+  transition: max-height 0.2s;
+}
+
+.Bar button svg {
+  height: 70%;
+}
+
+.Bar button svg * {
+  fill: var(--hot-pink);
+}
+
+.Window.active .Bar {
+  background: var(--highlight-yellow);
+  color: var(--hot-pink);
+}
+
+.Window.active .Bar button {
+  background: var(--hot-pink);
+  color: var(--text-yellow);
+}
+
+.Window.active .Bar button svg * {
+  fill: var(--text-yellow);
+}
+
+.Content {
+  padding: calc(var(--layout-margin) * 0.5);
+  overflow: auto;
+}
+
+.Window.minimized .Content {
+  max-height: 0;
+}

@@ -21,6 +21,8 @@
     "paths": {
       "@components": ["components"],
       "@config": ["config"],
+      "@hooks": ["hooks"],
+      "@utils": ["utils"],
     }
   },
   "include": ["src", "global", "**/*.ts", "**/*.tsx"],
