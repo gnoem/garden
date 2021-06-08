@@ -3,3 +3,4 @@ export { default as Content } from "./Content";
 export { default as Hero } from "./Hero";
 export { default as NavLink } from "./NavLink";
 export { default as Page } from "./Page";
+export { default as Window } from "./Window";

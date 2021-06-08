@@ -17,13 +17,21 @@ export const externalLinks = [
 ]
 
 export const navLinks = [
-  { name: 'home', icon: 'home' },
   { name: 'about', icon: 'question' },
   { name: 'notebook', icon: 'book' },
   { name: 'code', icon: 'code' },
   { name: 'art', icon: 'palette' },
   { name: 'misc', icon: 'icons' }
 ]
+
+export const siteMap = {
+  misc: {
+    children: ['ideas']
+  },
+  ideas: {
+    parent: 'misc'
+  }
+}
 
 export const iconsMap = {
   home: (props) => <Home {...props} />,
@@ -35,7 +43,6 @@ export const iconsMap = {
 }
 
 export const pageConfig = {
-  home: null,
   about: (
     <>
       <h2>about</h2>
@@ -68,20 +75,27 @@ export const pageConfig = {
   misc: (
     <>
       <h2>misc</h2>
-      <p>(notes to self)</p>
+      <p>like everything else here this is under construction</p>
+      {siteMap['misc'].children.map(pageName => <span data-path={pageName}></span>)}
+    </>
+  ),
+  ideas: (
+    <>
+      <h2>ideas</h2>
       <h3>what else can i put on this site</h3>
       <ul>
         <li>emoji art gallery</li>
         <li>dream journal</li>
         <li>interactive virtual altar!!</li>
         <li>shrines to things i like</li>
-        <li>guestbook or thing where people can contribute in some way</li>
+        <li>soundcloud</li>
+        <li>guestbook or thing where people can say hi or contribute in some way</li>
         <li>polls!! anytime I want community input on a decision or just for fun</li>
-        <li>or more open ended suggestion box like toad names ideas</li>
+        <li>or more open ended suggestion box like toad names ideas etc</li>
         <li>my criminal minds episode script</li>
         <li>site affiliates if i had any friends who have a personal page like this</li>
       </ul>
-      <h3>code intensive</h3>
+      <h3>code/art/theory intensive</h3>
       <ul>
         <li>mini MMO if I can figure out how to get <a href="https://vercel.com/guides/deploying-pusher-channels-with-vercel" target="_blank">websockets working on vercel</a></li>
         <li>closet organizer like on clueless where visitors can create outfits from my OWN WARDROBE and send them to me as suggestions</li>
@@ -90,7 +104,7 @@ export const pageConfig = {
         <li>naomi's magic beans... one day</li>
       </ul>
     </>
-  ),
+  )
 }
 
 const data = {
