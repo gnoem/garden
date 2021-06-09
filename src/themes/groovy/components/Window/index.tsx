@@ -1,8 +1,9 @@
-import { useDataPath, useDragonDrop } from "@hooks";
-import { randomIntBetween } from "@utils";
-import { Icons } from "@components";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+
 import * as styles from "./window.module.css";
+import { Icons } from "@components";
+import { useDataPath, useDragonDrop } from "@hooks";
+import { useRandomizeWindow, useTabs } from "./hooks";
 
 interface IWindowProps {
   name: string;
@@ -16,36 +17,10 @@ interface IWindowProps {
 
 const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focusWindow, switchToWindow, closeWindow, children }): JSX.Element => {
   const [localRef, setLocalRef] = useState<HTMLDivElement | undefined>(null);
-  const [ready, setReady] = useState<boolean>(false);
   const { initDragonDrop } = useDragonDrop(localRef);
   useDataPath(localRef, createButton(switchToWindow));
-  useEffect(() => {
-    /* set random size/position of window */
-    if (!localRef) return;
-    const setWindowSize = () => {
-      const isMobile = window.innerWidth < 600;
-      const width = isMobile
-        ? randomIntBetween(window.innerWidth * 0.75, window.innerWidth * 0.9)
-        : randomIntBetween(350, 600);
-      const height = isMobile
-        ? randomIntBetween(Math.round(width * 0.8), Math.round(width * 1.3))
-        : randomIntBetween(Math.round(width * 0.5), Math.round(width * 0.8));
-      // todo remember to readjust if window resizes, dont want elements getting cut off
-      const randomX = isMobile
-        ? randomIntBetween(5, window.innerWidth - (width + 5))
-        : randomIntBetween(20, window.innerWidth - (width + (window.innerWidth * 0.1)));
-      const randomY = isMobile
-        ? randomIntBetween(20, window.innerHeight - (height + (window.innerHeight * 0.1)))
-        : randomIntBetween(20, window.innerHeight - (height + (window.innerHeight * 0.1)));
-      localRef.style.width = `${width}px`;
-      localRef.style.height = `${height}px`;
-      localRef.style.transform = `translate3d(${randomX}px, ${randomY}px, 0)`;
-      setReady(true);
-    }
-    if (!ready) {
-      setWindowSize();
-    }
-  }, [localRef]);
+  const ready = useRandomizeWindow(localRef);
+  const { tabs, closeTab, activeTab, setActiveTab } = useTabs(name);
   const createWindowRef = (element) => {
     registerRef(element);
     setLocalRef(element);
@@ -60,13 +35,12 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
       onMouseDown={handleDivClick}
       style={{ zIndex: index }}
       ref={createWindowRef}>
-        <Bar initDragonDrop={initDragonDrop}>
-          <span>
-            {name}
-          </span>
-          <div>
-            <button onMouseDown={closeWindow}><Icons.Times /></button>
+        <Bar>
+          <div onMouseDown={initDragonDrop} onTouchStart={initDragonDrop}>
+            <span>{name}</span>
+            <div><button onMouseDown={closeWindow}><Icons.Times /></button></div>
           </div>
+          {(tabs?.length > 1) && <Tabs {...{ tabs, closeTab, activeTab, setActiveTab }} />}
         </Bar>
         <Content>
           {children}
@@ -75,15 +49,43 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
   )
 }
 
-const Bar: React.FC<{ initDragonDrop: (e) => void }> = ({ children, initDragonDrop }): JSX.Element => {
+const Bar: React.FC = ({ children }): JSX.Element => {
   return (
-    <div className={styles.Bar} onMouseDown={initDragonDrop} onTouchStart={initDragonDrop}>
+    <div className={styles.Bar}>
       {children}
     </div>
   )
 }
 
-const Content = ({ children }): JSX.Element => {
+interface ITabsProps {
+  tabs?: string[];
+  closeTab: (string) => void;
+  activeTab: string;
+  setActiveTab: (string) => void;
+}
+
+const Tabs: React.FC<ITabsProps> = ({ tabs, closeTab, activeTab, setActiveTab }): JSX.Element => {
+  return (
+    <div className={styles.Tabs}>
+      {tabs.map(tab => <Tab {...{ tab, closeTab, activeTab, setActiveTab }} />)}
+    </div>
+  )
+}
+
+interface ITabProps extends ITabsProps {
+  tab: string;
+}
+
+const Tab: React.FC<ITabProps> = ({ tab, closeTab, activeTab, setActiveTab }): JSX.Element => {
+  return (
+    <div className={`${styles.Tab} ${activeTab === tab ? styles.active : ''}`} onClick={() => setActiveTab(tab)}>
+      {tab}
+      <button onClick={() => closeTab(tab)}><Icons.Times /></button>
+    </div>
+  )
+}
+
+const Content: React.FC = ({ children }): JSX.Element => {
   return (
     <div className={styles.Content}>
       {children}

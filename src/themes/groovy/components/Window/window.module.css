@@ -35,25 +35,36 @@
 }
 
 .Bar {
+  --bar-background: var(--hot-pink);
+  --bar-text: var(--highlight-yellow);
+  grid-area: bar;
+}
+
+.Window.active .Bar {
+  --bar-background: var(--highlight-yellow);
+  --bar-text: var(--hot-pink);
+}
+
+.Bar > div:first-of-type {
   padding: var(--bar-padding);
   padding-left: calc(var(--bar-padding) * 1.5);
-  background: var(--hot-pink);
+  background: var(--bar-background);
+  color: var(--bar-text);
   border-bottom: 1px solid var(--highlight-yellow);
   line-height: 1;
   font-size: 1.2rem;
   text-transform: uppercase;
-  grid-area: bar;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: grab;
 }
 
-.Bar:active {
+.Bar > div:first-of-type:active {
   cursor: grabbing;
 }
 
-.Bar button {
+.Bar > div:first-of-type button {
   --button-size: 1.5rem;
   background: linear-gradient(180deg, #f97a64, var(--highlight-yellow) 80%, #FFCC86);
   width: var(--button-size);
@@ -70,7 +81,7 @@
   overflow: visible;
 }
 
-.Bar button::before {
+.Bar > div:first-of-type button::before {
   --top-distance: 0.0625rem;
   content: '';
   z-index: 6;
@@ -85,29 +96,28 @@
   opacity: 0.9;
 }
 
-.Bar button svg {
+.Bar > div:first-of-type button svg {
   height: 70%;
 }
 
-.Bar button svg * {
+.Bar > div:first-of-type button svg * {
   fill: var(--deep-pink);
 }
 
-.Bar button:hover {
+.Bar > div:first-of-type button:hover {
   transform: scale(1.1);
 }
 
 .Window.active .Bar {
-  background: var(--highlight-yellow);
   color: var(--hot-pink);
 }
 
-.Window.active .Bar button {
+.Window.active .Bar > div:first-of-type button {
   background: linear-gradient(180deg, var(--deep-pink), var(--hot-pink) 80%, var(--med-pink));
   color: var(--text-yellow);
 }
 
-.Window.active .Bar button svg * {
+.Window.active .Bar > div:first-of-type button svg * {
   fill: var(--text-yellow);
 }
 
@@ -132,6 +142,55 @@
 
 .Window.minimized .Content {
   max-height: 0;
+}
+
+.Tabs {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: stretch;
+}
+
+.Tab {
+  flex: 1 1 auto;
+  color: var(--text-yellow);
+  padding: 0.25rem 0.5rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid transparent;
+}
+
+.Tab:not(.active) {
+  background: var(--hot-pink);
+  border: 1px solid var(--highlight-yellow);
+  border-width: 0 1px 1px 1px;
+}
+
+.Tab:first-child, .Tab:not(.active) + .Tab:not(.active) {
+  border-left: 0;
+}
+
+.Tab:last-child {
+  border-right: 0;
+}
+
+.Tab button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.Tab button svg {
+  height: 0.5rem;
+}
+
+.Tab button svg * {
+  fill: var(--text-yellow);
 }
 
 @media screen and (max-width: 600px) {
