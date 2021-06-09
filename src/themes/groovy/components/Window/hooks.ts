@@ -37,7 +37,7 @@ export const useTabs = (baseTab) => {
   const [openInBackground, setOpenInBackground] = useState<boolean>(false);
   const [tabs, setTabs] = useState<string[]>([baseTab]);
   const [justOpened, setJustOpened] = useState<string>(null);
-  // ^^ workaround to allow tabs to open in the background; openTab function is called from Tab component which doesn't have access to the latest openInBackground state, so openInBackground is always false inside openTab :(  todo see if there's a better way
+  // ^^ workaround for openTab function to work properly - openTab is called directly from the Tab component which doesn't have access to the latest tabs and openInBackground state :( todo see if there's a better way
   const [activeTab, setActiveTab] = useState<string>(baseTab);
   const closeTab = useCallback((tab) => {
     if (tab === activeTab) {
@@ -50,18 +50,14 @@ export const useTabs = (baseTab) => {
       return array.splice(index, 1);
     }));
   }, [activeTab, tabs]);
-  const openTab = (tab) => {
-    if (tabs.includes(tab)) {
-      setActiveTab(tab);
-    } else {
-      setTabs(mutateArray((array) => array.push(tab)));
-      setJustOpened(tab);
-    }
-  }
+  const openTab = (tab) => setJustOpened(tab); // will trigger useEffect which has access to the most recent tabs/openInBackground state
   useEffect(() => {
     if (!justOpened) return;
-    if (!openInBackground) {
+    if (tabs.includes(justOpened)) {
       setActiveTab(justOpened);
+    } else {
+      setTabs(mutateArray((array) => array.push(justOpened)));
+      if (!openInBackground) setActiveTab(justOpened);
     }
     setJustOpened(null);
   }, [openInBackground, justOpened]);

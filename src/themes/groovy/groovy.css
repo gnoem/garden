@@ -40,6 +40,14 @@ h2 {
   transform: scaleY(0.8);
 }
 
+h3 {
+  margin-bottom: 0.5rem;
+}
+
+ul + h3 {
+  margin-top: 1.5rem;
+}
+
 main.groovy {
   font-family: var(--default-font);
   display: flex;

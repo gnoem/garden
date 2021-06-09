@@ -45,6 +45,10 @@
   --bar-text: var(--hot-pink);
 }
 
+.Window:not(.active) img {
+  opacity: 0.5;
+}
+
 .Bar > div:first-of-type {
   padding: var(--bar-padding);
   padding-left: calc(var(--bar-padding) * 1.5);

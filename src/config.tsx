@@ -90,7 +90,13 @@ export const pageConfig = {
   'art': (
     <>
       <h2>art</h2>
-      <p>might add some art too who knows</p>
+      <div style={{
+        width: '250px',
+        maxWidth: '100%',
+        fontSize: '0'
+      }}>
+        <img src="https://i.imgur.com/MFZ0A2w.png" style={{ width: '100%', height: 'auto' }} alt="portrait of chester the cheetah, 2021" />
+      </div>
     </>
   ),
   'misc': (
@@ -146,6 +152,7 @@ export const pageConfig = {
         <li>resize windows from all edges not just bottom right corner, also needs to work with touch screens</li>
         <li>routing??</li>
         <li>loading screen maybe</li>
+        <li>option to increase window opacity</li>
       </ul>
     </>
   ),
@@ -153,11 +160,12 @@ export const pageConfig = {
     <>
       <h2>concepts</h2>
       <ul>
-        <li>good cop/bad cop daycare</li>
-        <li>Cryptocurrency for girls only</li>
         <li>A gas that conducts wifi</li>
+        <li>Cryptocurrency for girls only</li>
         <li>business card with just ur fingerprint</li>
+        <li>good cop/bad cop daycare</li>
         <li>a religion that just cries</li>
+        <li>nightly annihilation of time</li>
         <li>fire hat</li>
       </ul>
     </>
