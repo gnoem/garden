@@ -162,6 +162,12 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.Tab.active {
+  flex-shrink: 0;
 }
 
 .Tab:not(.active) {
@@ -183,10 +189,15 @@
   border: 0;
   padding: 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -0.5px;
+  margin-left: 0.5rem;
 }
 
 .Tab button svg {
-  height: 0.5rem;
+  height: 0.75rem;
 }
 
 .Tab button svg * {

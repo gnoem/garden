@@ -2,8 +2,10 @@ import React, { useState } from "react";
 
 import * as styles from "./window.module.css";
 import { Icons } from "@components";
-import { useDataPath, useDragonDrop } from "@hooks";
+import { useDataPath, useDataTab, useDragonDrop } from "@hooks";
 import { useRandomizeWindow, useTabs } from "./hooks";
+import Tabs from "./Tabs";
+import { pageConfig } from "@config";
 
 interface IWindowProps {
   name: string;
@@ -17,10 +19,11 @@ interface IWindowProps {
 
 const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focusWindow, switchToWindow, closeWindow, children }): JSX.Element => {
   const [localRef, setLocalRef] = useState<HTMLDivElement | undefined>(null);
-  const { initDragonDrop } = useDragonDrop(localRef);
-  useDataPath(localRef, createButton(switchToWindow));
   const ready = useRandomizeWindow(localRef);
-  const { tabs, closeTab, activeTab, setActiveTab } = useTabs(name);
+  const { initDragonDrop } = useDragonDrop(localRef);
+  const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs(name);
+  useDataPath(localRef, createButton(switchToWindow));
+  useDataTab(localRef, createLink(openTab), activeTab);
   const createWindowRef = (element) => {
     registerRef(element);
     setLocalRef(element);
@@ -40,10 +43,16 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
             <span>{name}</span>
             <div><button onMouseDown={closeWindow}><Icons.Times /></button></div>
           </div>
-          {(tabs?.length > 1) && <Tabs {...{ tabs, closeTab, activeTab, setActiveTab }} />}
+          <Tabs {...{
+            name,
+            tabs,
+            closeTab,
+            activeTab,
+            setActiveTab
+          }} />
         </Bar>
         <Content>
-          {children}
+          {(name === activeTab) ? children : pageConfig[activeTab]}
         </Content>
     </div>
   )
@@ -57,34 +66,6 @@ const Bar: React.FC = ({ children }): JSX.Element => {
   )
 }
 
-interface ITabsProps {
-  tabs?: string[];
-  closeTab: (string) => void;
-  activeTab: string;
-  setActiveTab: (string) => void;
-}
-
-const Tabs: React.FC<ITabsProps> = ({ tabs, closeTab, activeTab, setActiveTab }): JSX.Element => {
-  return (
-    <div className={styles.Tabs}>
-      {tabs.map(tab => <Tab {...{ tab, closeTab, activeTab, setActiveTab }} />)}
-    </div>
-  )
-}
-
-interface ITabProps extends ITabsProps {
-  tab: string;
-}
-
-const Tab: React.FC<ITabProps> = ({ tab, closeTab, activeTab, setActiveTab }): JSX.Element => {
-  return (
-    <div className={`${styles.Tab} ${activeTab === tab ? styles.active : ''}`} onClick={() => setActiveTab(tab)}>
-      {tab}
-      <button onClick={() => closeTab(tab)}><Icons.Times /></button>
-    </div>
-  )
-}
-
 const Content: React.FC = ({ children }): JSX.Element => {
   return (
     <div className={styles.Content}>
@@ -94,6 +75,15 @@ const Content: React.FC = ({ children }): JSX.Element => {
 }
 
 const createButton = (open) => (path) => {
+  const link = document.createElement('button');
+  link.setAttribute('data-link', path);
+  link.className = 'glossy';
+  link.innerHTML = path;
+  link.onclick = () => open(path);
+  return link;
+}
+
+const createLink = (open) => (path) => {
   const link = document.createElement('button');
   link.setAttribute('data-link', path);
   link.className = 'glossy';

@@ -24,6 +24,7 @@ const siteMap = {
   // NOTEBOOK
   notebook: {
     navIcon: 'book',
+    tabs: ['concepts', 'questions', 'cool words']
     //children: ['dream journal', 'concepts', 'spells', 'agendas', 'toad names ideas', 'rantings']
   },
   // CODE
@@ -60,7 +61,7 @@ export const iconsMap = {
 }
 
 export const pageConfig = {
-  about: (
+  'about': (
     <>
       <h2>about</h2>
       <p>hi i'm naomi and this page is the little corner of the internet where i experiment with code / design in public</p>
@@ -71,34 +72,37 @@ export const pageConfig = {
       </nav>
     </>
   ),
-  notebook: (
+  'notebook': (
     <>
       <h2>notebook</h2>
-      <p><b>jun 7, 21</b> - Is it possible 2 have lunch before breakfast?</p>
+      <p>browse collections:</p>
+      <nav aria-label="Notebook collections" className="buttons">
+        {siteMap['notebook'].tabs.map(pageName => <span key={`data-tab:${pageName}@notebook`} data-tab={pageName}></span>)}
+      </nav>
     </>
   ),
-  code: (
+  'code': (
     <>
       <h2>code</h2>
       <p>highlight my favorite projects i guess</p>
     </>
   ),
-  art: (
+  'art': (
     <>
       <h2>art</h2>
       <p>might add some art too who knows</p>
     </>
   ),
-  misc: (
+  'misc': (
     <>
       <h2>misc</h2>
       <p>like everything else here this is under construction</p>
       <nav aria-label="Miscellaneous pages" className="buttons">
-        {siteMap['misc'].children.map(pageName => <span data-path={pageName}></span>)}
+        {siteMap['misc'].children.map(pageName => <span key={`data-path:${pageName}@misc`} data-path={pageName}></span>)}
       </nav>
     </>
   ),
-  ideas: (
+  'ideas': (
     <>
       <h2>ideas</h2>
       <h3>what else can i put on this site</h3>
@@ -131,7 +135,7 @@ export const pageConfig = {
       </ul>
     </>
   ),
-  reminders: (
+  'reminders': (
     <>
       <h2>reminders</h2>
       <ul>
@@ -144,5 +148,35 @@ export const pageConfig = {
         <li>loading screen maybe</li>
       </ul>
     </>
-  )
+  ),
+  'concepts': (
+    <>
+      <h2>concepts</h2>
+      <ul>
+        <li>good cop/bad cop daycare</li>
+        <li>Cryptocurrency for girls only</li>
+        <li>A gas that conducts wifi</li>
+        <li>business card with just ur fingerprint</li>
+        <li>a religion that just cries</li>
+        <li>fire hat</li>
+      </ul>
+    </>
+  ),
+  'questions': (
+    <>
+      <h2>questions</h2>
+      <ul>
+        <li>Is it possible 2 have lunch before breakfast?</li>
+      </ul>
+    </>
+  ),
+  'cool words': (
+    <>
+      <h2>cool words</h2>
+      <ul>
+        <li>lecherous</li>
+        <li>fortuitous</li>
+      </ul>
+    </>
+  ),
 }
