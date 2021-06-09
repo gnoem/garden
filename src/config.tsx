@@ -148,7 +148,6 @@ export const pageConfig = {
         <li>404 page</li>
         <li>minimize window button and maybe fullscreen</li>
         <li>adjust window positions when page resizes</li>
-        <li>tabs</li>
         <li>resize windows from all edges not just bottom right corner, also needs to work with touch screens</li>
         <li>routing??</li>
         <li>loading screen maybe</li>
@@ -167,6 +166,8 @@ export const pageConfig = {
         <li>a religion that just cries</li>
         <li>nightly annihilation of time</li>
         <li>fire hat</li>
+        <li>thought experiment lab in future home</li>
+        <li>black plague tour of europe</li>
       </ul>
     </>
   ),
@@ -175,6 +176,7 @@ export const pageConfig = {
       <h2>questions</h2>
       <ul>
         <li>Is it possible 2 have lunch before breakfast?</li>
+        <li>What is the viscosity of Gravity?</li>
       </ul>
     </>
   ),
@@ -184,6 +186,7 @@ export const pageConfig = {
       <ul>
         <li>lecherous</li>
         <li>fortuitous</li>
+        <li>lugubrious</li>
       </ul>
     </>
   ),

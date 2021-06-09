@@ -12,7 +12,8 @@
     "start": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "clean": "gatsby clean",
+    "deploy": "git checkout vercel && git merge main && git push && git checkout main"
   },
   "dependencies": {
     "gatsby": "^3.6.2",
