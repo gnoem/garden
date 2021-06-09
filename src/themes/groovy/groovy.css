@@ -68,6 +68,20 @@ main.groovy nav.buttons > * {
   margin: 0 1rem 1rem 0;
 }
 
+ul {
+  padding-left: 1.75rem;
+}
+
+ul li {
+  list-style-image: url('https://i.imgur.com/AVg5Sve.png');
+  --marker-size: 0.25rem;
+  --padding-size: 0.5rem;
+}
+
+ul li + li {
+  margin-top: 0.25rem;
+}
+
 .glossy {
   padding: 0.5rem 1.5rem;
   border-radius: 999px;

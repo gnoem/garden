@@ -1,7 +1,7 @@
 import React from "react";
 import { Home, Book, Icons, Code, Palette, Question } from "./components/_icons"
 
-export const externalLinks = [
+const externalLinks = [
   {
     name: 'github',
     url: 'https://github.com/gnoem'
@@ -16,25 +16,39 @@ export const externalLinks = [
   }
 ]
 
-export const navLinks = [
-  { name: 'about', icon: 'question' },
-  { name: 'notebook', icon: 'book' },
-  { name: 'code', icon: 'code' },
-  { name: 'art', icon: 'palette' },
-  { name: 'misc', icon: 'icons' }
-]
-
-export const siteMap = {
+const siteMap = {
+  // ABOUT
+  about: {
+    navIcon: 'question'
+  },
+  // NOTEBOOK
+  notebook: {
+    navIcon: 'book',
+    //children: ['dream journal', 'concepts', 'spells', 'agendas', 'toad names ideas', 'rantings']
+  },
+  // CODE
+  code: {
+    navIcon: 'code'
+  },
+  // ART
+  art: {
+    navIcon: 'palette'
+  },
+  // MISC
   misc: {
+    navIcon: 'icons',
     children: ['ideas', 'reminders']
-  },
-  ideas: {
-    parent: 'misc'
-  },
-  reminders: {
-    parent: 'misc'
   }
 }
+
+const mainPages = Object.keys(siteMap).filter(page => {
+  return siteMap[page].navIcon;
+});
+
+export const mainSiteNav = mainPages.map(pageName => ({
+  name: pageName,
+  icon: siteMap[pageName]?.navIcon
+}));
 
 export const iconsMap = {
   home: (props) => <Home {...props} />,
@@ -102,6 +116,7 @@ export const pageConfig = {
         <li>earthquake/volcano tracker</li>
         <li>list of wikipedia contributions</li>
         <li>site affiliates if i can find other people with similar things</li>
+        <li>easter eggs everywhere</li>
       </ul>
       <h3>code/art/theory intensive</h3>
       <ul>
@@ -110,25 +125,24 @@ export const pageConfig = {
         <li>tamagotchi simulator</li>
         <li>naomi's magic beans... one day</li>
       </ul>
+      <h3>theme ideas</h3>
+      <ul>
+        <li>EV style pixel art town</li>
+      </ul>
     </>
   ),
   reminders: (
     <>
       <h2>reminders</h2>
       <ul>
-        <li>cuter scrollbars</li>
-        <li>cuter bullet points</li>
+        <li>404 page</li>
+        <li>minimize window button and maybe fullscreen</li>
         <li>adjust window positions when page resizes</li>
+        <li>tabs</li>
         <li>resize windows from all edges not just bottom right corner, also needs to work with touch screens</li>
+        <li>routing??</li>
         <li>loading screen maybe</li>
       </ul>
     </>
   )
 }
-
-const data = {
-  externalLinks,
-  navLinks
-}
-
-export default data;

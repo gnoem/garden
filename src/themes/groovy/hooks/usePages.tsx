@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from "react";
-import { navLinks, pageConfig } from "@config";
+import { mainSiteNav, pageConfig } from "@config";
 
 import { Hero, Page } from "../components";
 
 const usePages = ({ setCurrentPage }) => {
   const [pages, setPages] = useState({});
   const content = useMemo(() => {
-    return navLinks.map(({ name }) => {
+    return mainSiteNav.map(({ name }) => {
       const pageContent = pageConfig[name];
       const createPageRef = (element) => {
         setPages(prevObj => ({

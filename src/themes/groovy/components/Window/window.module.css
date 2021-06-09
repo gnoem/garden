@@ -1,4 +1,5 @@
 .Window {
+  --content-background: var(--hot-pink-05);
   --bar-padding: 0.5rem;
   position: absolute;
   top: 0;
@@ -6,7 +7,7 @@
   width: 0;
   height: 0;
   overflow: auto;
-  background: var(--hot-pink-05);
+  background: var(--content-background);
   color: var(--text-yellow);
   border: 1px solid var(--highlight-yellow);
   display: inline-grid;
@@ -25,7 +26,7 @@
 }
 
 .Window.active {
-  background: var(--hot-pink-08);
+  --content-background: var(--hot-pink-08);
   box-shadow: 0 0 1.5rem #FF5F9A;
 }
 
@@ -113,6 +114,20 @@
 .Content {
   padding: 2rem;
   overflow: auto;
+}
+
+.Content::-webkit-scrollbar {
+  width: 0.75rem;               /* width of the entire scrollbar */
+}
+
+.Content::-webkit-scrollbar-track {
+  background: var(--hot-pink);        /* color of the tracking area */
+}
+
+.Content::-webkit-scrollbar-thumb {
+  background: var(--highlight-yellow);
+  border-radius: 999px;
+  border: 0.25rem solid var(--hot-pink);
 }
 
 .Window.minimized .Content {

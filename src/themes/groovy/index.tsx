@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./groovy.css";
-import { navLinks } from "@config";
+import { mainSiteNav } from "@config";
 import { Nav } from "@components";
 import { Hero, NavLink, Content, Backdrop } from "./components";
 import { useWindows } from "./hooks";
@@ -16,9 +16,13 @@ const Groovy = () => {
         {content}
       </Content>
       <Nav main>
-        {navLinks.map(link => {
-          return <NavLink {...link} handleClick={handleNavClick} />
-        })}
+        {mainSiteNav.map(({ name, icon }) => (
+          <NavLink {...{
+            name,
+            icon,
+            handleClick: handleNavClick
+          }} />
+        ))}
       </Nav>
     </>
   )
