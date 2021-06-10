@@ -14,7 +14,6 @@
   grid-template:
     'bar'     auto
     'content' 1fr / 100%;
-  /* animation: windowLaunch 0.2s 1 forwards; */
   border-radius: 0.5rem;
   opacity: 0;
   transition: opacity 0.2s;
@@ -126,8 +125,17 @@
 }
 
 .Content {
-  padding: 2rem;
+  --padding-size: 2rem;
+  padding: var(--padding-size);
+  padding-bottom: 0;
   overflow: auto;
+}
+
+.Content::after { /* workaround for safari sometimes ignoring bottom padding */
+  content: '';
+  display: block;
+  width: 100%;
+  height: var(--padding-size);
 }
 
 .Content::-webkit-scrollbar {
@@ -214,6 +222,6 @@
     max-height: 90vh;
   }
   .Content {
-    padding: 1.5rem;
+    --padding-size: 1.5rem;
   }
 }

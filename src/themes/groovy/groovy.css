@@ -69,11 +69,11 @@ main.groovy nav.buttons {
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  margin: 1rem -1rem -1rem 0;
+  margin: 1rem -0.75rem -0.75rem 0;
 }
 
 main.groovy nav.buttons > * {
-  margin: 0 1rem 1rem 0;
+  margin: 0 0.75rem 0.75rem 0;
 }
 
 ul {
@@ -103,6 +103,7 @@ ul li + li {
   justify-content: center;
   position: relative;
   transition: 0.2s;
+  filter: none;
 }
 
 .glossy::before {
