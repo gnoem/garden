@@ -1,3 +1,4 @@
+import { preventTransformOffscreen } from "@utils";
 import { useEffect, useState } from "react";
 
 const useDragonDrop = (element) => {
@@ -8,31 +9,18 @@ const useDragonDrop = (element) => {
     const handleMouseUp = () => {
       setDragging(false);
       setMouseDownCoords(null);
-      const restoreOffscreenElement = () => {
-        const { transform } = window.getComputedStyle(element);
-        let { e: transformX, f: transformY } = new WebKitCSSMatrix(transform);
-        const checkTopLeft = () => {
-          if (transformX >= 0 && transformY >= 0) return;
-          if (transformX < 0) transformX = 0;
-          if (transformY < 0) transformY = 0;
-          element.style.transform = `translate3d(${transformX}px, ${transformY}px, 0)`;
-        }
-        const checkBottomRight = () => {
-          // just need the top and left half to be visible
-          const { width, height } = element.getBoundingClientRect();
-          // maximum X is window.innerWidth - half element width
-          const maxX = window.innerWidth - (width / 2);
-          const maxY = window.innerHeight - (height / 3);
-          if (transformX <= maxX && transformY <= maxY) return;
-          if (transformX > maxX) transformX = maxX;
-          if (transformY > maxY) transformY = maxY;
-          element.style.transform = `translate3d(${transformX}px, ${transformY}px, 0)`;
-          // if transformX > maxX && transformY > maxY
-        }
-        checkTopLeft();
-        checkBottomRight();
+      const { width, height } = element.getBoundingClientRect();
+      const elementTransform = window.getComputedStyle(element).transform;
+      let { e: transformX, f: transformY } = new WebKitCSSMatrix(elementTransform);
+      const transform = {
+        x: transformX,
+        y: transformY
       }
-      restoreOffscreenElement();
+      const max = {
+        x: window.innerWidth - (width / 2),
+        y: window.innerHeight - (height / 3)
+      }
+      preventTransformOffscreen(element, transform, max);
     }
     const handleMouseMove = (e) => {
       e.preventDefault();

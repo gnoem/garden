@@ -148,7 +148,7 @@ export const pageConfig = {
         <li>404 page</li>
         <li>minimize window button and maybe fullscreen</li>
         <li>adjust window positions when page resizes</li>
-        <li>resize windows from all edges not just bottom right corner, also needs to work with touch screens</li>
+        <li>add resize window functionality for touch screens</li>
         <li>routing??</li>
         <li>loading screen maybe</li>
         <li>option to increase window opacity</li>

@@ -8,9 +8,10 @@ export const useRandomizeWindow = (localRef) => {
     if (!localRef) return;
     const setWindowSize = () => {
       const isMobile = window.innerWidth < 600;
+      const { minWidth = 350 } = localRef.dataset;
       const width = isMobile
         ? randomIntBetween(window.innerWidth * 0.75, window.innerWidth * 0.9)
-        : randomIntBetween(350, 600);
+        : randomIntBetween(minWidth, 600);
       const height = isMobile
         ? randomIntBetween(Math.round(width * 0.8), Math.round(width * 1.3))
         : randomIntBetween(Math.round(width * 0.5), Math.round(width * 0.8));
@@ -33,16 +34,16 @@ export const useRandomizeWindow = (localRef) => {
   return ready;
 }
 
-export const useTabs = (baseTab) => {
+export const useTabs = (defaultTabs) => {
   const [openInBackground, setOpenInBackground] = useState<boolean>(false);
-  const [tabs, setTabs] = useState<string[]>([baseTab]);
+  const [tabs, setTabs] = useState<string[]>(defaultTabs);
   const [justOpened, setJustOpened] = useState<string>(null);
   // ^^ workaround for openTab function to work properly - openTab is called directly from the Tab component which doesn't have access to the latest tabs and openInBackground state :( todo see if there's a better way
-  const [activeTab, setActiveTab] = useState<string>(baseTab);
+  const [activeTab, setActiveTab] = useState<string>(defaultTabs[0]);
   const closeTab = useCallback((tab) => {
     if (tab === activeTab) {
       const index = tabs.indexOf(tab);
-      const nextInLine = tabs[index + 1] ?? tabs[index - 1] ?? baseTab;
+      const nextInLine = tabs[index + 1] ?? tabs[index - 1] ?? defaultTabs[0];
       setActiveTab(nextInLine);
     }
     setTabs(mutateArray((array) => {

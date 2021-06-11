@@ -21,7 +21,7 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
   const [localRef, setLocalRef] = useState<HTMLDivElement | undefined>(null);
   const ready = useRandomizeWindow(localRef);
   const { initDragonDrop } = useDragonDrop(localRef);
-  const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs(name);
+  const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([name]);
   useDataPath(localRef, createButton(switchToWindow));
   useDataTab(localRef, createLink(openTab), activeTab);
   const createWindowRef = (element) => {
