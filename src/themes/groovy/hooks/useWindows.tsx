@@ -50,7 +50,7 @@ const useWindows = () => {
   }, [windows]); // do NOT add activeWindow to dep array
   const content = useMemo(() => {
     return windows.map(name => {
-      const pageContent = pageConfig[name];
+      const pageContent = pageConfig[name]?.jsx;
       if (!pageContent) return null;
       const createWindowRef = (element) => {
         setWindowRefs(prevObj => ({

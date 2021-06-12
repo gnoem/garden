@@ -225,7 +225,7 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
   }, [windowRefs, mouseDownCoords, target])
   // while edge is active, set cursor and disable pointer events:
   useEffect(() => {
-    document.body.style.cursor = edgeConfig[target?.edge]?.cursorName ?? 'default';
+    document.body.style.cursor = edgeConfig[target?.edge]?.cursorName ?? '';
     const setStyles = (element: HTMLElement, addingStyles: boolean): void => {
       if (!element) return;
       element.classList[addingStyles ? 'add' : 'remove']('rseizing');

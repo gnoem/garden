@@ -2,6 +2,7 @@ import React from "react";
 
 import * as styles from "./window.module.css";
 import { Icons } from "@components";
+import { pageConfig } from "@config";
 
 interface ITabsProps {
   name?: string;
@@ -31,7 +32,7 @@ const Tab: React.FC<ITabProps> = ({ name, tab, closeTab, activeTab, setActiveTab
   }
   return (
     <div key={tab} className={`${styles.Tab} ${activeTab === tab ? styles.active : ''}`} onClick={handleTabClick}>
-      {tab}
+      {pageConfig[tab]?.title ?? tab}
       {(tab !== name) && <button onClick={() => closeTab(tab)}><Icons.Times /></button>}
     </div>
   )

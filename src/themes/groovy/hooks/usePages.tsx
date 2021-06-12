@@ -7,7 +7,7 @@ const usePages = ({ setCurrentPage }) => {
   const [pages, setPages] = useState({});
   const content = useMemo(() => {
     return mainSiteNav.map(({ name }) => {
-      const pageContent = pageConfig[name];
+      const pageContent = pageConfig[name]?.jsx;
       const createPageRef = (element) => {
         setPages(prevObj => ({
           ...prevObj,

@@ -41,7 +41,7 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
       ref={createWindowRef}>
         <Bar>
           <div ref={setDraggableRef}>
-            <span>{name}</span>
+            <span>{pageConfig[name]?.title ?? name}</span>
             <div><button onMouseDown={closeWindow}><Icons.Times /></button></div>
           </div>
           <Tabs {...{
@@ -53,7 +53,7 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
           }} />
         </Bar>
         <Content>
-          {(name === activeTab) ? children : pageConfig[activeTab]}
+          {(name === activeTab) ? children : pageConfig[activeTab]?.jsx}
         </Content>
     </div>
   )
@@ -79,7 +79,7 @@ const createButton = (open) => (path) => {
   const link = document.createElement('a');
   link.setAttribute('data-link', path);
   link.className = `glossy ${path.split(' ').join('-')}`;
-  link.innerHTML = path;
+  link.innerHTML = pageConfig[path]?.title ?? path;
   link.onclick = () => open(path);
   return link;
 }
