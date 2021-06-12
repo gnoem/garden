@@ -111,9 +111,21 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
     const [width, height] = [parseInt(minWidth), parseInt(minHeight)];
     setMinimumDimensions({ width, height });
   }, [target?.element]);
+  // add "resizable" class to all elements
+  useEffect(() => {
+    // all this does is add a little corner drag icon, mainly so it's clear on touchscreens where there's no cursor to indicate draggableness
+    Object.values(windowRefs).forEach((element: HTMLElement) => {
+      if (element.getAttribute('data-resize')) return;
+      const arrow = document.createElement('span');
+      arrow.setAttribute('data-drag', 'true');
+      element.appendChild(arrow);
+      element.setAttribute('data-resize', 'true');
+    });
+  }, [windowRefs]);
   // set up the basic mouseup, mousedown listeners
   useEffect(() => {
     const handleMouseUp = () => {
+      setTarget(null); // NECESSARY FOR DRAGONDROP TO WORK FOR SOME REASON
       setMouseDownCoords(null);
       if (anchoredEdge && target?.element) {
         // make sure to set the new window transform based on x, y coords *at time of mouseup*
@@ -124,6 +136,9 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
           x: window.innerWidth - (width / 2),
           y: window.innerHeight - (height / 3)
         });
+        for (const property of ['top', 'left', 'bottom', 'right']) {
+          target.element.style[property] = '';
+        }
         setAnchoredEdge(null);
       }
     }
@@ -136,15 +151,20 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
     }
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('touchend', handleMouseUp);
     return () => {
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchend', handleMouseUp);
     }
   }, [anchoredEdge, target]);
   // handleMouseMove event listener (the one that determines if hovering over a window and if so what edge)
   useEffect(() => {
     const handleMouseMove = (e) => { // determine current window, edge and target
+      e.preventDefault();
       if (mouseDownCoords) return;
+      const touchscreen = e.type === 'touchstart';
+      const { clientX, clientY } = touchscreen ? e.touches[0] : e;
       let foundElement; // = currentElement;
       for (const entry of Object.entries(windowRefs)) {
         const [name, element]: [string, HTMLElement] = entry;
@@ -158,7 +178,6 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
         return;
       }
       const detectEdge = ({ name, element }) => {
-        const { clientX, clientY } = e;
         const edges = boxEdges(element.getBoundingClientRect());
         const edgeNames = Object.keys(edges);
         let foundEdge;
@@ -178,10 +197,31 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
           }
         }
       }
-      detectEdge(foundElement);
+      const detectBottomRightCorner = ({ name, element }) => {
+        const { SE } = boxEdges(element.getBoundingClientRect());
+        const radius = 20;
+        const [minX, maxX] = [SE.x[0] - radius, SE.x[1] + radius];
+        const [minY, maxY] = [SE.y[0] - radius, SE.y[1] + radius];
+        const inX = (clientX > minX) && (clientX < maxX);
+        const inY = (clientY > minY) && (clientY < maxY);
+        if (inX && inY) {
+          setTarget({ edge: 'SE', name, element });
+          setMouseDownCoords({ x: clientX, y: clientY });
+          setOriginalRect(element.getBoundingClientRect());
+        }
+      }
+      if (touchscreen) {
+        detectBottomRightCorner(foundElement);
+      } else {
+        detectEdge(foundElement);
+      }
     }
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('touchstart', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchstart', handleMouseMove);
+    }
   }, [windowRefs, mouseDownCoords, target])
   // while edge is active, set cursor and disable pointer events:
   useEffect(() => {
@@ -200,13 +240,7 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
   }, [target?.element, target?.edge, prevTarget]);
   // adjust for the fact that, unless dragging from E, SE, or S edge, window position must be based on NOT the top left corner:
   useEffect(() => {
-    if (!target?.element) return;
-    if (!anchoredEdge) {
-      for (const property of ['top', 'left', 'bottom', 'right']) {
-        target.element.style[property] = '';
-      }
-      return;
-    }
+    if (!target?.element || !anchoredEdge) return;
     const { anchor, unset } = edgeConfig[anchoredEdge];
     if (anchor && unset) {
       for (const property of anchor) {
@@ -243,8 +277,9 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
       e.preventDefault();
       if (!target) return;
       const { edge, element } = target;
-      if (!mouseDownCoords || !edgeConfig[edge]) return;
-      const { clientX, clientY } = e;
+      if (!mouseDownCoords || !edgeConfig[edge] || !originalRect) return;
+      const touchscreen = e.type === 'touchmove';
+      const { clientX, clientY } = touchscreen ? e.touches[0] : e;
       // figure out new values based on change from mouseDownCoords
       const [dx, dy] = [clientX - mouseDownCoords.x, clientY - mouseDownCoords.y];
       const newValues = {
@@ -262,8 +297,12 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
       resize();
     }
     window.addEventListener('mousemove', startDragging);
-    return () => window.removeEventListener('mousemove', startDragging);
-  }, [target, mouseDownCoords, minimumDimensions]);
+    window.addEventListener('touchmove', startDragging);
+    return () => {
+      window.removeEventListener('mousemove', startDragging);
+      window.removeEventListener('touchmove', startDragging);
+    }
+  }, [target, mouseDownCoords, originalRect, minimumDimensions]);
 }
 
 export default useResizeWindows;

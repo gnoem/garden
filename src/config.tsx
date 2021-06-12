@@ -148,10 +148,10 @@ export const pageConfig = {
         <li>404 page</li>
         <li>minimize window button and maybe fullscreen</li>
         <li>adjust window positions when page resizes</li>
-        <li>add resize window functionality for touch screens</li>
         <li>routing??</li>
         <li>loading screen maybe</li>
         <li>option to increase window opacity</li>
+        <li>change all buttons to links</li>
       </ul>
     </>
   ),

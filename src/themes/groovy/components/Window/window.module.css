@@ -32,6 +32,41 @@
   opacity: 0;
 }
 
+.Window[data-resize=true] span[data-drag] {
+  display: inline-block;
+  position: absolute;
+  bottom: 0.375rem;
+  right: 0.375rem;
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.Window[data-resize=true] span[data-drag],
+.Window[data-resize=true] span[data-drag]::before,
+.Window[data-resize=true] span[data-drag]::after {
+  background-image: radial-gradient(var(--light-pink) 40%, transparent 40%);
+  background-size: 0.25rem 0.25rem;
+  background-position: 0 100%;
+  background-repeat: repeat-x;
+}
+
+.Window[data-resize=true] span[data-drag]::before,
+.Window[data-resize=true] span[data-drag]::after {
+  content: '';
+  display: block;
+  height: 33%;
+}
+
+.Window[data-resize=true] span[data-drag]::before {
+  width: 33%;
+  margin-left: 66%;
+}
+
+.Window[data-resize=true] span[data-drag]::after {
+  width: 66%;
+  margin-left: 33%;
+}
+
 .Bar {
   --bar-background: var(--hot-pink);
   --bar-text: var(--highlight-yellow);

@@ -24,3 +24,21 @@ export const preventTransformOffscreen = (element, transform, max) => {
   checkTopLeft();
   checkBottomRight();
 }
+
+// bootleg console for troubleshooting on tablet/mobile
+export const fakeConsole = (content: string, overwrite: boolean = false): void => {
+  const createDiv = (): HTMLElement => {
+    const div = document.createElement('div');
+    div.id = 'console';
+    div.ontouchstart = () => div.innerHTML = '';
+    div.onmousedown = () => div.innerHTML = '';
+    return div;
+  }
+  const div = document.querySelector('#console') ?? createDiv();
+  if (overwrite) {
+    div.innerHTML = content;
+  } else {
+    div.innerHTML += `<br>${content}`;
+  }
+  document.body.appendChild(div);
+}

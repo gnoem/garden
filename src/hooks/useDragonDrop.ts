@@ -1,7 +1,7 @@
 import { preventTransformOffscreen } from "@utils";
 import { useEffect, useState } from "react";
 
-const useDragonDrop = (element) => {
+const useDragonDrop = (element, draggable = element) => {
   const [mouseDownCoords, setMouseDownCoords] = useState<{ x: number; y: number } | undefined>(null);
   const [dragging, setDragging] = useState<boolean>(false);
   useEffect(() => {
@@ -53,17 +53,23 @@ const useDragonDrop = (element) => {
       window.removeEventListener('touchmove', dragElement);
     }
   }, [element, dragging, mouseDownCoords]);
-  const getCoords = (e) => {
-    const { clientX, clientY } = (e.type === 'touchstart') ? e.touches[0] : e;
-    const { x: elementX, y: elementY } = element.getBoundingClientRect();
-    setMouseDownCoords({
-      x: elementX - clientX,
-      y: elementY - clientY
-    });
-  }
-  return {
-    initDragonDrop: getCoords
-  }
+  useEffect(() => {
+    if (!element || !draggable) return;
+    const getCoords = (e) => {
+      const { clientX, clientY } = (e.type === 'touchstart') ? e.touches[0] : e;
+      const { x: elementX, y: elementY } = element.getBoundingClientRect();
+      setMouseDownCoords({
+        x: elementX - clientX,
+        y: elementY - clientY
+      });
+    }
+    draggable.addEventListener('mousedown', getCoords);
+    draggable.addEventListener('touchstart', getCoords);
+    return () => {
+      draggable.removeEventListener('mousedown', getCoords);
+      draggable.removeEventListener('touchstart', getCoords);
+    }
+  }, [element, draggable]);
 }
 
 export default useDragonDrop;

@@ -19,11 +19,12 @@ interface IWindowProps {
 
 const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focusWindow, switchToWindow, closeWindow, children }): JSX.Element => {
   const [localRef, setLocalRef] = useState<HTMLDivElement | undefined>(null);
+  const [draggableRef, setDraggableRef] = useState<HTMLDivElement | undefined>(null);
   const ready = useRandomizeWindow(localRef);
-  const { initDragonDrop } = useDragonDrop(localRef);
   const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([name]);
   useDataPath(localRef, createButton(switchToWindow));
   useDataTab(localRef, createLink(openTab), activeTab);
+  useDragonDrop(localRef, draggableRef);
   const createWindowRef = (element) => {
     registerRef(element);
     setLocalRef(element);
@@ -39,7 +40,7 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
       style={{ zIndex: index }}
       ref={createWindowRef}>
         <Bar>
-          <div onMouseDown={initDragonDrop} onTouchStart={initDragonDrop}>
+          <div ref={setDraggableRef}>
             <span>{name}</span>
             <div><button onMouseDown={closeWindow}><Icons.Times /></button></div>
           </div>
