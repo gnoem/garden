@@ -151,7 +151,6 @@ export const pageConfig = {
         <li>routing??</li>
         <li>loading screen maybe</li>
         <li>option to increase window opacity</li>
-        <li>change all buttons to links</li>
       </ul>
     </>
   ),

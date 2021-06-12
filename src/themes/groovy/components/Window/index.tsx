@@ -23,7 +23,7 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
   const ready = useRandomizeWindow(localRef);
   const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([name]);
   useDataPath(localRef, createButton(switchToWindow));
-  useDataTab(localRef, createLink(openTab), activeTab);
+  useDataTab(localRef, createButton(openTab), activeTab);
   useDragonDrop(localRef, draggableRef);
   const createWindowRef = (element) => {
     registerRef(element);
@@ -76,18 +76,9 @@ const Content: React.FC = ({ children }): JSX.Element => {
 }
 
 const createButton = (open) => (path) => {
-  const link = document.createElement('button');
+  const link = document.createElement('a');
   link.setAttribute('data-link', path);
-  link.className = 'glossy';
-  link.innerHTML = path;
-  link.onclick = () => open(path);
-  return link;
-}
-
-const createLink = (open) => (path) => {
-  const link = document.createElement('button');
-  link.setAttribute('data-link', path);
-  link.className = 'glossy';
+  link.className = `glossy ${path.split(' ').join('-')}`;
   link.innerHTML = path;
   link.onclick = () => open(path);
   return link;

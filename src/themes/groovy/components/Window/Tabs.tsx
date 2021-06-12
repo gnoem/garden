@@ -30,7 +30,7 @@ const Tab: React.FC<ITabProps> = ({ name, tab, closeTab, activeTab, setActiveTab
     setActiveTab(tab);
   }
   return (
-    <div className={`${styles.Tab} ${activeTab === tab ? styles.active : ''}`} onClick={handleTabClick}>
+    <div key={tab} className={`${styles.Tab} ${activeTab === tab ? styles.active : ''}`} onClick={handleTabClick}>
       {tab}
       {(tab !== name) && <button onClick={() => closeTab(tab)}><Icons.Times /></button>}
     </div>
