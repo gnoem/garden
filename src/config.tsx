@@ -24,7 +24,7 @@ const siteMap = {
   // NOTEBOOK
   notebook: {
     navIcon: 'book',
-    tabs: ['concepts', 'questions', 'cool words']
+    tabs: ['ideas', 'questions', 'cool words', 'toad names ideas']
     //children: ['dream journal', 'concepts', 'spells', 'agendas', 'toad names ideas', 'rantings']
   },
   // CODE
@@ -38,7 +38,7 @@ const siteMap = {
   // MISC
   misc: {
     navIcon: 'icons',
-    children: ['ideas', 'reminders']
+    children: ['site ideas', 'reminders']
   }
 }
 
@@ -108,7 +108,7 @@ export const pageConfig = {
       </nav>
     </>
   ),
-  'ideas': (
+  'site ideas': (
     <>
       <h2>ideas</h2>
       <h3>what else can i put on this site</h3>
@@ -154,19 +154,23 @@ export const pageConfig = {
       </ul>
     </>
   ),
-  'concepts': (
+  'ideas': (
     <>
-      <h2>concepts</h2>
+      <h2>ideas</h2>
       <ul>
         <li>A gas that conducts wifi</li>
         <li>Cryptocurrency for girls only</li>
         <li>business card with just ur fingerprint</li>
         <li>good cop/bad cop daycare</li>
-        <li>a religion that just cries</li>
-        <li>nightly annihilation of time</li>
         <li>fire hat</li>
+        <li>seatbelt for your toilet</li>
         <li>thought experiment lab in future home</li>
         <li>black plague tour of europe</li>
+        <li>fanny pack full of jelly beans</li>
+        <li>when u burp and u can taste the food u ate earlier.first stage of time travel</li>
+        <li>Throw a concert where everyone has to wear helmets and half way through the show sacks of rocks rain down upon the crowd and you say Rock On Everybody!!</li>
+        <li>Disco Math</li>
+        <li>a religion that just cries</li>
       </ul>
     </>
   ),
@@ -176,6 +180,7 @@ export const pageConfig = {
       <ul>
         <li>Is it possible 2 have lunch before breakfast?</li>
         <li>What is the viscosity of Gravity?</li>
+        <li>how would u know if u were eating ur burrito upside down?</li>
       </ul>
     </>
   ),
@@ -186,6 +191,50 @@ export const pageConfig = {
         <li>lecherous</li>
         <li>fortuitous</li>
         <li>lugubrious</li>
+      </ul>
+      <h3>cool  to say</h3>
+      <ul>
+        <li>valid as a salad</li>
+        <li>Maybe she's corn with it - maybe its maple beans</li>
+        <li>grenade grundle chode</li>
+        <li>really steams my bean</li>
+      </ul>
+    </>
+  ),
+  'pranks': (
+    <>
+      <h2>pranks</h2>
+      <ul>
+        <li>*checking out of hotel* comment to front desk person: i was very much surprised and delighted by the secret potty!! do all of ur hotel rooms have secret potties?</li>
+      </ul>
+    </>
+  ),
+  'toad names ideas': (
+    <>
+      <h2>toad names ideas</h2>
+      <ul>
+        <li>Cheeto von Kush</li>
+        <li>Boss</li>
+        <li>Father john</li>
+        <li>Chardonnay</li>
+        <li>pee-wee</li>
+        <li>Bongwater</li>
+        <li>Wet Michael</li>
+        <li>freddie calzone</li>
+        <li>Sodom</li>
+        <li>T-boy</li>
+        <li>Ron paul jamaica</li>
+        <li>Chris Cringle</li>
+        <li>Rand Kong</li>
+        <li>Sister Mary Clotilda</li>
+        <li>Kamikaze</li>
+        <li>wise guy</li>
+        <li>Lord Siberius</li>
+      </ul>
+      <h3>toad plans</h3>
+      <ul>
+        <li> make a hat for the toad</li>
+        <li>crystals in the tank</li>
       </ul>
     </>
   ),
