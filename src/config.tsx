@@ -284,7 +284,6 @@ export const pageConfig = {
           <li>Sodom</li>
           <li>T-boy</li>
           <li>Ron paul jamaica</li>
-          <li>Chris Cringle</li>
           <li>Rand Kong</li>
           <li>Sister Mary Clotilda</li>
           <li>Kamikaze</li>
