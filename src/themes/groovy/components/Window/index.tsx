@@ -6,6 +6,7 @@ import { useDataPath, useDataTab, useDragonDrop } from "@hooks";
 import { useRandomizeWindow, useTabs } from "./hooks";
 import Tabs from "./Tabs";
 import { pageConfig } from "@config";
+import { useRef } from "react";
 
 interface IWindowProps {
   name: string;
@@ -19,12 +20,39 @@ interface IWindowProps {
 
 const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focusWindow, switchToWindow, closeWindow, children }): JSX.Element => {
   const [localRef, setLocalRef] = useState<HTMLDivElement | undefined>(null);
-  const [draggableRef, setDraggableRef] = useState<HTMLDivElement | undefined>(null);
+  const [barRef, setBarRef] = useState<HTMLDivElement | undefined>(null);
+  const [maxHeight, setMaxHeight] = useState<{ minimized: boolean; value?: number }>({ minimized: false });
+  const prevMaxHeight = useRef<number | undefined>(null);
+  const toggleMinimized = (): void => {
+    if (maxHeight.minimized) {
+      if (!active) focusWindow();
+      setTimeout(() => {
+        setMaxHeight({
+          minimized: false,
+          value: prevMaxHeight.current
+        });
+        setTimeout(() => {
+          localRef.style.maxHeight = '';
+        }, 200); // transition duration
+      }, active ? 0 : 10); // for some reason, if also focusing window, max height transition doesn't work without timeout
+    } else {
+      // get current height of window and store in ref
+      const { height: currentHeight } = localRef.getBoundingClientRect();
+      prevMaxHeight.current = currentHeight;
+      localRef.style.maxHeight = `${currentHeight}px`;
+      setTimeout(() => {
+        setMaxHeight({
+          minimized: true,
+          value: barRef.getBoundingClientRect().height
+        });
+      }, 10);
+    }
+  }
   const ready = useRandomizeWindow(localRef);
   const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([name]);
   useDataPath(localRef, createButton(switchToWindow));
   useDataTab(localRef, createButton(openTab), activeTab);
-  useDragonDrop(localRef, draggableRef);
+  useDragonDrop(localRef, barRef);
   const createWindowRef = (element) => {
     registerRef(element);
     setLocalRef(element);
@@ -35,14 +63,17 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
   }
   return (
     <div
-      className={`${styles.Window} ${ready ? styles.ready : ''} ${active ? styles.active : ''}`}
+      className={`${styles.Window} ${ready ? styles.ready : ''} ${active ? styles.active : ''} ${maxHeight.minimized ? styles.minimized : ''}`}
       onMouseDown={handleDivClick}
-      style={{ zIndex: index }}
+      style={{ zIndex: index, maxHeight: maxHeight.value ? `${maxHeight.value}px` : '' }}
       ref={createWindowRef}>
         <Bar>
-          <div ref={setDraggableRef}>
+          <div ref={setBarRef}>
             <span>{pageConfig[name]?.title ?? name}</span>
-            <div><button onMouseDown={closeWindow}><Icons.Times /></button></div>
+            <div className={styles.buttons}>
+              <button onMouseDown={toggleMinimized}>{maxHeight.minimized ? <Icons.WindowMaximize /> : <Icons.WindowMinimize />}</button>
+              <button onMouseDown={closeWindow}><Icons.Times /></button>
+            </div>
           </div>
           <Tabs {...{
             name,

@@ -166,7 +166,7 @@ export const pageConfig = {
         <h2>reminders</h2>
         <ul>
           <li>404 page</li>
-          <li>minimize window button and maybe fullscreen/expand</li>
+          <li>fullscreen/expand windows?</li>
           <li>adjust window positions when page resizes</li>
           <li>routing??</li>
           <li>loading screen maybe</li>

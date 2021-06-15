@@ -16,7 +16,7 @@
     'content' 1fr / 100%;
   border-radius: 0.5rem;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, max-height 0.2s;
 }
 
 .Window.ready {
@@ -30,6 +30,18 @@
 
 .Window.closing {
   opacity: 0;
+}
+
+.Window.minimized {
+  max-height: 2rem;
+}
+
+.Window.minimized .Content {
+  overflow: hidden;
+}
+
+.Window[data-resize=true].minimized span[data-drag] {
+  display: none;
 }
 
 .Window[data-resize=true] span[data-drag] {
@@ -101,6 +113,14 @@
   cursor: grabbing;
 }
 
+.Bar > div:first-of-type .buttons {
+  display: flex;
+}
+
+.Bar > div:first-of-type .buttons > button + button {
+  margin-left: 0.25rem;
+}
+
 .Bar > div:first-of-type button {
   --button-size: 1.5rem;
   background: linear-gradient(180deg, #f97a64, var(--highlight-yellow) 80%, #FFCC86);
@@ -134,7 +154,8 @@
 }
 
 .Bar > div:first-of-type button svg {
-  height: 70%;
+  width: 50%;
+  height: auto;
 }
 
 .Bar > div:first-of-type button svg * {
