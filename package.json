@@ -1,9 +1,9 @@
 {
-  "name": "personal",
+  "name": "planet-naomi",
   "version": "1.0.0",
   "private": true,
-  "description": "personal",
-  "author": "Gnome",
+  "description": "personal site / code & design playground",
+  "author": "naomi g.w.",
   "keywords": [
     "gatsby"
   ],

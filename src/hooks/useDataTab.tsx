@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 
-const useDataTab = (node, createLink, activeTab) => {
+const useDataTab = (node, createLink, attribute, activeTab) => {
   useEffect(() => {
     if (!node) return;
-    node.querySelectorAll('[data-tab]').forEach(element => {
-      const path = element.getAttribute('data-tab');
+    node.querySelectorAll(`[${attribute}]`).forEach(element => {
+      const path = element.getAttribute(attribute);
       if (node.querySelector(`[data-link='${path}']`)) return;
-      element.appendChild(createLink(path)); 
+      const linkText = element.textContent;
+      element.innerHTML = '';
+      element.appendChild(createLink(path, linkText)); 
     });
   }, [node, activeTab]);
 }

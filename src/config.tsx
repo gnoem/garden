@@ -66,12 +66,34 @@ export const pageConfig = {
     jsx: (
       <>
         <h2>about</h2>
-        <p>hi i'm naomi and this page is the little corner of the internet where i experiment with code / design in public</p>
-        <p>there is almost nothing here yet but im planning to add a ton soon so keep checking back!</p>
+        <p>hi i'm naomi and this is my tiny corner of the internet: part <a href="https://neustadt.fr/essays/the-small-web/" target="_blank">personal site</a>, part online playground, somewhere i can experiment with code &amp; design in an informal, unstructured environment while also building an interactive home for my art, writings, and other stuff &lt;3 read more about this project <span data-tab-link="about this project">here</span></p>
+        <p>there is not much here yet but it is regularly updated, so keep checking back!</p>
         <h3>other places to find me online:</h3>
         <nav aria-label="External links" className="buttons">
           {externalLinks.map(({ name, url }) => <a key={name} className="glossy" href={url} target="_blank">{name}</a>)}
         </nav>
+      </>
+    )
+  },
+  'about this project': {
+    title: 'about this project',
+    jsx: (
+      <>
+        <h2>about this project</h2>
+        <h3>code</h3>
+        <ul>
+          <li>it is built with react/gatsby and hosted on vercel</li>
+          <li>open source! <a href="https://github.com/gnoem/garden" target="_blank">take a look</a></li>
+        </ul>
+        <h3>design</h3>
+        <ul>
+          <li>i made the graphics in adobe illustrator</li>
+          <li>fonts used for this theme: Nimbus Sans Becker (headers), Carbon (body)</li>
+        </ul>
+        <h3>theory</h3>
+        <ul>
+          <li><a href="https://sadgrl.online/newoldweb/manifesto.html" target="_blank">what inspired me to make this</a></li>
+        </ul>
       </>
     )
   },

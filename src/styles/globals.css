@@ -38,6 +38,10 @@ a {
   cursor: pointer;
 }
 
+span[data-tab-link] > a {
+  text-decoration: underline;
+}
+
 *:last-child {
   margin-bottom: 0;
 }

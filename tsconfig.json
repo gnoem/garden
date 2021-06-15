@@ -22,6 +22,7 @@
       "@components": ["components"],
       "@config": ["config"],
       "@hooks": ["hooks"],
+      "@styles": ["styles"],
       "@themes": ["themes"],
       "@utils": ["utils"],
     }
