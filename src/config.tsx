@@ -66,7 +66,7 @@ export const pageConfig = {
     jsx: (
       <>
         <h2>about</h2>
-        <p>hi i'm naomi and this is my tiny corner of the internet: part <a href="https://neustadt.fr/essays/the-small-web/" target="_blank">personal site</a>, part online playground, somewhere i can experiment with code &amp; design in an informal, unstructured environment while also building an interactive home for my art, writings, and other stuff &lt;3 read more about this project <span data-tab-link="about this project">here</span></p>
+        <p>hi i'm naomi and this is my tiny corner of the internet: part <a href="https://neustadt.fr/essays/the-small-web/" target="_blank">personal site</a>, part online playground, somewhere i can experiment with code &amp; design while also building a home for my art, writing, and other stuff [<span data-tab-link="about this project">read more about this project</span>]</p>
         <p>there is not much here yet but it is regularly updated, so keep checking back!</p>
         <h3>other places to find me online:</h3>
         <nav aria-label="External links" className="buttons">
@@ -82,17 +82,19 @@ export const pageConfig = {
         <h2>about this project</h2>
         <h3>code</h3>
         <ul>
-          <li>it is built with react/gatsby and hosted on vercel</li>
+          <li>built by me using react/gatsby and hosted on vercel</li>
           <li>open source! <a href="https://github.com/gnoem/garden" target="_blank">take a look</a></li>
         </ul>
         <h3>design</h3>
         <ul>
-          <li>i made the graphics in adobe illustrator</li>
+          <li>i make graphics in adobe illustrator</li>
           <li>fonts used for this theme: Nimbus Sans Becker (headers), Carbon (body)</li>
         </ul>
-        <h3>theory</h3>
+        <h3>motivation</h3>
         <ul>
-          <li><a href="https://sadgrl.online/newoldweb/manifesto.html" target="_blank">what inspired me to make this</a></li>
+          <li>the modern internet is a hellhole and we would all benefit from a return to the glory days of the early web (if this statement intrigues you, <a href="https://sadgrl.online/newoldweb/manifesto.html" target="_blank">go read this person's manifesto</a>)</li>
+          <li>i get antsy if i don't have a personal project that i'm making consistent progress on</li>
+          <li>i like to build immersive, interactive online spaces, and having a site like this gives me an opportunity to do that in a totally unstructured, open-ended environment - that part is far more exciting to me than actually creating the content for this place (though i obviously need content to put here or else we'd just be standing in an empty room)</li>
         </ul>
       </>
     )
