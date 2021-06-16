@@ -214,6 +214,7 @@ export const pageConfig = {
           <li>seatbelt for your toilet</li>
           <li>thought experiment lab in future home</li>
           <li>black plague tour of europe</li>
+          <li>Warrior Snails with armored shells</li>
           <li>fanny pack full of jelly beans</li>
           <li>when u burp and u can taste the food u ate earlier.first stage of time travel</li>
           <li>Throw a concert where everyone has to wear helmets and half way through the show sacks of rocks rain down upon the crowd and you say Rock On Everybody!!</li>
