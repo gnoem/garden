@@ -251,7 +251,6 @@ export const pageConfig = {
         <ul>
           <li>valid as a salad</li>
           <li>Maybe she's corn with it - maybe its maple beans</li>
-          <li>grenade grundle chode</li>
           <li>really steams my bean</li>
         </ul>
       </>
