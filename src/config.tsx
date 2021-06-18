@@ -252,6 +252,7 @@ export const pageConfig = {
           <li>valid as a salad</li>
           <li>Maybe she's corn with it - maybe its maple beans</li>
           <li>really steams my bean</li>
+          <li>Charles Schwimmer's Scabs</li>
         </ul>
       </>
     )
