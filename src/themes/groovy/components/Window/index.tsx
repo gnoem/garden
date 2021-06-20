@@ -3,10 +3,11 @@ import React, { useState } from "react";
 import * as styles from "./window.module.css";
 import { Icons } from "@components";
 import { useDataPath, useDataTab, useDragonDrop } from "@hooks";
-import { useRandomizeWindow, useTabs } from "./hooks";
+import { ITab, useRandomizeWindow, useTabs } from "./hooks";
 import Tabs from "./Tabs";
 import { pageConfig } from "@config";
 import { useRef } from "react";
+import { useEffect } from "react";
 
 interface IWindowProps {
   name: string;
@@ -49,7 +50,7 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
     }
   }
   const ready = useRandomizeWindow(localRef);
-  const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([name]);
+  const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([{ name, scrolled: 0 }]);
   useDataPath(localRef, createButton(switchToWindow));
   useDataTab(localRef, createButton(openTab), 'data-tab', activeTab);
   useDataTab(localRef, createLink(openTab), 'data-tab-link', activeTab);
@@ -79,13 +80,13 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
           <Tabs {...{
             name,
             tabs,
+            openTab,
             closeTab,
-            activeTab,
-            setActiveTab
+            activeTab
           }} />
         </Bar>
-        <Content>
-          {(name === activeTab) ? children : pageConfig[activeTab]?.jsx}
+        <Content {...{ tab: activeTab, setActiveTab }}>
+          {(name === activeTab.name) ? children : pageConfig[activeTab.name]?.jsx}
         </Content>
     </div>
   )
@@ -99,9 +100,29 @@ const Bar: React.FC = ({ children }): JSX.Element => {
   )
 }
 
-const Content: React.FC = ({ children }): JSX.Element => {
+const Content: React.FC<{ tab: ITab, setActiveTab: (ITab) => void }> = ({ children, tab, setActiveTab }): JSX.Element => {
+  const contentRef = useRef(null);
+  useEffect(() => {
+    if (!contentRef.current) return;
+    contentRef.current.scrollTo({
+      top: tab.scrolled,
+      left: 0
+    });
+  }, [tab.name]);
+  useEffect(() => {
+    if (!contentRef.current) return;
+    const saveScrollPosition = () => { // todo debounce
+      setActiveTab(prevState => ({
+        ...prevState,
+        scrolled: contentRef.current.scrollTop
+      }));
+      console.log(`${tab.name}: ${contentRef.current.scrollTop}`)
+    }
+    contentRef.current.addEventListener('scroll', saveScrollPosition);
+    return () => contentRef.current?.removeEventListener('scroll', saveScrollPosition);
+  }, [contentRef.current, tab.name]);
   return (
-    <div className={styles.Content}>
+    <div className={styles.Content} ref={contentRef}>
       {children}
     </div>
   )

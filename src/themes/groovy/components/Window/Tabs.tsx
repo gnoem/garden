@@ -1,39 +1,41 @@
 import React from "react";
 
 import * as styles from "./window.module.css";
+import { ITab } from "./hooks";
 import { Icons } from "@components";
 import { pageConfig } from "@config";
 
 interface ITabsProps {
   name?: string;
-  tabs?: string[];
+  tabs?: { name: string; scrolled: number }[];
+  openTab: (string) => void;
   closeTab: (string) => void;
-  activeTab: string;
-  setActiveTab: (string) => void;
+  activeTab: ITab;
 }
 
-const Tabs: React.FC<ITabsProps> = ({ name, tabs, closeTab, activeTab, setActiveTab }): JSX.Element => {
+const Tabs: React.FC<ITabsProps> = ({ name, tabs, openTab, closeTab, activeTab }): JSX.Element => {
   if (tabs?.length <= 1) return null;
   return (
     <div className={styles.Tabs}>
-      {tabs.map(tab => <Tab {...{ name, tab, closeTab, activeTab, setActiveTab }} />)}
+      {tabs.map(tab => <Tab {...{ name, tab, openTab, closeTab, activeTab }} />)}
     </div>
   )
 }
 
 interface ITabProps extends ITabsProps {
-  tab: string;
+  tab: ITab;
 }
 
-const Tab: React.FC<ITabProps> = ({ name, tab, closeTab, activeTab, setActiveTab }): JSX.Element => {
+const Tab: React.FC<ITabProps> = ({ name, tab, openTab, closeTab, activeTab }): JSX.Element => {
   const handleTabClick = (e) => {
     if (e.target.closest('button')) return;
-    setActiveTab(tab);
+    if (activeTab.name === tab.name) return;
+    openTab(tab.name);
   }
   return (
-    <div key={tab} className={`${styles.Tab} ${activeTab === tab ? styles.active : ''}`} onClick={handleTabClick}>
-      {pageConfig[tab]?.title ?? tab}
-      {(tab !== name) && <button onClick={() => closeTab(tab)}><Icons.Times /></button>}
+    <div key={tab.name} className={`${styles.Tab} ${activeTab.name === tab.name ? styles.active : ''}`} onClick={handleTabClick}>
+      {pageConfig[tab.name]?.title ?? tab.name}
+      {(tab.name !== name) && <button onClick={() => closeTab(tab.name)}><Icons.Times /></button>}
     </div>
   )
 }
