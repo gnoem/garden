@@ -56,7 +56,7 @@ export const useTabs = (defaultTabs: ITab[]) => {
       return array.splice(index, 1);
     }));
   }, [activeTab, tabs]);
-  const openTab = (tab: string) => setJustOpened(tab); // will trigger useEffect which has access to the most recent tabs/openInBackground state
+  const openTab = (tabName: string) => setJustOpened(tabName); // will trigger useEffect which has access to the most recent tabs/openInBackground state
   useEffect(() => {
     if (!justOpened) return;
     // first save scrollTop of current activeTab in tabs array
@@ -67,7 +67,6 @@ export const useTabs = (defaultTabs: ITab[]) => {
         const prevTabIndex = array.findIndex((tab: ITab) => tab.name === activeTab.name);
         return array.splice(prevTabIndex, 1, updatedPrevTab);
       }));
-      console.log(`before switching tabs, updated tabs array to reflect "${updatedPrevTab.name}" scrollTop as ${updatedPrevTab.scrolled}px`);
     }
     savePrevTabScroll();
     if (tabs.some((tab: ITab) => tab.name === justOpened)) { // if tab is open in the background/not currently active
@@ -75,7 +74,6 @@ export const useTabs = (defaultTabs: ITab[]) => {
       const amountScrolled = foundTab.scrolled;
       setActiveTab({ name: justOpened, scrolled: amountScrolled });
     } else { // opening new tab
-      console.log('opening new tab')
       setTabs(mutateArray((array: ITab[]) => array.push({ name: justOpened, scrolled: 0 })));
       if (!openInBackground) setActiveTab({ name: justOpened, scrolled: 0 });
     }

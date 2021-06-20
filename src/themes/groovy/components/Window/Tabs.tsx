@@ -7,7 +7,7 @@ import { pageConfig } from "@config";
 
 interface ITabsProps {
   name?: string;
-  tabs?: { name: string; scrolled: number }[];
+  tabs?: ITab[];
   openTab: (string) => void;
   closeTab: (string) => void;
   activeTab: ITab;
