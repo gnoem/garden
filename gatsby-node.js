@@ -11,6 +11,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
         '@themes': path.resolve(__dirname, 'src/themes'),
         '@utils': path.resolve(__dirname, 'src/utils')
       },
+      extensions: ["", ".ts", ".tsx", ".js"]
     },
   });
 }

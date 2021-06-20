@@ -20,13 +20,24 @@
     "target": "es2015",
     "paths": {
       "@components": ["components"],
+      "@components/*": ["components/*"],
+
       "@config": ["config"],
+      "@config/*": ["config/*"],
+      
       "@hooks": ["hooks"],
+      "@hooks/*": ["hooks/*"],
+      
       "@styles": ["styles"],
+      "@styles/*": ["styles/*"],
+      
       "@themes": ["themes"],
+      "@themes/*": ["themes/*"],
+      
       "@utils": ["utils"],
+      "@utils/*": ["utils/*"],
     }
   },
-  "include": ["src", "global", "**/*.ts", "**/*.tsx"],
+  "include": ["src", "src/*", "global", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules/*", "public/*"]
 }

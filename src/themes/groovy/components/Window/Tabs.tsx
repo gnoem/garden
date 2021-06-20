@@ -1,9 +1,9 @@
 import React from "react";
 
 import * as styles from "./window.module.css";
-import { ITab } from "./hooks";
 import { Icons } from "@components";
 import { pageConfig } from "@config";
+import { ITab } from "@hooks/useTabs";
 
 interface ITabsProps {
   name?: string;

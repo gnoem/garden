@@ -2,10 +2,11 @@ import React, { useCallback, useState, useEffect, useRef } from "react";
 
 import * as styles from "./window.module.css";
 import { Icons } from "@components";
-import { useDataPath, useDataTab, useDragonDrop } from "@hooks";
-import { ITab, useRandomizeWindow, useTabs } from "./hooks";
-import Tabs from "./Tabs";
 import { pageConfig } from "@config";
+import { useDataTemplate, useDragonDrop, useTabs } from "@hooks";
+import { ITab } from "@hooks/useTabs";
+import { useRandomizeWindow } from "./hooks";
+import Tabs from "./Tabs";
 
 interface IWindowProps {
   name: string;
@@ -49,9 +50,9 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
   }
   const ready = useRandomizeWindow(localRef);
   const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([{ name, scrolled: 0 }]);
-  useDataPath(localRef, createButton(switchToWindow));
-  useDataTab(localRef, createButton(openTab), 'data-tab', activeTab);
-  useDataTab(localRef, createLink(openTab), 'data-tab-link', activeTab);
+  useDataTemplate(localRef, createButton(switchToWindow), 'data-path');
+  useDataTemplate(localRef, createButton(openTab), 'data-tab', [activeTab]);
+  useDataTemplate(localRef, createLink(openTab), 'data-tab-link', [activeTab]);
   useDragonDrop(localRef, barRef);
   const createWindowRef = (element) => {
     registerRef(element);
@@ -103,8 +104,10 @@ interface IContentProps {
   activeTab: ITab;
   setActiveTab: (ITab) => void;
 }
+
 const Content: React.FC<IContentProps> = ({ children, name, activeTab, setActiveTab }): JSX.Element => {
   const contentRef = useRef(null);
+  // if switching between tabs, scroll to tab's saved scroll position:
   useEffect(() => {
     if (!contentRef.current) return;
     contentRef.current.scrollTop = (name === activeTab.name)
