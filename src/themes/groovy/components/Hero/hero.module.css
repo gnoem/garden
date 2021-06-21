@@ -16,6 +16,10 @@
   background-position: center;
 }
 
+.hero.e404::before {
+  background-image: url('../../assets/404.svg');
+}
+
 @media screen and (max-width: 600px) {
   .hero {
     --hero-size: 80vw;

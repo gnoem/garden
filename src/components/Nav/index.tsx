@@ -1,9 +1,15 @@
 import React from "react";
 
-const Nav: React.FC<{ main?: boolean; ariaLabel?: string; }> = ({ children, main, ariaLabel }): JSX.Element => {
+interface INavProps {
+  main?: boolean;
+  ariaLabel?: string;
+  addClass?: string;
+}
+
+const Nav: React.FC<INavProps> = ({ children, main, ariaLabel, addClass }): JSX.Element => {
   if (!children) return null;
   return (
-    <nav aria-label={main ? `Main site` : ariaLabel}>
+    <nav aria-label={main ? `Main site` : ariaLabel} className={addClass}>
       {children}
     </nav>
   )

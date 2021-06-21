@@ -55,13 +55,17 @@ main.groovy {
   justify-content: center;
 }
 
-main.groovy nav[aria-label='Main site'] {
+main.groovy > nav {
   position: fixed;
   bottom: 0;
   padding: var(--nav-margin);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+main.groovy > nav.errorpage {
+  right: 0;
 }
 
 main.groovy nav.buttons {

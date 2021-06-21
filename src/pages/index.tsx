@@ -4,17 +4,16 @@ import { Head } from "@components";
 import { Groovy } from "@themes";
 
 const layouts = {
-  groovy: (props) => <Groovy {...props} />
+  groovy: (props = {}) => <Groovy {...props} />
 }
 
 const IndexPage: React.FC = (): JSX.Element => {
   const [theme] = useState<string>('groovy');
-  const [currentPage, setCurrentPage] = useState<string>('home');
   return (
     <>
       <Head />
       <main className={theme}>
-        {layouts[theme]?.({ currentPage, setCurrentPage }) ?? null}
+        {layouts[theme]?.() ?? layouts['groovy']?.()}
       </main>
     </>
   )

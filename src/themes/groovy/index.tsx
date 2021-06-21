@@ -1,11 +1,11 @@
 import React from "react";
 
 import "./groovy.css";
-import { mainSiteNav } from "@config";
 import { Nav } from "@components";
+import { mainSiteNav } from "@config";
+import { useResizeWindows } from "@hooks";
 import { Hero, NavLink, Content, Backdrop } from "./components";
 import { useWindows } from "./hooks";
-import { useResizeWindows } from "@hooks";
 
 const Groovy = () => {
   const { refs, content, handleNavClick } = useWindows();

@@ -1,10 +1,21 @@
-import * as React from "react"
+import React, { useState } from "react";
+import "../styles/globals.css";
+import { Head } from "@components";
+import { GroovyNotFound } from "@themes";
 
-const NotFoundPage = () => {
+const layouts = {
+  groovy: <GroovyNotFound />
+}
+
+const NotFoundPage: React.FC = (): JSX.Element => {
+  const [theme] = useState<string>('groovy');
   return (
-    <main>
-      404  
-    </main>
+    <>
+      <Head />
+      <main className={theme}>
+        {layouts[theme] ?? layouts['groovy']}
+      </main>
+    </>
   )
 }
 
