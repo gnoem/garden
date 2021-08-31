@@ -1,4 +1,6 @@
 export * as Icons from "./_icons";
+export { default as Backdrop } from "./Backdrop";
+export { default as Content } from "./Content";
 export { default as Head } from "./Head";
 export { default as Hero } from "./Hero";
 export { default as Layout } from "./Layout";

@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'Carbon';
-  src: url('../../assets/fonts/Carbon.ttf');
+  src: url('../../../assets/fonts/Carbon.ttf');
 }
 
 @font-face {
   font-family: 'NimbusSansBecker';
-  src: url('../../assets/fonts/NimbusSansBecker.otf');
+  src: url('../../../assets/fonts/NimbusSansBecker.otf');
 }
 
 main {

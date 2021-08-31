@@ -11,6 +11,6 @@
   justify-content: center;
 }
 .bg {
-  background: #f0f url('../../assets/mainbg.svg');
+  background: #f0f url('../assets/mainbg.svg');
   background-size: cover;
 }

@@ -11,13 +11,13 @@
   content: '';
   width: var(--hero-size);
   height: var(--hero-size);
-  background: url('./assets/hero.svg') no-repeat;
+  background: url('../assets/hero.svg') no-repeat;
   background-size: contain;
   background-position: center;
 }
 
 .hero.e404::before {
-  background-image: url('./assets/404.svg');
+  background-image: url('../assets/404.svg');
 }
 
 @media screen and (max-width: 600px) {
