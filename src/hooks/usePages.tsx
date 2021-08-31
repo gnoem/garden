@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { mainSiteNav, pageConfig } from "@config";
 
-import { Hero, Page } from "../components";
+import { Hero, Page } from "@components";
 
 const usePages = ({ setCurrentPage }) => {
   const [pages, setPages] = useState({});
@@ -15,7 +15,7 @@ const usePages = ({ setCurrentPage }) => {
         }));
       }
       if (name === 'home') {
-        return <Hero ref={createPageRef} />;
+        return <Hero styles={{}} ref={createPageRef} />;
       }
       if (!pageContent) return null;
       return <Page ref={createPageRef}>{pageContent}</Page>;

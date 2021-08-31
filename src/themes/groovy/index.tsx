@@ -1,11 +1,11 @@
 import React from "react";
 
 import "./groovy.css";
-import { Nav } from "@components";
+import * as heroStyles from "./hero.module.css";
+import { Hero, Nav, NavLink } from "@components";
 import { mainSiteNav } from "@config";
-import { useResizeWindows } from "@hooks";
-import { Hero, NavLink, Content, Backdrop } from "./components";
-import { useWindows } from "./hooks";
+import { useResizeWindows, useWindows } from "@hooks";
+import { Content, Backdrop } from "./components";
 
 const Groovy = () => {
   const { refs, content, handleNavClick } = useWindows();
@@ -14,7 +14,7 @@ const Groovy = () => {
     <>
       <Content>
         <Backdrop />
-        <Hero />
+        <Hero styles={heroStyles} />
         {content}
       </Content>
       <Nav main>

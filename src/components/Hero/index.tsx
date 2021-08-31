@@ -1,11 +1,11 @@
 import React from "react";
-import * as styles from "./hero.module.css";
 
 interface HeroProps extends React.HTMLProps<HTMLDivElement> {
+  styles: any;
   error?: string | number;
 }
 
-const Hero = React.forwardRef<HTMLDivElement, HeroProps>(({ error }, ref) => {
+const Hero = React.forwardRef<HTMLDivElement, HeroProps>(({ styles, error }, ref) => {
   const showError = error
     ? styles[`e${error}`]
     : '';
