@@ -3,9 +3,13 @@
   width: var(--button-size);
   height: var(--button-size);
   border-radius: 999px;
-  background: linear-gradient(180deg, #f97a64, var(--highlight-yellow) 80%, #FFCC86);
-  box-shadow: inset 0 0 1rem #f97a64;
-  border: 1px solid #f97a64;
+  background: linear-gradient(180deg,
+    var(--btn1-deep),
+    var(--btn1-mid) 80%,
+    var(--btn1-fade)
+  );
+  box-shadow: inset 0 0 1rem var(--btn1-deep);
+  border: 1px solid var(--btn1-deep);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,7 +61,7 @@
 }
 
 .navLink * {
-  fill: var(--hot-pink);
+  fill: var(--btn1-text);
 }
 
 @media screen and (max-width: 600px) {

@@ -1,5 +1,5 @@
 .Window {
-  --content-background: var(--hot-pink-05);
+  --bgcolor-opacity: 0.5;
   --bar-padding: 0.5rem;
   position: absolute;
   top: 0;
@@ -7,9 +7,9 @@
   width: 0;
   height: 0;
   overflow: auto;
-  background: var(--content-background);
-  color: var(--text-yellow);
-  border: 1px solid var(--highlight-yellow);
+  background: rgba(var(--bgcolor-rgb), var(--bgcolor-opacity));
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
   display: inline-grid;
   grid-template:
     'bar'     auto
@@ -24,8 +24,8 @@
 }
 
 .Window.active {
-  --content-background: var(--hot-pink-08);
-  box-shadow: 0 0 1.5rem #FF5F9A;
+  --bgcolor-opacity: 0.8;
+  box-shadow: 0 0 1.5rem var(--window-glow);
 }
 
 .Window.closing {
@@ -56,7 +56,7 @@
 .Window[data-resize=true] span[data-drag],
 .Window[data-resize=true] span[data-drag]::before,
 .Window[data-resize=true] span[data-drag]::after {
-  background-image: radial-gradient(var(--light-pink) 40%, transparent 40%);
+  background-image: radial-gradient(var(--window-drag) 40%, transparent 40%);
   background-size: 0.25rem 0.25rem;
   background-position: 0 100%;
   background-repeat: repeat-x;
@@ -80,14 +80,14 @@
 }
 
 .Bar {
-  --bar-background: var(--hot-pink);
-  --bar-text: var(--highlight-yellow);
+  --bar-background: var(--bgcolor);
+  --bar-text: var(--accent-color);
   grid-area: bar;
 }
 
 .Window.active .Bar {
-  --bar-background: var(--highlight-yellow);
-  --bar-text: var(--hot-pink);
+  --bar-background: var(--accent-color);
+  --bar-text: var(--bgcolor);
 }
 
 .Window:not(.active) img {
@@ -99,7 +99,7 @@
   padding-left: calc(var(--bar-padding) * 1.5);
   background: var(--bar-background);
   color: var(--bar-text);
-  border-bottom: 1px solid var(--highlight-yellow);
+  border-bottom: 1px solid var(--accent-color);
   line-height: 1;
   font-size: 1.2rem;
   text-transform: uppercase;
@@ -123,7 +123,11 @@
 
 .Bar > div:first-of-type button {
   --button-size: 1.5rem;
-  background: linear-gradient(180deg, #f97a64, var(--highlight-yellow) 80%, #FFCC86);
+  background: linear-gradient(180deg,
+    var(--btn1-deep),
+    var(--btn1-mid) 80%,
+    var(--btn1-fade)
+  );
   width: var(--button-size);
   height: var(--button-size);
   font-size: 0.8rem;
@@ -159,7 +163,7 @@
 }
 
 .Bar > div:first-of-type button svg * {
-  fill: var(--deep-pink);
+  fill: var(--btn1-text);
 }
 
 .Bar > div:first-of-type button:hover {
@@ -167,16 +171,19 @@
 }
 
 .Window.active .Bar {
-  color: var(--hot-pink);
+  color: var(--bgcolor);
 }
 
 .Window.active .Bar > div:first-of-type button {
-  background: linear-gradient(180deg, var(--deep-pink), var(--hot-pink) 80%, var(--med-pink));
-  color: var(--text-yellow);
+  background: linear-gradient(180deg,
+    var(--btn2-deep),
+    var(--btn2-mid) 80%,
+    var(--btn2-fade)
+  );
 }
 
 .Window.active .Bar > div:first-of-type button svg * {
-  fill: var(--text-yellow);
+  fill: var(--btn2-text);
 }
 
 .Content {
@@ -198,13 +205,13 @@
 }
 
 .Content::-webkit-scrollbar-track {
-  background: var(--hot-pink);        /* color of the tracking area */
+  background: var(--bgcolor);        /* color of the tracking area */
 }
 
 .Content::-webkit-scrollbar-thumb {
-  background: var(--highlight-yellow);
+  background: var(--accent-color);
   border-radius: 999px;
-  border: 0.25rem solid var(--hot-pink);
+  border: 0.25rem solid var(--bgcolor);
 }
 
 .Window.minimized .Content {
@@ -221,7 +228,7 @@
 
 .Tab {
   flex: 1 1 auto;
-  color: var(--text-yellow);
+  color: var(--text-color);
   padding: 0.25rem 0.5rem;
   text-transform: uppercase;
   font-size: 0.8rem;
@@ -238,8 +245,8 @@
 }
 
 .Tab:not(.active) {
-  background: var(--hot-pink);
-  border: 1px solid var(--highlight-yellow);
+  background: var(--bgcolor);
+  border: 1px solid var(--accent-color);
   border-width: 0 1px 1px 1px;
 }
 
@@ -268,7 +275,7 @@
 }
 
 .Tab button svg * {
-  fill: var(--text-yellow);
+  fill: var(--text-color);
 }
 
 @media screen and (max-width: 600px) {

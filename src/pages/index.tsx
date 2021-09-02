@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import "../styles/globals.css";
+import React, { useEffect, useState } from "react";
+import "@styles/globals.css";
+import "@styles/theme.css";
 import * as themes from "@themes";
 import { Content, Backdrop, Hero, Nav, NavLink, Head } from "@components";
 import { mainSiteNav } from "@config";
 import { useResizeWindows, useWindows } from "@hooks";
-import { useEffect } from "react";
 
 const IndexPage: React.FC = (): JSX.Element => {
   const [activeTheme, setActiveTheme] = useState<string>('oracle');
@@ -12,7 +12,8 @@ const IndexPage: React.FC = (): JSX.Element => {
   const { refs, content, handleNavClick } = useWindows();
   useResizeWindows(refs);
   useEffect(() => {
-    const handleClick = () => {
+    const handleClick = (e) => {
+      if (e.code !== 'Escape') return;
       if (activeTheme === 'oracle') {
         setActiveTheme('groovy');
       }
@@ -20,7 +21,7 @@ const IndexPage: React.FC = (): JSX.Element => {
         setActiveTheme('oracle');
       }
     }
-    window.addEventListener('click', handleClick);
+    window.addEventListener('keydown', handleClick);
     return () => window.removeEventListener('click', handleClick)
   }, [activeTheme]);
   return (

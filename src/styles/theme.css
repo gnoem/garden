@@ -13,20 +13,49 @@ main {
   --default-font: 'Carbon', monospace;
   --layout-margin: 5vw;
   --visible-margin: 0;
-  --nav-margin: calc(var(--layout-margin) * 0.5);
-  --deep-pink: #dd0085;
-  --hot-pink: #FE069B;
-  --hot-pink-08: rgba(254, 6, 155, 0.8);
-  --hot-pink-05: rgba(254, 6, 155, 0.5);
-  --light-pink: #ffb4e8;
-  --med-pink: #FF7AD7;
-  --text-yellow: #ffedc7;
-  --highlight-yellow: #FFB64E;
   padding: var(--layout-margin);
 }
 
+main.oracle {
+  --nav-margin: calc(var(--layout-margin) * 0.5);
+  --text-color: #b3aeff;
+  --accent-color: #6a5fff;
+  --bgcolor-preview: rgb(68, 17, 66);
+  --bgcolor-rgb: 68, 17, 66;
+  --bgcolor: rgb(var(--bgcolor-rgb));
+  --btn1-text: var(--bgcolor);
+  --btn1-deep: #3d31e0;
+  --btn1-mid: var(--accent-color);
+  --btn1-fade: #938bff;
+  --btn2-text: var(--text-color);
+  --btn2-deep: #360935;
+  --btn2-mid: #a720a2;
+  --btn2-fade: #ff80fb;
+  --window-drag: #ffa8ec;
+  --window-glow: #5549ff;
+}
+
+main.groovy {
+  --nav-margin: calc(var(--layout-margin) * 0.5);
+  --text-color: #ffedc7;
+  --accent-color: #FFB64E;
+  --bgcolor-preview: rgb(254, 6, 155);
+  --bgcolor-rgb: 254, 6, 155;
+  --bgcolor: rgb(var(--bgcolor-rgb));
+  --btn1-text: var(--bgcolor);
+  --btn1-deep: #f97a64;
+  --btn1-mid: var(--accent-color);
+  --btn1-fade: #FFCC86;
+  --btn2-text: var(--text-color);
+  --btn2-deep: #dd0085;
+  --btn2-mid: var(--bgcolor);
+  --btn2-fade: #FF7AD7;
+  --window-drag: #ffb4e8;
+  --window-glow: #FF5F9A;
+}
+
 a {
-  color: var(--text-yellow);
+  color: var(--text-color);
 }
 
 h2 {
@@ -48,14 +77,14 @@ ul + h3 {
   margin-top: 1.5rem;
 }
 
-main.groovy {
+main {
   font-family: var(--default-font);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-main.groovy > nav {
+main > nav {
   position: fixed;
   bottom: 0;
   padding: var(--nav-margin);
@@ -64,11 +93,11 @@ main.groovy > nav {
   justify-content: center;
 }
 
-main.groovy > nav.errorpage {
+main > nav.errorpage {
   right: 0;
 }
 
-main.groovy nav.buttons {
+main nav.buttons {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -76,7 +105,7 @@ main.groovy nav.buttons {
   margin: 1rem -0.75rem -0.75rem 0;
 }
 
-main.groovy nav.buttons > * {
+main nav.buttons > * {
   margin: 0 0.75rem 0.75rem 0;
 }
 
@@ -97,8 +126,12 @@ ul li + li {
 .glossy {
   padding: 0.5rem 1.5rem;
   border-radius: 999px;
-  background: linear-gradient(180deg, #f97a64, var(--highlight-yellow) 80%, #FFCC86);
-  color: var(--deep-pink);
+  background: linear-gradient(180deg,
+    var(--btn1-deep),
+    var(--btn1-mid) 80%,
+    var(--btn1-fade)
+  );
+  color: var(--bgcolor);
   font-size: 0.875rem;
   text-decoration: none;
   text-transform: uppercase;
@@ -132,7 +165,7 @@ ul li + li {
 }
 
 @media screen and (max-width: 600px) {
-  main.groovy nav[aria-label='Main site'] {
+  main nav[aria-label='Main site'] {
     padding-bottom: calc(2 * var(--nav-margin));
   }
   h2 {

@@ -8,7 +8,7 @@ const Oracle: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
   useAddObject(object, sceneComponents, (object: SceneObject): void => {
     object.name = name;
     transformObject.position(object, [0, 10, 0]);
-    sceneComponents?.scene?.userData.enableWatchCursor(object);
+    sceneComponents?.scene?.userData.enableWatchCursor?.(object);
   });
 
   return null;

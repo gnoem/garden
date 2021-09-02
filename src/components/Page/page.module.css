@@ -12,9 +12,8 @@
   width: var(--page-size);
   max-height: var(--page-size);
   overflow: auto;
-  background: var(--hot-pink-05);
-  color: var(--text-yellow);
-  border: 1px solid var(--highlight-yellow);
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
 }
 
 @media screen and (max-width: 600px) {

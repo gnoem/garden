@@ -36,7 +36,7 @@ const useScene = (sceneRef: HTMLElement | null): IThreeScene => {
     renderer.outputEncoding = THREE.sRGBEncoding;
     camera.position.set(0, 0, 10);
     addCameraControls(scene, camera, renderer, loop);
-    addWatchCursor(scene, camera);
+    //addWatchCursor(scene, camera);
     setScene({ scene, camera, renderer, loop });
     loop.start();
     sceneRef.appendChild(renderer.domElement);
