@@ -17,8 +17,11 @@
         "name": "typescript-styled-plugin"
       }
     ],
-    "target": "es2015",
+    "target": "es2017",
     "paths": {
+      "@assets": ["assets"],
+      "@assets/*": ["assets/*"],
+
       "@components": ["components"],
       "@components/*": ["components/*"],
 
@@ -28,11 +31,20 @@
       "@hooks": ["hooks"],
       "@hooks/*": ["hooks/*"],
       
+      "@lib": ["lib"],
+      "@lib/*": ["lib/*"],
+      
+      "@models": ["models"],
+      "@models/*": ["models/*"],
+      
       "@styles": ["styles"],
       "@styles/*": ["styles/*"],
       
       "@themes": ["themes"],
       "@themes/*": ["themes/*"],
+      
+      "@types": ["types"],
+      "@types/*": ["types/*"],
       
       "@utils": ["utils"],
       "@utils/*": ["utils/*"],

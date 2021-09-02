@@ -1,7 +1,12 @@
+export { default as useAddObject } from "./useAddObject";
 export { default as useDataTemplate } from "./useDataTemplate";
 export { default as useDragonDrop } from "./useDragonDrop";
+export { default as useGLTF } from "./useGLTF";
+export { default as useLoadTextures } from "./useLoadTextures";
 export { default as usePages } from "./usePages";
 export { default as usePrevious } from "./usePrevious";
 export { default as useResizeWindows } from "./useResizeWindows";
+export { default as useScene } from "./useScene";
 export { default as useTabs } from "./useTabs";
+export { default as useWatchCursor } from "./useWatchCursor";
 export { default as useWindows } from "./useWindows";

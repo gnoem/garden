@@ -1,0 +1,1 @@
+export { default as gradient } from "./gradient";

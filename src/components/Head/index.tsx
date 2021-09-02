@@ -9,7 +9,7 @@ interface IHeadProps {
   image?: string;
 }
 
-const Head: React.FC<IHeadProps> = ({ title, description, image }) => {
+const Head: React.FC<IHeadProps> = ({ children, title, description, image }) => {
   const { pathname } = useLocation();
   const query = graphql`
   query SEO {
@@ -56,6 +56,8 @@ const Head: React.FC<IHeadProps> = ({ title, description, image }) => {
       <meta name="twitter:image" content={seo.image} />
 
       <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='100'>🍋</text></svg>" />
+
+      {children}
 
     </Helmet>
   );
