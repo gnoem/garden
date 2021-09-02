@@ -6,7 +6,7 @@ import { transformObject } from "@utils";
 
 const { Water } = objects;
 
-const useScene = (sceneRef: HTMLElement | null, { setLoop, renderer: ctxRenderer, setRenderer }: IRenderContext): IThreeScene => {
+const useScene = (sceneRef: HTMLElement | null, renderContext: IRenderContext): IThreeScene => {
   const [isSet, setIsSet] = useState<boolean>(false);
   const [scene, setScene] = useState<IThreeScene>({
     scene: null,
@@ -16,34 +16,36 @@ const useScene = (sceneRef: HTMLElement | null, { setLoop, renderer: ctxRenderer
   });
 
   useEffect(() => {
-    if (!sceneRef || isSet) return;
+    if (!sceneRef || !renderContext || isSet) return;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    const renderer = ctxRenderer ?? new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true
-    });
-    renderer.setPixelRatio(window.devicePixelRatio);
+    let renderer;
+    if (renderContext.renderer) {
+      renderer = renderContext.renderer;
+    } else {
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true
+      });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.shadowMap.enabled = true;
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.outputEncoding = THREE.sRGBEncoding;
+    }
     const loop = new Loop(scene, camera, renderer);
+    camera.position.set(0, 0, 10);
     addLighting(scene);
     addWater(scene, loop);
     addEnvironmentTexture(scene, renderer);
-    scene.userData = {
-      canvas: sceneRef
-    }
-    renderer.shadowMap.enabled = true;
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.outputEncoding = THREE.sRGBEncoding;
-    camera.position.set(0, 0, 10);
     addCameraControls(scene, camera, renderer, loop);
     addWatchCursor(scene, camera);
     setScene({ scene, camera, renderer, loop });
-    setLoop(loop);
-    setRenderer(renderer);
+    renderContext.setLoop(loop);
+    renderContext.setRenderer(renderer);
     loop.start();
     sceneRef.appendChild(renderer.domElement);
     setIsSet(true);
-  }, [isSet, sceneRef]);
+  }, [isSet, renderContext, sceneRef]);
 
   return scene;
 }

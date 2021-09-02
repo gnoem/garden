@@ -2,12 +2,14 @@ import React from "react";
 import * as backdropStyles from "./css/backdrop.module.css";
 import { Backdrop, Scene } from "@components";
 
-const backdrop = (
-  <Backdrop styles={backdropStyles}>
-    <Scene objects={['oracle']} />
-  </Backdrop>
-)
+const load = () => {
+  return (
+    <Backdrop styles={backdropStyles}>
+      <Scene objects={['oracle']} />
+    </Backdrop>
+  )
+}
 
 export default {
-  backdrop
+  load
 }

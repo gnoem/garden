@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import * as styles from "./Scene.module.css";
 import { useScene } from "@hooks";
 import { Oracle } from "@models";
-import { IObjectComponentProps, IRenderContext, IThreeScene } from "@types";
+import { IObjectComponentProps, IRenderContext, IThemeContext, IThreeScene } from "@types";
 import { useVerifyLoaded } from "./hooks";
-import { RenderContext } from "@contexts";
+import { useContext } from "react";
+import { RenderContext, ThemeContext } from "@contexts";
 
 export interface ILoadedObject {
   name: string;
@@ -17,11 +18,15 @@ const objectsMap: {
   'oracle': Oracle
 }
 
-const Scene: React.FC<{ objects: string[]; }> = ({ objects: objectNames }): JSX.Element => {
+interface IScene {
+  objects: string[];
+}
+
+const Scene: React.FC<IScene> = ({ objects: objectNames }): JSX.Element => {
   const [sceneRef, createSceneRef] = useState<HTMLDivElement | null>(null);
   const [ready, setReady] = useState<boolean>(false);
-  const renderContext = useContext<IRenderContext>(RenderContext)
-  console.log(renderContext)
+  const renderContext = useContext<IRenderContext>(RenderContext);
+  const { activeTheme } = useContext<IThemeContext>(ThemeContext)
   const sceneComponents: IThreeScene = useScene(sceneRef, renderContext);
   const { loading, setLoaded } = useVerifyLoaded(objectNames, sceneComponents);
   
@@ -46,7 +51,7 @@ const Scene: React.FC<{ objects: string[]; }> = ({ objects: objectNames }): JSX.
   }
 
   return (
-    <div ref={createSceneRef} className={`${styles.Scene} ${loading ? styles.loading : ''}`}>
+    <div ref={createSceneRef} data-theme={activeTheme} className={`${styles.Scene} ${loading ? styles.loading : ''}`}>
       {objectNames.map(createObjects)}
     </div>
   )

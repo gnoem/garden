@@ -30,6 +30,11 @@ class Loop {
     this.renderer.setAnimationLoop(null);
   }
 
+  dispose() {
+    this.stop();
+    this.updatables = [];
+  }
+
   add(obj: Updatable) {
     this.updatables.push(obj);
   }

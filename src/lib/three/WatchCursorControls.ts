@@ -52,7 +52,6 @@ class WatchCursorControls extends THREE.EventDispatcher {
 
     this.connect = (): void => {
       if (this.isConnected) return;
-      console.log('connect')
       window.addEventListener('mousemove', handleMouseMove, false);
       window.addEventListener('touchmove', handleMouseMove, false);
       this.isConnected = true;
