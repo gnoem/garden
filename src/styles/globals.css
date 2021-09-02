@@ -51,3 +51,7 @@ button {
   cursor: pointer;
   font-family: inherit;
 }
+
+canvas {
+  user-select: none;
+}
