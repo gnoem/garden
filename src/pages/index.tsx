@@ -12,7 +12,7 @@ const IndexPage: React.FC = (): JSX.Element => {
   const { refs, content, handleNavClick } = useWindows();
   useResizeWindows(refs);
   useEffect(() => {
-    const handleClick = (e) => {
+    const handleKeyDown = (e) => {
       if (e.code !== 'Escape') return;
       if (activeTheme === 'oracle') {
         setActiveTheme('groovy');
@@ -21,8 +21,8 @@ const IndexPage: React.FC = (): JSX.Element => {
         setActiveTheme('oracle');
       }
     }
-    window.addEventListener('keydown', handleClick);
-    return () => window.removeEventListener('click', handleClick)
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [activeTheme]);
   return (
     <>

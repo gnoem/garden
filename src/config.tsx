@@ -66,8 +66,8 @@ export const pageConfig = {
     jsx: (
       <>
         <h2>about</h2>
-        <p>hi i'm naomi and this is my tiny corner of the internet: part <a href="https://neustadt.fr/essays/the-small-web/" target="_blank">personal site</a>, part online playground, somewhere i can experiment with code &amp; design while also building a home for my art, writing, and other stuff [<span data-tab-link="about this project">read more about this project</span>]</p>
-        <p>there is not much here yet but it is regularly updated, so keep checking back!</p>
+        <p>hi i'm naomi and this is where i conduct graphical experiments [<span data-tab-link="about this project">read more about this project?</span>]</p>
+        <p>not that much stuff here yet but it is regularly updated so keep checking back!</p>
         <h3>other places to find me online:</h3>
         <nav aria-label="External links" className="buttons">
           {externalLinks.map(({ name, url }) => <a key={name} className="glossy" href={url} target="_blank">{name}</a>)}
@@ -82,19 +82,19 @@ export const pageConfig = {
         <h2>about this project</h2>
         <h3>code</h3>
         <ul>
-          <li>built by me using react/gatsby and hosted on vercel</li>
-          <li>open source! <a href="https://github.com/gnoem/garden" target="_blank">take a look</a></li>
+          <li>built by me using react + three.js</li>
+          <li>open source, <a href="https://github.com/gnoem/garden" target="_blank">take a look</a></li>
         </ul>
         <h3>design</h3>
         <ul>
-          <li>i make graphics in adobe illustrator</li>
-          <li>fonts used for this theme: Nimbus Sans Becker (headers), Carbon (body)</li>
+          <li>blender and adobe illustrator</li>
+          <li>fonts used: Nimbus Sans Becker, Carbon</li>
         </ul>
-        <h3>motivation</h3>
+        <h3>thoughts</h3>
         <ul>
-          <li>the modern internet is a hellhole and we would all benefit from a return to the glory days of the early web (if this statement intrigues you, <a href="https://sadgrl.online/newoldweb/manifesto.html" target="_blank">go read this person's manifesto</a>)</li>
-          <li>i get antsy if i don't have a personal project that i'm making consistent progress on</li>
-          <li>i like to build immersive, interactive online spaces, and having a site like this gives me an opportunity to do that in a totally unstructured, open-ended environment - that part is far more exciting to me than actually creating the content for this place (though i obviously need content to put here or else we'd just be standing in an empty room)</li>
+          <li>im really interested in making interactive, immersive online spaces and this project seemed like a really fun way to explore that</li>
+          <li>a lot of the content (text/images) is filler so dont read into it too much. its mainly there because its nicer than having lorem ipsum</li>
+          <li>my aim with this project is for me to play around with code/design and practice building 3d things for the web and show off some stuff i've been working on <span style={{ fontSize: '0.75rem' }}>and possibly find someone to pay me to make them a really cool website or even like if someone wanted to hit me up to collab on something weird and unique and interesting and just make some cool web art projects together and have fun that would be cool too....i definitely would want someone to get in touch if they were thinking that they wanted to do that..</span></li>
         </ul>
       </>
     )
