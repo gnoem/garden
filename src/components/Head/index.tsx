@@ -1,13 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { useLocation } from "@reach/router";
 import { useStaticQuery, graphql } from "gatsby";
-
-interface IHeadProps {
-  title?: string;
-  description?: string;
-  image?: string;
-}
+import { useLocation } from "@reach/router";
+import { IHeadProps } from "@types";
 
 const Head: React.FC<IHeadProps> = ({ children, title, description, image }) => {
   const { pathname } = useLocation();

@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "@styles/globals.css";
 import "@styles/theme.css";
 import * as themes from "@themes";
-import { Content, Backdrop, Hero, Nav, NavLink, Head } from "@components";
+import { Content, Backdrop, Hero, Nav, NavLink } from "@components";
 import { mainSiteNav } from "@config";
 import { useResizeWindows, useWindows } from "@hooks";
+import { AppLayout } from "@layouts";
+import { RenderContext } from "@contexts";
 
 const IndexPage: React.FC = (): JSX.Element => {
   const [activeTheme, setActiveTheme] = useState<string>('oracle');
   const theme = themes[activeTheme];
+  const { loop, renderer } = useContext(RenderContext);
   const { refs, content, handleNavClick } = useWindows();
   useResizeWindows(refs);
+  console.log({ loop, renderer })
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.code !== 'Escape') return;
@@ -25,8 +29,7 @@ const IndexPage: React.FC = (): JSX.Element => {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [activeTheme]);
   return (
-    <>
-      <Head />
+    <AppLayout>
       <main className={activeTheme}>
         <Content>
           {theme.backdrop ?? <Backdrop />}
@@ -44,7 +47,7 @@ const IndexPage: React.FC = (): JSX.Element => {
           ))}
         </Nav>
       </main>
-    </>
+    </AppLayout>
   )
 }
 

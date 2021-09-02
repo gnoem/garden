@@ -28,8 +28,14 @@
       "@config": ["config"],
       "@config/*": ["config/*"],
       
+      "@contexts": ["contexts"],
+      "@contexts/*": ["contexts/*"],
+      
       "@hooks": ["hooks"],
       "@hooks/*": ["hooks/*"],
+      
+      "@layouts": ["layouts"],
+      "@layouts/*": ["layouts/*"],
       
       "@lib": ["lib"],
       "@lib/*": ["lib/*"],

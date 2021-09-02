@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import * as styles from "./Scene.module.css";
 import { useScene } from "@hooks";
 import { Oracle } from "@models";
-import { IObjectComponentProps, IThreeScene } from "@types";
+import { IObjectComponentProps, IRenderContext, IThreeScene } from "@types";
 import { useVerifyLoaded } from "./hooks";
+import { RenderContext } from "@contexts";
 
 export interface ILoadedObject {
   name: string;
@@ -19,8 +20,9 @@ const objectsMap: {
 const Scene: React.FC<{ objects: string[]; }> = ({ objects: objectNames }): JSX.Element => {
   const [sceneRef, createSceneRef] = useState<HTMLDivElement | null>(null);
   const [ready, setReady] = useState<boolean>(false);
-  
-  const sceneComponents: IThreeScene = useScene(sceneRef);
+  const renderContext = useContext<IRenderContext>(RenderContext)
+  console.log(renderContext)
+  const sceneComponents: IThreeScene = useScene(sceneRef, renderContext);
   const { loading, setLoaded } = useVerifyLoaded(objectNames, sceneComponents);
   
   useEffect(() => { // prepare scene before loading any objects

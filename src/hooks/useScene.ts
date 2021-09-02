@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import * as THREE from "three";
 import { Loop, CameraControls, RoughnessMipmapper, objects, RGBELoader, WatchCursorControls } from "@lib";
-import { IThreeScene } from "@types";
+import { IRenderContext, IThreeScene } from "@types";
 import { transformObject } from "@utils";
 
 const { Water } = objects;
 
-const useScene = (sceneRef: HTMLElement | null): IThreeScene => {
+const useScene = (sceneRef: HTMLElement | null, { setLoop, renderer: ctxRenderer, setRenderer }: IRenderContext): IThreeScene => {
   const [isSet, setIsSet] = useState<boolean>(false);
   const [scene, setScene] = useState<IThreeScene>({
     scene: null,
@@ -19,7 +19,7 @@ const useScene = (sceneRef: HTMLElement | null): IThreeScene => {
     if (!sceneRef || isSet) return;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    const renderer = new THREE.WebGLRenderer({
+    const renderer = ctxRenderer ?? new THREE.WebGLRenderer({
       alpha: true,
       antialias: true
     });
@@ -38,6 +38,8 @@ const useScene = (sceneRef: HTMLElement | null): IThreeScene => {
     addCameraControls(scene, camera, renderer, loop);
     addWatchCursor(scene, camera);
     setScene({ scene, camera, renderer, loop });
+    setLoop(loop);
+    setRenderer(renderer);
     loop.start();
     sceneRef.appendChild(renderer.domElement);
     setIsSet(true);
