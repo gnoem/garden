@@ -24,8 +24,8 @@ const Main: React.FC = (): JSX.Element => {
         setActiveTheme('oracle');
       }
     }
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    //window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeTheme]);
   return (
     <main className={activeTheme}>

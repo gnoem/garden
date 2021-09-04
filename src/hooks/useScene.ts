@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import * as THREE from "three";
-import { Loop, CameraControls, RoughnessMipmapper, objects, RGBELoader, WatchCursorControls } from "@lib";
+import { Loop, CameraControls, RoughnessMipmapper, Water, RGBELoader, WatchCursorControls } from "@lib";
 import { IRenderContext, IThreeScene } from "@types";
 import { transformObject } from "@utils";
-
-const { Water } = objects;
 
 const useScene = (sceneRef: HTMLElement | null, renderContext: IRenderContext): IThreeScene => {
   const [isSet, setIsSet] = useState<boolean>(false);

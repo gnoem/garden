@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import * as THREE from "three";
-import { IMeshComponentsObject, IMeshRegistrationObject, IMeshesObject, ISimpleObject, IMeshRegistrationFunction, IMeshComponentProps, SceneElement } from "@types";
+import { IMeshComponentsObject, IMeshRegistrationObject, IMeshesObject, ISimpleObject, MeshRegistrationFunction, IMeshComponentProps, SceneElement } from "@types";
 export { getInitialState, getAnimationData } from "./interactions";
 export { createMaterialFromTextures, defineMaterial } from "./materials";
 
@@ -62,7 +62,7 @@ export const meshRegistration = (
   setMeshes: Dispatch<SetStateAction<IMeshesObject>>
 ): IMeshRegistrationObject => {
   return meshNames.reduce((obj: ISimpleObject, meshName: string): IMeshRegistrationObject => {
-    const registerMesh: IMeshRegistrationFunction = (object: THREE.Mesh): void => {
+    const registerMesh: MeshRegistrationFunction = (object: THREE.Mesh): void => {
       setMeshes((prevState: IMeshesObject): IMeshesObject => ({
         ...prevState,
         [meshName]: object

@@ -1,8 +1,7 @@
-/* eslint-disable global-require */
 import { useEffect, useState } from "react";
 import * as THREE from "three";
 import { IMeshRegistrationObject, ThreeGroupChild } from "@types";
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 const useGLTF = (
   filePath: string,
@@ -13,7 +12,6 @@ const useGLTF = (
   useEffect(() => {
     if (object) return; // don't want this to run again if glTF has already been loaded
     const loadObject = (): void => {
-      const { GLTFLoader } = require('three/examples/jsm/loaders/GLTFLoader.js');
       const loader = new GLTFLoader();
       loader.load(filePath, (gltf: GLTF): void => {
         if (meshRegistration) {

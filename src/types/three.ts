@@ -121,8 +121,8 @@ export interface IMeshComponentsObject {
   [name: string]: React.FC<IMeshComponentProps>
 }
 
-export type IMeshRegistrationFunction = (object: THREE.Mesh) => void;
+export type MeshRegistrationFunction = (object: THREE.Mesh) => void;
 
 export interface IMeshRegistrationObject {
-  [meshName: string]: IMeshRegistrationFunction
+  [meshName: string]: MeshRegistrationFunction
 }
