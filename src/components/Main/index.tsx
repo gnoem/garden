@@ -28,7 +28,7 @@ const Main: React.FC = (): JSX.Element => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeTheme]);
   return (
-    <main className={activeTheme}>
+    <main className={theme.className ?? activeTheme}>
       <Content>
         {renderContext && theme.load()}
         {content}

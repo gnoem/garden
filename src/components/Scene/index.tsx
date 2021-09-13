@@ -20,14 +20,15 @@ const objectsMap: {
 
 interface IScene {
   objects: string[];
+  load: (sceneComponents: IThreeScene) => void;
 }
 
-const Scene: React.FC<IScene> = ({ objects: objectNames }): JSX.Element => {
+const Scene: React.FC<IScene> = ({ objects: objectNames, load }): JSX.Element => {
   const [sceneRef, createSceneRef] = useState<HTMLDivElement | null>(null);
   const [ready, setReady] = useState<boolean>(false);
   const renderContext = useContext<IRenderContext>(RenderContext);
   const { activeTheme } = useContext<IThemeContext>(ThemeContext)
-  const sceneComponents: IThreeScene = useScene(sceneRef, renderContext);
+  const sceneComponents: IThreeScene = useScene(sceneRef, renderContext, load);
   const { loading, setLoaded } = useVerifyLoaded(objectNames, sceneComponents);
   
   useEffect(() => { // prepare scene before loading any objects
