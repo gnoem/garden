@@ -1,6 +1,5 @@
 import React from "react";
 import * as THREE from "three";
-import * as backdropStyles from "./css/backdrop.module.css";
 import { Backdrop, Scene } from "@components";
 import { IThreeScene } from "@types";
 import { addEnvironmentTexture, addWatchCursor } from "@utils";
@@ -19,7 +18,7 @@ const loadScene = (sceneComponents: IThreeScene) => {
 
 const load = () => {
   return (
-    <Backdrop styles={backdropStyles}>
+    <Backdrop>
       <Scene objects={['crystal']} load={loadScene} />
     </Backdrop>
   )

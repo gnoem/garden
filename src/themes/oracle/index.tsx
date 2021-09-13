@@ -1,5 +1,4 @@
 import React from "react";
-import * as backdropStyles from "./css/backdrop.module.css";
 import { Backdrop, Scene } from "@components";
 import { addCameraControls, addLighting, addWater } from "./scene";
 import { addEnvironmentTexture } from "@utils";
@@ -16,7 +15,7 @@ const loadScene = (sceneComponents: IThreeScene) => {
 
 const load = () => {
   return (
-    <Backdrop styles={backdropStyles}>
+    <Backdrop>
       <Scene objects={['oracle']} load={loadScene} />
     </Backdrop>
   )
