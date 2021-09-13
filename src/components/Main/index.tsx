@@ -8,7 +8,7 @@ import { useResizeWindows, useWindows } from "@hooks";
 import * as themes from "@themes";
 
 const Main: React.FC = (): JSX.Element => {
-  const { activeTheme, setActiveTheme } = useContext(ThemeContext);
+  const { activeTheme, setActiveTheme } = useContext(ThemeContext); // todo figure out do we really need a context for this?
   const theme = themes[activeTheme];
   const renderContext = useContext(RenderContext);
   const { refs, content, handleNavClick } = useWindows();

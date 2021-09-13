@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import * as THREE from "three";
 import { Loop } from "@lib";
 import { IRenderContext, IThreeScene } from "@types";
+import { addWatchCursor } from "@utils";
 
 const useScene = (sceneRef: HTMLElement | null, renderContext: IRenderContext, loadTheme: (sceneComponents: IThreeScene) => void): IThreeScene => {
   const [isSet, setIsSet] = useState<boolean>(false);
@@ -30,8 +31,8 @@ const useScene = (sceneRef: HTMLElement | null, renderContext: IRenderContext, l
       renderer.outputEncoding = THREE.sRGBEncoding;
     }
     const loop = new Loop(scene, camera, renderer);
-    camera.position.set(0, 0, 10);
     loadTheme?.({ scene, camera, renderer, loop });
+    addWatchCursor(scene, camera);
     setScene({ scene, camera, renderer, loop });
     renderContext.setLoop(loop);
     renderContext.setRenderer(renderer);
