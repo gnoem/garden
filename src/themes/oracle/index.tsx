@@ -1,16 +1,23 @@
 import React from "react";
+import * as THREE from "three";
 import { Backdrop, Scene } from "@components";
-import { addCameraControls, addLighting, addWater } from "./scene";
+import { addCameraControls, addWater } from "./scene";
 import { addEnvironmentTexture } from "@utils";
 import { IThreeScene } from "@types";
 
 const loadScene = (sceneComponents: IThreeScene) => {
-  const { scene, camera, renderer, loop } = sceneComponents;
+  const { scene, camera, loop } = sceneComponents;
   camera.position.set(0, 0, 10);
-  addLighting(scene);
+
+  addEnvironmentTexture('pinksunset', sceneComponents);
   addWater(scene, loop);
-  addEnvironmentTexture('pinksunset.hdr', sceneComponents);
-  addCameraControls(scene, camera, renderer, loop);
+
+  //lighting
+  const primaryLight = new THREE.DirectionalLight(0xffffff, 1);
+  primaryLight.position.set(50, 0, 0);
+  scene.add(primaryLight);
+
+  addCameraControls(sceneComponents);
 }
 
 const load = () => {

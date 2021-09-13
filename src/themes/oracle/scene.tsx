@@ -1,8 +1,8 @@
-import { CameraControls, Loop, Water } from "@lib";
-import { transformObject } from "@utils";
 import * as THREE from "three";
+import { CameraControls, Loop, Water } from "@lib";
+import { IThreeScene } from "@types";
 
-export const addCameraControls = (scene: THREE.Scene, camera: THREE.Camera, renderer: THREE.WebGLRenderer, loop: Loop): CameraControls => {
+export const addCameraControls = ({ scene, camera, renderer, loop }: IThreeScene): CameraControls => {
   const controls = new CameraControls(camera, renderer.domElement);
   controls.setBoundaries({
     x: [-1000, 1000],
@@ -16,18 +16,6 @@ export const addCameraControls = (scene: THREE.Scene, camera: THREE.Camera, rend
   }
   loop.add(controls);
   return controls;
-}
-
-export const addLighting = (scene: THREE.Scene): void => {
-  const primaryLight = new THREE.DirectionalLight( 0xffffff, 1 );
-  const secondaryLight = new THREE.DirectionalLight( 0xffffff, 0.1 );
-  transformObject.position(primaryLight, [50, 0, 0]);
-  transformObject.position(secondaryLight, [-50, 0, 0]);
-  primaryLight.shadow.bias = 0.001;
-  primaryLight.shadow.normalBias = 0.003;
-  scene.add(primaryLight);
-  //scene.add( secondaryLight ); // preserves texture in shadowed areas
-  //scene.add( ambientLight );
 }
 
 export const addWater = (scene: THREE.Scene, loop: Loop) => {

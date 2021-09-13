@@ -13,6 +13,27 @@ export const addWatchCursor = (scene: THREE.Scene, camera: THREE.Camera): WatchC
 }
 
 export const addEnvironmentTexture = (filename: string, { scene, renderer }: IThreeScene): void => {
+  const pmremGenerator = new THREE.PMREMGenerator(renderer);
+
+  const rgbeLoader = new RGBELoader();
+  rgbeLoader.load(`/textures/${filename}.hdr`, (texture: THREE.Texture): void => {
+    const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+    pmremGenerator.compileEquirectangularShader();
+    scene.environment = envMap;
+    texture.dispose();
+    pmremGenerator.dispose();
+  });
+
+  const textureLoader = new THREE.TextureLoader();
+  textureLoader.load(`/textures/${filename}.jpg`, (texture: THREE.Texture) => {
+    const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
+    rt.fromEquirectangularTexture(renderer, texture);
+    rt.texture.encoding = THREE.sRGBEncoding;
+    scene.background = rt.texture;
+  });
+}
+
+export const addOldEnvironmentTexture = (filename: string, { scene, renderer }: IThreeScene): void => {
   const pmremGenerator = new THREE.PMREMGenerator( renderer );
   pmremGenerator.compileEquirectangularShader();
   new RGBELoader()
@@ -23,7 +44,7 @@ export const addEnvironmentTexture = (filename: string, { scene, renderer }: ITh
 
       const envMap = pmremGenerator.fromEquirectangular( texture ).texture;
 
-      scene.background = envMap;
+      scene.background = texture;
       scene.environment = envMap;
 
       texture.dispose();
