@@ -1,18 +1,17 @@
-import { IThreeScene } from "@types";
+import { IRenderContext, IThreeScene } from "@types";
 import { mutateStateArray } from "@utils";
 import { useEffect, useState } from "react";
 import { ILoadedObject } from ".";
 
-export const useVerifyLoaded = (objectNames: string[], sceneComponents: IThreeScene): {
-  loading: boolean;
+export const useVerifyLoaded = (objectNames: string[], sceneComponents: IThreeScene, { activeTheme, loading, setLoading }: IRenderContext): {
   setLoaded: (objectName: string) => void;
 } => {
+  
   const loadedObjects = objectNames.map((name: string): ILoadedObject => ({
     name,
     loaded: false
   }));
 
-  const [loading, setLoading] = useState<boolean>(true);
   const [objectsList, setObjectsList] = useState<ILoadedObject[]>(loadedObjects);
 
   const setLoaded = (objectName: string): void => {
@@ -26,9 +25,14 @@ export const useVerifyLoaded = (objectNames: string[], sceneComponents: IThreeSc
   }
 
   useEffect(() => {
-    if (!sceneComponents || !objectsList) return;
+    if (!loading) setLoading(true);
+    setObjectsList(loadedObjects);
+  }, [activeTheme]);
+
+  useEffect(() => {
+    if (!sceneComponents || !objectsList || !loading) return;
     const isReady = objectsList.every(obj => obj.loaded);
-    const delay = 0// 3000;
+    const delay = 500; // wiggle room
     if (isReady) {
       setTimeout(() => {
         setLoading(false);
@@ -37,7 +41,6 @@ export const useVerifyLoaded = (objectNames: string[], sceneComponents: IThreeSc
   }, [sceneComponents, objectsList]);
 
   return {
-    loading,
     setLoaded
   }
 }

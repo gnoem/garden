@@ -1,14 +1,13 @@
 import * as THREE from "three";
 import { useAddObject, useGLTF } from "@hooks";
 import { IObjectComponentProps, SceneObject } from "@types";
-import { transformObject } from "@utils";
 
 const Crystal: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
   const object = useGLTF('gltf/crystal.gltf');
 
   useAddObject(object, sceneComponents, (object: SceneObject): void => {
     object.name = name;
-    transformObject.position(object, [0, 0, 2.5]);
+    object.position.set(0, 0, 2.5);
     object.userData.tick = (delta) => {
       object.rotation.y += (delta / 2);
     }

@@ -52,6 +52,28 @@ button {
   font-family: inherit;
 }
 
+div[data-scene] {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div[data-scene] > canvas {
+  transition: 0.2s;
+}
+
+div[data-scene].loading > canvas {
+  opacity: 0;
+}
+
+div[data-scene].loading svg {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+}
+
 canvas {
   user-select: none;
 }

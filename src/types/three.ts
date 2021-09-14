@@ -5,6 +5,8 @@ import { Loop } from "@lib";
 // THREE scenes, objects
 export interface IRenderContext {
   activeTheme: string;
+  loading: boolean;
+  setLoading: (value: boolean) => void;
   loop: Loop | null;
   setLoop: (value: Loop | null) => void;
   renderer: THREE.WebGLRenderer | null;

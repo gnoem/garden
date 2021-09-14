@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import * as styles from "./Scene.module.css";
 import { RenderContext } from "@contexts";
 import { useScene } from "@hooks";
 import { Crystal, DontTouch, Oracle } from "@models";
@@ -27,11 +26,12 @@ const Scene: React.FC<IScene> = ({ objects: objectNames, load }): JSX.Element =>
   const [ready, setReady] = useState<boolean>(false);
   const renderContext = useContext<IRenderContext>(RenderContext);
   const sceneComponents: IThreeScene = useScene(sceneRef, renderContext, load);
-  const { loading, setLoaded } = useVerifyLoaded(objectNames, sceneComponents);
+  const { setLoaded } = useVerifyLoaded(objectNames, sceneComponents, renderContext);
   
   useEffect(() => { // prepare scene before loading any objects
     if (!sceneComponents?.scene) return;
-    sceneComponents.scene.userData.setLoaded = setLoaded; // make setLoaded function available to scene children
+    // make setLoaded function available to scene children so they can "announce" when they're loaded
+    sceneComponents.scene.userData.setLoaded = setLoaded;
     setReady(true);
   }, [sceneComponents]);
 
@@ -54,7 +54,7 @@ const Scene: React.FC<IScene> = ({ objects: objectNames, load }): JSX.Element =>
   }
 
   return (
-    <div ref={createSceneRef} className={`${styles.Scene} ${loading ? styles.loading : ''}`}>
+    <div ref={createSceneRef} data-scene className={`${renderContext.loading ? 'loading' : ''}`}>
       {objectNames.map(createObjects)}
     </div>
   )
