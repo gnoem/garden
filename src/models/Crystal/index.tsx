@@ -12,7 +12,6 @@ const Crystal: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => 
     object.userData.tick = (delta) => {
       object.rotation.y += (delta / 2);
     }
-    //sceneComponents?.scene?.userData.enableWatchCursor?.(object);
   }, (obj) => {
     Object.assign(obj.material, {
       ior: 2.3,
@@ -20,6 +19,9 @@ const Crystal: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => 
       metalness: 0,
       color: new THREE.Color('#00FFFF'),
       reflectivity: 0.2,
+      transmission: 1,
+      clearcoat: 1,
+      clearcoatRoughness: 1,
     });
   });
 

@@ -26,4 +26,10 @@ graphical experiments
 }
 ```
 
-- [ ] figure out why hdri is blurry
+## todo
+
+- loading icon
+- pause/play animations
+- toggle theme
+- figure out if separate theme context is really necessary
+- get rid of transformObject its stupid

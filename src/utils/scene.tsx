@@ -14,9 +14,10 @@ export const addWatchCursor = (scene: THREE.Scene, camera: THREE.Camera): WatchC
 
 export const addEnvironmentTexture = (filename: string, { scene, renderer }: IThreeScene): void => {
   const pmremGenerator = new THREE.PMREMGenerator(renderer);
+  const envPath = `/textures/env/`;
 
   const rgbeLoader = new RGBELoader();
-  rgbeLoader.load(`/textures/${filename}.hdr`, (texture: THREE.Texture): void => {
+  rgbeLoader.load(`${envPath}${filename}.hdr`, (texture: THREE.Texture): void => {
     const envMap = pmremGenerator.fromEquirectangular(texture).texture;
     pmremGenerator.compileEquirectangularShader();
     scene.environment = envMap;
@@ -25,7 +26,7 @@ export const addEnvironmentTexture = (filename: string, { scene, renderer }: ITh
   });
 
   const textureLoader = new THREE.TextureLoader();
-  textureLoader.load(`/textures/${filename}.jpg`, (texture: THREE.Texture) => {
+  textureLoader.load(`${envPath}${filename}.jpg`, (texture: THREE.Texture) => {
     const rt = new THREE.WebGLCubeRenderTarget(texture.image.height);
     rt.fromEquirectangularTexture(renderer, texture);
     rt.texture.encoding = THREE.sRGBEncoding;

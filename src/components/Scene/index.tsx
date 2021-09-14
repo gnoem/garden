@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import * as styles from "./Scene.module.css";
+import { RenderContext } from "@contexts";
 import { useScene } from "@hooks";
-import { Crystal, Oracle } from "@models";
+import { Crystal, DontTouch, Oracle } from "@models";
 import { IObjectComponentProps, IRenderContext, IThreeScene } from "@types";
 import { useVerifyLoaded } from "./hooks";
-import { useContext } from "react";
-import { RenderContext } from "@contexts";
 
 export interface ILoadedObject {
   name: string;
@@ -14,7 +13,8 @@ export interface ILoadedObject {
 
 const objectsMap: { [objectName: string]: React.FC<IObjectComponentProps> } = {
   'oracle': Oracle,
-  'crystal': Crystal
+  'crystal': Crystal,
+  'donttouch': DontTouch
 }
 
 interface IScene {
