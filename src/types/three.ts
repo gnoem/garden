@@ -4,6 +4,7 @@ import { Loop } from "@lib";
 
 // THREE scenes, objects
 export interface IRenderContext {
+  activeTheme: string;
   loop: Loop | null;
   setLoop: (value: Loop | null) => void;
   renderer: THREE.WebGLRenderer | null;

@@ -6,5 +6,4 @@ export interface IHeadProps {
 
 export interface IThemeContext {
   activeTheme: string;
-  setActiveTheme: (value: string) => void;
 }

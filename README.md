@@ -28,8 +28,12 @@ graphical experiments
 
 ## todo
 
-- loading icon
-- pause/play animations
-- toggle theme
-- figure out if separate theme context is really necessary
-- get rid of transformObject its stupid
+- [ ] loading icon
+- [ ] button to pause/play animations
+- [ ] arrow buttons to toggle theme
+- [x] figure out if separate theme context is really necessary? could also just create a custom hook and maybe put it in RenderContext since they're somewhat related/in[ ] terdependent already
+- [ ] get rid of transformObject its stupid
+- [ ] add css for different themes
+- [ ] convert water to ts
+- [ ] clean up lib
+- [ ] link themes to url paths??

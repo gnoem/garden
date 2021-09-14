@@ -1,7 +1,7 @@
 import React from "react";
 import * as THREE from "three";
 import { Backdrop, Scene } from "@components";
-import { addCameraControls, addWater } from "./scene";
+import { addWater } from "./scene";
 import { addEnvironmentTexture } from "@utils";
 import { IThreeScene } from "@types";
 
@@ -16,8 +16,6 @@ const loadScene = (sceneComponents: IThreeScene) => {
   const primaryLight = new THREE.DirectionalLight(0xffffff, 1);
   primaryLight.position.set(50, 0, 0);
   scene.add(primaryLight);
-
-  addCameraControls(sceneComponents);
 }
 
 const load = () => {

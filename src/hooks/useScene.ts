@@ -14,6 +14,13 @@ const useScene = (sceneRef: HTMLElement | null, renderContext: IRenderContext, l
   });
 
   useEffect(() => {
+    if (isSet) {
+      console.log(`theme changed, unsetting scene`);
+      setIsSet(false);
+    }
+  }, [renderContext.activeTheme]);
+
+  useEffect(() => {
     if (!sceneRef || !renderContext || isSet) return;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -32,6 +39,7 @@ const useScene = (sceneRef: HTMLElement | null, renderContext: IRenderContext, l
     }
     const loop = new Loop(scene, camera, renderer);
     loadTheme?.({ scene, camera, renderer, loop });
+    console.log(`loading new theme!!!`);
     addWatchCursor(scene, camera);
     setScene({ scene, camera, renderer, loop });
     renderContext.setLoop(loop);

@@ -31,6 +31,8 @@ class Water extends Mesh {
 
 		const scope = this;
 
+		scope.name = 'water';
+
 		const textureWidth = options.textureWidth !== undefined ? options.textureWidth : 512;
 		const textureHeight = options.textureHeight !== undefined ? options.textureHeight : 512;
 
