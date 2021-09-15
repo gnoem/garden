@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'Carbon';
-  src: url("/fonts/Carbon.ttf");
+  src: url('/fonts/Carbon.ttf');
 }
 
 @font-face {
   font-family: 'NimbusSansBecker';
-  src: url("/fonts/NimbusSansBecker.otf");
+  src: url('/fonts/NimbusSansBecker.otf');
 }
 
 main {
@@ -104,8 +104,7 @@ h2 {
   margin-bottom: 1.5rem;
   line-height: 0.7;
   text-transform: lowercase;
-  -webkit-transform: scaleY(0.8);
-          transform: scaleY(0.8);
+  transform: scaleY(0.8);
 }
 
 h3 {
@@ -118,45 +117,31 @@ ul + h3 {
 
 main {
   font-family: var(--default-font);
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 main > nav {
   position: fixed;
   padding: var(--nav-margin);
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   z-index: 999;
-}
-
-main > nav[data-main] {
-  bottom: 0;
-  --button-size: 4rem;
-  --button-margin: calc(0.7 * var(--nav-margin));
-  --icon-rel-height: 45%;
-}
-
-main > nav:not([data-main]) {
-  top: 0;
-  /* filter: brightness(0.8); */
-  --button-size: 2.5rem;
-  --button-margin: calc(0.4 * var(--nav-margin));
-  --icon-rel-height: 55%;
+  &[data-main] {
+    bottom: 0;
+    --button-size: 4rem;
+    --button-margin: calc(0.7 * var(--nav-margin));
+    --icon-rel-height: 45%;
+  }
+  &:not([data-main]) {
+    top: 0;
+    /* filter: brightness(0.8); */
+    --button-size: 2.5rem;
+    --button-margin: calc(0.4 * var(--nav-margin));
+    --icon-rel-height: 55%;
+  }
 }
 
 main > nav.errorpage {
@@ -164,17 +149,10 @@ main > nav.errorpage {
 }
 
 main nav.buttons {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
   margin: 1rem -0.75rem -0.75rem 0;
 }
 
@@ -187,7 +165,7 @@ ul {
 }
 
 ul li {
-  list-style-image: url("https://i.imgur.com/AVg5Sve.png");
+  list-style-image: url('https://i.imgur.com/AVg5Sve.png');
   --marker-size: 0.25rem;
   --padding-size: 0.5rem;
 }
@@ -199,26 +177,21 @@ ul li + li {
 .glossy {
   padding: 0.5rem 1.5rem;
   border-radius: 999px;
-  background: -webkit-gradient(linear, left top, left bottom, from(var(--btn1-deep)), color-stop(80%, var(--btn1-mid)), to(var(--btn1-fade)));
-  background: linear-gradient(180deg, var(--btn1-deep), var(--btn1-mid) 80%, var(--btn1-fade));
+  background: linear-gradient(180deg,
+    var(--btn1-deep),
+    var(--btn1-mid) 80%,
+    var(--btn1-fade)
+  );
   color: var(--bgcolor);
   font-size: 0.875rem;
   text-decoration: none;
   text-transform: uppercase;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  -webkit-transition: 0.2s;
   transition: 0.2s;
-  -webkit-filter: none;
-          filter: none;
+  filter: none;
 }
 
 .glossy::before {
@@ -229,22 +202,17 @@ ul li + li {
   top: var(--top-distance);
   width: calc(100% - calc(var(--top-distance) * 6));
   height: 80%;
-  -webkit-transform: scaleY(0.7);
-          transform: scaleY(0.7);
-  -webkit-transform-origin: top;
-          transform-origin: top;
+  transform: scaleY(0.7);
+  transform-origin: top;
   border-radius: 999px;
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(255, 255, 255, 0)));
-  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  background: linear-gradient(hsla(0, 0%, 100%, 0.8), hsla(0, 0%, 100%, 0));
   opacity: 0.7;
 }
 
 .glossy:hover {
-  -webkit-transform: scale(1.1) rotate(-3deg);
-          transform: scale(1.1) rotate(-3deg);
-  color: #ac3f00;
-  -webkit-filter: hue-rotate(-60deg);
-          filter: hue-rotate(-60deg);
+  transform: scale(1.1) rotate(-3deg);
+  color: rgb(172, 63, 0);
+  filter: hue-rotate(-60deg);
 }
 
 @media screen and (max-width: 600px) {
@@ -255,4 +223,3 @@ ul li + li {
     font-size: 2.5rem;
   }
 }
-/*# sourceMappingURL=theme.css.map */

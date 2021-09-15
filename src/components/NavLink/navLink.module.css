@@ -1,5 +1,4 @@
 .navLink {
-  --button-size: 4rem;
   width: var(--button-size);
   height: var(--button-size);
   border-radius: 999px;
@@ -50,13 +49,13 @@
 }
 
 .navLink + .navLink {
-  margin-left: calc(0.7 * var(--nav-margin));
+  margin-left: var(--button-margin);
 }
 
 .navLink svg {
   position: relative;
   z-index: 5;
-  height: 45%;
+  height: var(--icon-rel-height);
   overflow: visible;
 }
 

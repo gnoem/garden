@@ -9,8 +9,18 @@ export interface IRenderContext {
   setLoop?: (value: Loop | null) => void;
 }
 
+export interface ISwitchTheme {
+  [direction: string]: () => void;
+}
+
+export interface IThemeContext {
+  activeTheme: string;
+  switchTheme: ISwitchTheme
+}
+
 export interface ISceneContext {
   activeTheme?: string;
+  switchTheme?: ISwitchTheme;
   isSet?: boolean;
   setIsSet?: (value: boolean) => void;
   loading?: boolean;

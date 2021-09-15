@@ -9,7 +9,7 @@ export const SceneContextProvider: React.FC = ({ children }): JSX.Element => {
   const [sceneContainer, setSceneContainer] = useState<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   
-  const { activeTheme } = useTheme(null, setLoading);
+  const { activeTheme, switchTheme } = useTheme(setLoading);
   const { renderer, loop, setLoop } = useRenderComponents(sceneContainer);
   const sceneComponents = useSceneComponents({ isSet, setIsSet, renderer, loop, setLoop });
   
@@ -20,6 +20,7 @@ export const SceneContextProvider: React.FC = ({ children }): JSX.Element => {
 
   const context: ISceneContext = {
     activeTheme,
+    switchTheme,
     isSet, setIsSet,
     loading, setLoading,
     setSceneContainer,

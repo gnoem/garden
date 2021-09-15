@@ -3,7 +3,3 @@ export interface IHeadProps {
   description?: string;
   image?: string;
 }
-
-export interface IThemeContext {
-  activeTheme: string;
-}
