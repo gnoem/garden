@@ -57,14 +57,14 @@ main.crystal {
 main.donttouch {
   --nav-margin: calc(var(--layout-margin) * 0.5);
   --text-color: #bdbbe0;
-  --accent-color: #c18cda;
+  --accent-color: #9c56bd;
   --bgcolor-preview: rgb(39, 15, 16);
   --bgcolor-rgb: 39, 15, 16;
   --bgcolor: rgb(var(--bgcolor-rgb));
   --btn1-text: var(--bgcolor);
-  --btn1-deep: #9c56bd;
+  --btn1-deep: #8442a3;
   --btn1-mid: var(--accent-color);
-  --btn1-fade: #dab7eb;
+  --btn1-fade: #c18cda;
   --btn2-text: var(--text-color);
   --btn2-deep: #273891;
   --btn2-mid: #4c5ba7;

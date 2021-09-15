@@ -8,12 +8,12 @@ import { useResizeWindows, useWindows } from "@hooks";
 import * as themes from "@themes";
 
 const Main: React.FC = (): JSX.Element => {
-  const { activeTheme, switchTheme } = useContext(SceneContext);
+  const { loading, activeTheme, switchTheme } = useContext(SceneContext);
   const theme = themes[activeTheme];
   const { refs, content, handleNavClick } = useWindows();
   useResizeWindows(refs);
   return (
-    <main className={theme.className ?? activeTheme}>
+    <main className={`${theme.className ?? activeTheme} ${loading ? 'loading' : ''}`}>
       <Nav ariaLabel="toggle theme" addClass="toggleTheme">
         <NavLink {...{
           name: 'previous',
