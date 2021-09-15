@@ -31,7 +31,6 @@ class Loop {
   }
 
   dispose() {
-    this.stop();
     this.updatables = [];
   }
 

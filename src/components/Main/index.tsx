@@ -3,12 +3,12 @@ import "@styles/globals.css";
 import "@styles/theme.css";
 import { Content, Nav, NavLink } from "@components";
 import { mainSiteNav } from "@config";
-import { RenderContext } from "@contexts";
+import { SceneContext } from "@contexts";
 import { useResizeWindows, useWindows } from "@hooks";
 import * as themes from "@themes";
 
 const Main: React.FC = (): JSX.Element => {
-  const { activeTheme } = useContext(RenderContext);
+  const { activeTheme } = useContext(SceneContext);
   const theme = themes[activeTheme];
   const { refs, content, handleNavClick } = useWindows();
   useResizeWindows(refs);

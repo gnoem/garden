@@ -1,5 +1,5 @@
 import React from "react";
-import { RenderContextProvider } from "@contexts"
+import { SceneContextProvider } from "@contexts"
 import { Head } from "@components";
 import { IHeadProps } from "@types";
 
@@ -9,10 +9,10 @@ interface AppHeadProps extends IHeadProps {
 
 const AppLayout: React.FC<AppHeadProps> = ({ children, title, image, description, headChildren }): JSX.Element => {
   return (
-    <RenderContextProvider>
+    <SceneContextProvider>
       <Head {...{ title, image, description }}>{headChildren}</Head>
       {children}
-    </RenderContextProvider>
+    </SceneContextProvider>
   )
 }
 

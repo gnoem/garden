@@ -22,7 +22,7 @@ const useAddObject = (
     });
     scene.add(object);
     loop.add(object);
-    scene.userData.setLoaded(object.name);
+    scene.userData.setLoaded?.(object.name);
     setAdded(true);
   }, [object, added]);
 

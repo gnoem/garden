@@ -1,9 +1,9 @@
-import { IRenderContext, IThreeScene } from "@types";
+import { ISceneContext } from "@types";
 import { mutateStateArray } from "@utils";
 import { useEffect, useState } from "react";
 import { ILoadedObject } from ".";
 
-export const useVerifyLoaded = (objectNames: string[], sceneComponents: IThreeScene, { activeTheme, loading, setLoading }: IRenderContext): {
+export const useVerifyLoaded = (objectNames: string[], { activeTheme, loading, setLoading }: ISceneContext): {
   setLoaded: (objectName: string) => void;
 } => {
   
@@ -30,7 +30,7 @@ export const useVerifyLoaded = (objectNames: string[], sceneComponents: IThreeSc
   }, [activeTheme]);
 
   useEffect(() => {
-    if (!sceneComponents || !objectsList || !loading) return;
+    if (!objectsList || !loading) return;
     const isReady = objectsList.every(obj => obj.loaded);
     const delay = 500; // wiggle room
     if (isReady) {
@@ -38,7 +38,7 @@ export const useVerifyLoaded = (objectNames: string[], sceneComponents: IThreeSc
         setLoading(false);
       }, delay);
     }
-  }, [sceneComponents, objectsList]);
+  }, [objectsList]);
 
   return {
     setLoaded

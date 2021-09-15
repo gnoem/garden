@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { RGBELoader, RoughnessMipmapper, WatchCursorControls } from "@lib";
 import { IThreeScene } from "@types";
 
-export const addWatchCursor = (scene: THREE.Scene, camera: THREE.Camera): WatchCursorControls => {
+export const addWatchCursor = ({ scene, camera }: IThreeScene): WatchCursorControls => {
   const controls = new WatchCursorControls(camera);
   scene.userData.enableWatchCursor = (object: THREE.Group | THREE.Mesh): void => {
     if (!object) return;
