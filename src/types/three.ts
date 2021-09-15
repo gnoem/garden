@@ -21,6 +21,15 @@ export interface IThreeScene {
   loop?: Loop | null;
 }
 
+export type IThemeContext = Pick<IRenderContext, 'activeTheme' | 'loading' | 'setLoading'>;
+
+export interface ISceneContext {
+  setSceneContainer: (value: HTMLDivElement) => void;
+  isSet: boolean;
+  sceneComponents: IThreeScene;
+  themeContext: IThemeContext;
+}
+
 export type SceneObject = THREE.Group | THREE.Mesh;
 
 export type SceneElement = SceneObject | THREE.DirectionalLight;

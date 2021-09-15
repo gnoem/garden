@@ -4,7 +4,7 @@ import { IObjectComponentProps, SceneObject } from "@types";
 
 const Crystal: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
   const object = useGLTF('gltf/crystal.gltf');
-
+  
   useAddObject(object, sceneComponents, (object: SceneObject): void => {
     object.name = name;
     object.position.set(0, 0, 2.5);

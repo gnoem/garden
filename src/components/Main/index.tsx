@@ -1,21 +1,23 @@
 import React, { useContext } from "react";
 import "@styles/globals.css";
 import "@styles/theme.css";
-import { Content, Nav, NavLink } from "@components";
+import { Content, Nav, NavLink, Backdrop, Scene } from "@components";
 import { mainSiteNav } from "@config";
-import { RenderContext } from "@contexts";
+import { SceneContext } from "@contexts";
 import { useResizeWindows, useWindows } from "@hooks";
 import * as themes from "@themes";
 
 const Main: React.FC = (): JSX.Element => {
-  const { activeTheme } = useContext(RenderContext);
-  const theme = themes[activeTheme];
+  const { themeContext } = useContext(SceneContext);
+  const theme = themes[themeContext.activeTheme];
   const { refs, content, handleNavClick } = useWindows();
   useResizeWindows(refs);
   return (
-    <main className={theme.className ?? activeTheme}>
+    <main className={theme.className ?? themeContext.activeTheme}>
       <Content>
-        {theme.load()}
+        <Backdrop>
+          <Scene objects={theme.objects} load={theme.load} />
+        </Backdrop>
         {content}
       </Content>
       <Nav main>

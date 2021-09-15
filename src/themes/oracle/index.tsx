@@ -1,11 +1,9 @@
-import React from "react";
 import * as THREE from "three";
-import { Backdrop, Scene } from "@components";
 import { addWater } from "./scene";
 import { addEnvironmentTexture } from "@utils";
 import { IThreeScene } from "@types";
 
-const loadScene = (sceneComponents: IThreeScene) => {
+const load = (sceneComponents: IThreeScene) => {
   const { scene, camera, loop } = sceneComponents;
   camera.position.set(0, 0, 10);
 
@@ -18,14 +16,17 @@ const loadScene = (sceneComponents: IThreeScene) => {
   scene.add(primaryLight);
 }
 
-const load = () => {
+/* const load = () => {
   return (
     <Backdrop>
       <Scene objects={['oracle']} load={loadScene} />
     </Backdrop>
   )
-}
+} */
+
+const objects = ['oracle'];
 
 export default {
+  objects,
   load
 }

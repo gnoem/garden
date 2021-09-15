@@ -11,8 +11,9 @@ class Loop {
   camera: THREE.Camera;
   renderer: THREE.WebGLRenderer;
   updatables: Updatable[];
+  isRunning: boolean;
 
-  constructor(scene: THREE.Scene, camera: THREE.Camera, renderer: THREE.WebGLRenderer) {
+  constructor(scene: THREE.Scene | null, camera: THREE.Camera | null, renderer: THREE.WebGLRenderer) {
     this.camera = camera;
     this.scene = scene;
     this.renderer = renderer;
@@ -20,18 +21,23 @@ class Loop {
   }
 
   start() {
-    this.renderer.setAnimationLoop((): void => {
-      this.tick();
-      this.renderer.render(this.scene, this.camera);
-    });
+    if (!this.isRunning) {
+      this.renderer.setAnimationLoop((): void => {
+        this.tick();
+        this.renderer.render(this.scene, this.camera);
+      });
+      this.isRunning = true;
+    }
   }
 
   stop() {
-    this.renderer.setAnimationLoop(null);
+    if (this.isRunning) {
+      this.renderer.setAnimationLoop(null);
+      this.isRunning = false;
+    }
   }
 
   dispose() {
-    this.stop();
     this.updatables = [];
   }
 

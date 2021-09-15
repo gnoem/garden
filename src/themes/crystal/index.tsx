@@ -1,10 +1,8 @@
-import React from "react";
 import * as THREE from "three";
-import { Backdrop, Scene } from "@components";
 import { IThreeScene } from "@types";
 import { addEnvironmentTexture, addWatchCursor } from "@utils";
 
-const loadScene = (sceneComponents: IThreeScene) => {
+const load = (sceneComponents: IThreeScene) => {
   const { scene, camera } = sceneComponents;
   camera.position.set(0, 0, 10);
   addEnvironmentTexture('hellscape', sceneComponents);
@@ -14,15 +12,18 @@ const loadScene = (sceneComponents: IThreeScene) => {
   scene.add(primaryLight);
 }
 
-const load = () => {
+const objects = ['crystal'];
+
+/* const load = () => {
   return (
     <Backdrop>
       <Scene objects={['crystal']} load={loadScene} />
     </Backdrop>
   )
-}
+} */
 
 export default {
+  objects,
   load,
   className: 'oracle'
 }

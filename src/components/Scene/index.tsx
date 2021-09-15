@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import { RenderContext } from "@contexts";
-import { useScene } from "@hooks";
+import { SceneContext } from "@contexts";
 import { Crystal, DontTouch, Oracle } from "@models";
-import { IObjectComponentProps, IRenderContext, IThreeScene } from "@types";
+import { IObjectComponentProps, ISceneContext, IThreeScene } from "@types";
 import { useVerifyLoaded } from "./hooks";
 
 export interface ILoadedObject {
@@ -22,22 +21,21 @@ interface IScene {
 }
 
 const Scene: React.FC<IScene> = ({ objects: objectNames, load }): JSX.Element => {
-  const [sceneRef, createSceneRef] = useState<HTMLDivElement | null>(null);
   const [ready, setReady] = useState<boolean>(false);
-  const renderContext = useContext<IRenderContext>(RenderContext);
-  const sceneComponents: IThreeScene = useScene(sceneRef, renderContext, load);
-  const { setLoaded } = useVerifyLoaded(objectNames, sceneComponents, renderContext);
-  
-  useEffect(() => { // prepare scene before loading any objects
-    if (!sceneComponents?.scene) return;
+  const { setSceneContainer, isSet, sceneComponents, themeContext } = useContext<ISceneContext>(SceneContext);
+  const { setLoaded } = useVerifyLoaded(objectNames, themeContext);
+
+  useEffect(() => {
+    if (!isSet) return;
+    // load theme lighting, environment, effects, etc.
+    load?.(sceneComponents);
     // make setLoaded function available to scene children so they can "announce" when they're loaded
     sceneComponents.scene.userData.setLoaded = setLoaded;
     setReady(true);
-  }, [sceneComponents]);
+  }, [isSet]);
 
   const createObjects = (objectName: string): JSX.Element | null => {
-    const { scene, camera, renderer } = sceneComponents;
-    if (!(scene && camera && renderer) || !ready) return null;
+    if (!(isSet && ready)) return null;
     const Element: React.FC<IObjectComponentProps> = objectsMap[objectName];
     if (!Element) {
       console.warn(`you forgot to add ${objectName} to objectsMap!`);
@@ -54,7 +52,7 @@ const Scene: React.FC<IScene> = ({ objects: objectNames, load }): JSX.Element =>
   }
 
   return (
-    <div ref={createSceneRef} data-scene className={`${renderContext.loading ? 'loading' : ''}`}>
+    <div ref={setSceneContainer} data-scene className={`${themeContext.loading ? 'loading' : ''}`}>
       {objectNames.map(createObjects)}
     </div>
   )

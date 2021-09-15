@@ -7,6 +7,7 @@ export { default as usePages } from "./usePages";
 export { default as usePrevious } from "./usePrevious";
 export { default as useResizeWindows } from "./useResizeWindows";
 export { default as useScene } from "./useScene";
+export { default as useCreateScene } from "./useCreateScene";
 export { default as useTabs } from "./useTabs";
 export { default as useTheme } from "./useTheme";
 export { default as useWatchCursor } from "./useWatchCursor";

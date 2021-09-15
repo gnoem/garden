@@ -1,9 +1,13 @@
-import { IThemeContext } from "@types";
 import { useEffect, useState } from "react";
 
 const themes: string[] = ['oracle', 'crystal', 'donttouch'];
 
-const useTheme = (canvas: HTMLCanvasElement, setLoading: any): IThemeContext => {
+interface IUseTheme {
+  activeTheme: string;
+  switchTheme: { [direction: string]: () => void }
+}
+
+const useTheme = (setLoading: (value: boolean) => void): IUseTheme => {
   const [activeTheme, setActiveTheme] = useState<number>(0);
 
   const fade = (fn) => {
@@ -37,10 +41,11 @@ const useTheme = (canvas: HTMLCanvasElement, setLoading: any): IThemeContext => 
     }
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeTheme, canvas]);
+  }, [activeTheme]);
 
   return {
-    activeTheme: themes[activeTheme]
+    activeTheme: themes[activeTheme],
+    switchTheme
   }
 }
 
