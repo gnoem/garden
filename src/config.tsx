@@ -93,6 +93,7 @@ export const pageConfig = {
         <ul>
           <li>software: blender and adobe illustrator</li>
           <li>fonts: Nimbus Sans Becker, Carbon</li>
+          <li>icons from <a href="https://fontawesome.com/" target="_blank">font awesome</a></li>
         </ul>
         <h3>thoughts</h3>
         <ul>
