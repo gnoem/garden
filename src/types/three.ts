@@ -1,12 +1,21 @@
 import React from "react";
 import * as THREE from "three";
-import { Loop } from "@lib";
 
 // THREE scenes, objects
 export interface IRenderContext {
   renderer?: THREE.WebGLRenderer | null;
-  loop?: Loop | null;
-  setLoop?: (value: Loop | null) => void;
+  loop?: ILoop | null;
+}
+
+export interface ILoop {
+  scene: THREE.Scene | null;
+  camera: THREE.Camera | null;
+  isLooping: boolean;
+  set: (scene: THREE.Scene, camera: THREE.Camera) => void;
+  start: () => void;
+  stop: () => void;
+  add: (obj: SceneObject) => void;
+  dispose: () => void;
 }
 
 export interface ISwitchTheme {
@@ -34,7 +43,7 @@ export interface IThreeScene {
   scene: THREE.Scene | null;
   camera: THREE.Camera | null;
   renderer: THREE.WebGLRenderer | null;
-  loop?: Loop | null;
+  loop?: ILoop | null;
 }
 
 export type SceneObject = THREE.Group | THREE.Mesh;

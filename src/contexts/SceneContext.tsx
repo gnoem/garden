@@ -10,8 +10,8 @@ export const SceneContextProvider: React.FC = ({ children }): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
   
   const { activeTheme, switchTheme } = useTheme(setLoading);
-  const { renderer, loop, setLoop } = useRenderComponents(sceneContainer);
-  const sceneComponents = useSceneComponents({ isSet, setIsSet, renderer, loop, setLoop });
+  const { renderer, loop } = useRenderComponents(sceneContainer);
+  const sceneComponents = useSceneComponents({ isSet, setIsSet, renderer, loop });
   
   useEffect(() => {
     loop?.dispose();

@@ -64,7 +64,7 @@ main div[data-scene] > canvas {
   transition: 0.2s;
 }
 
-main > nav {
+main > *:not(canvas) {
   transition: 0.5s;
 }
 
@@ -78,7 +78,7 @@ main.loading div[data-scene] svg {
   height: 100px;
 }
 
-main.loading > nav {
+main.loading > *:not(canvas) {
   filter: grayscale();
 }
 

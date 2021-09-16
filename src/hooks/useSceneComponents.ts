@@ -1,8 +1,15 @@
+import { ILoop, IThreeScene } from "@types";
 import { useEffect, useState } from "react";
 import * as THREE from "three";
-import { Loop } from "@lib";
 
-const useSceneComponents = ({ isSet, setIsSet, renderer, loop, setLoop }) => {
+interface ISceneComponentsArgs {
+  isSet: boolean;
+  setIsSet: (value: boolean) => void;
+  renderer: THREE.WebGLRenderer;
+  loop: ILoop;
+}
+
+const useSceneComponents = ({ isSet, setIsSet, renderer, loop }: ISceneComponentsArgs): IThreeScene => {
   const [scene, setScene] = useState<THREE.Scene | null>(null);
   const [camera, setCamera] = useState<THREE.Camera | null>(null);
 
@@ -12,14 +19,8 @@ const useSceneComponents = ({ isSet, setIsSet, renderer, loop, setLoop }) => {
     const newCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     setScene(newScene);
     setCamera(newCamera);
-    if (!loop) {
-      const newLoop = new Loop(newScene, newCamera, renderer);
-      setLoop(newLoop);
-      newLoop.start();
-    } else {
-      loop.scene = newScene;
-      loop.camera = newCamera;
-    }
+    loop.set(newScene, newCamera);
+    loop.start();
     setIsSet(true);
   }, [isSet, renderer]);
 

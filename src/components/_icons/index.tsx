@@ -131,6 +131,24 @@ export const Palette: React.FC<IIconOwnProps> = ({ style, color }): JSX.Element 
   );
 }
 
+export const Play: React.FC<IIconOwnProps> = ({ style, color }): JSX.Element => {
+  return (
+    <svg style={style} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+      {/* <!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --> */}
+      <path fill={color} d="M 460.811 215.821 L 124.795 18.878 C 97.493 2.882 55.683 18.403 55.683 57.962 L 55.683 451.759 C 55.683 487.247 94.535 508.635 124.795 490.843 L 460.811 293.994 C 490.785 276.486 490.881 233.328 460.811 215.821 Z" />
+    </svg>
+  );
+}
+
+export const Pause: React.FC<IIconOwnProps> = ({ style, color }): JSX.Element => {
+  return (
+    <svg style={style} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+      {/* <!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --> */}
+      <path fill={color} d="M144 479H48c-26.5 0-48-21.5-48-48V79c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zm304-48V79c0-26.5-21.5-48-48-48h-96c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48z" />
+    </svg>
+  );
+}
+
 export const Question: React.FC<IIconOwnProps> = ({ style, color }): JSX.Element => {
   return (
     <svg style={style} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">

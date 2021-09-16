@@ -8,10 +8,12 @@ import { useResizeWindows, useWindows } from "@hooks";
 import * as themes from "@themes";
 
 const Main: React.FC = (): JSX.Element => {
-  const { loading, activeTheme, switchTheme } = useContext(SceneContext);
+  const { loading, activeTheme, switchTheme, sceneComponents } = useContext(SceneContext);
+  const { loop } = sceneComponents;
   const theme = themes[activeTheme];
   const { refs, content, handleNavClick } = useWindows();
   useResizeWindows(refs);
+
   return (
     <main className={`${theme.className ?? activeTheme} ${loading ? 'loading' : ''}`}>
       <Nav ariaLabel="toggle theme" addClass="toggleTheme">
@@ -20,6 +22,11 @@ const Main: React.FC = (): JSX.Element => {
           icon: 'arrowLeft',
           handleClick: () => switchTheme.previous()
         }} />
+        {loop && <NavLink {...{
+          name: loop.isLooping ? 'pause' : 'play',
+          icon: loop.isLooping ? 'pause' : 'play',
+          handleClick: () => loop.isLooping ? loop.stop() : loop.start()
+        }} />}
         <NavLink {...{
           name: 'next',
           icon: 'arrowRight',

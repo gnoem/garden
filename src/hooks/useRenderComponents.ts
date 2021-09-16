@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import * as THREE from "three";
-import { Loop } from "@lib";
 import { IRenderContext } from "@types";
+import { useLoop } from "@hooks";
 
 const useRenderComponents = (sceneContainer: HTMLDivElement): IRenderContext => {
   const [renderer, setRenderer] = useState<THREE.WebGLRenderer | null>(null);
-  const [loop, setLoop] = useState<Loop | null>(null);
+  // initialize loop which will be persistent throughout scene changes
+  // scene and camera will be added to loop once renderComponents get passed into useSceneComponents
+  const loop = useLoop(renderer);
 
   useEffect(() => {
     if (renderer || !sceneContainer) return;
@@ -21,13 +23,10 @@ const useRenderComponents = (sceneContainer: HTMLDivElement): IRenderContext => 
     sceneContainer.appendChild(newRenderer.domElement);
   }, [sceneContainer]);
 
-  const renderComponents = {
+  return {
     renderer,
-    loop,
-    setLoop
+    loop
   }
-
-  return renderComponents;
 }
 
 export default useRenderComponents;

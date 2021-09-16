@@ -1,5 +1,5 @@
 import React from "react";
-import { Home, Book, Icons, Code, Palette, Question, ArrowLeft, ArrowRight } from "./components/_icons"
+import { Home, Book, Icons, Code, Palette, Question, ArrowLeft, ArrowRight, Pause, Play } from "./components/_icons"
 
 const externalLinks = [
   {
@@ -54,6 +54,8 @@ export const mainSiteNav = mainPages.map(pageName => ({
 export const iconsMap = {
   arrowLeft: (props) => <ArrowLeft {...props} />,
   arrowRight: (props) => <ArrowRight {...props} />,
+  pause: (props) => <Pause {...props} />,
+  play: (props) => <Play {...props} />,
   home: (props) => <Home {...props} />,
   question: (props) => <Question {...props} />,
   book: (props) => <Book {...props} />,

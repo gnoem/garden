@@ -11,26 +11,37 @@ class Loop {
   camera: THREE.Camera;
   renderer: THREE.WebGLRenderer;
   updatables: Updatable[];
+  isLooping: boolean;
 
   constructor(scene: THREE.Scene, camera: THREE.Camera, renderer: THREE.WebGLRenderer) {
     this.camera = camera;
     this.scene = scene;
     this.renderer = renderer;
     this.updatables = [];
+    this.isLooping = false;
   }
 
   start() {
-    this.renderer.setAnimationLoop((): void => {
-      this.tick();
-      this.renderer.render(this.scene, this.camera);
-    });
+    if (!this.isLooping) {
+      clock.start();
+      this.renderer.setAnimationLoop((): void => {
+        this.tick();
+        this.renderer.render(this.scene, this.camera);
+      });
+      this.isLooping = true;
+    }
   }
 
   stop() {
-    this.renderer.setAnimationLoop(null);
+    if (this.isLooping) {
+      clock.stop();
+      this.renderer.setAnimationLoop(null);
+      this.isLooping = false;
+    }
   }
 
   dispose() {
+    console.log('disposing');
     this.updatables = [];
   }
 
