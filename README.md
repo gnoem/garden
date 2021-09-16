@@ -43,6 +43,6 @@ graphical experiments
 - [ ] add resize listener to canvas and see if that fixes mobile safari screen size thing or figure out what was causing that
 - [x] scene component should just go in Main instead of having to be loaded in from theme file
 - [ ] add orbit controls to baby bottle?
-- [ ] fix touch screen sticky hover
-- [ ] prevent disembodied head from looking at nav button click
+- [x] fix touch screen sticky hover
+- [x] prevent disembodied head from looking at nav button click
 - [ ] fix filter hue on buttons
