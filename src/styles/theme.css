@@ -239,12 +239,14 @@ ul li + li {
   opacity: 0.7;
 }
 
-.glossy:hover {
-  -webkit-transform: scale(1.1) rotate(-3deg);
-          transform: scale(1.1) rotate(-3deg);
-  color: #ac3f00;
-  -webkit-filter: hue-rotate(-60deg);
-          filter: hue-rotate(-60deg);
+@media (hover: hover) {
+  .glossy:hover {
+    -webkit-transform: scale(1.1) rotate(-3deg);
+            transform: scale(1.1) rotate(-3deg);
+    color: #ac3f00;
+    -webkit-filter: hue-rotate(-60deg);
+            filter: hue-rotate(-60deg);
+  }
 }
 
 @media screen and (max-width: 600px) {

@@ -16,7 +16,7 @@ export const log = (logResult: string, overwrite: boolean = false, stick: boolea
 		containerDiv.appendChild(stickySpan);
 		containerDiv.appendChild(innerDiv);
 		containerDiv.appendChild(button);
-		document.body.appendChild(containerDiv);
+		document.body.prepend(containerDiv);
 		return innerDiv;
 	}
 	const span = document.querySelector('#log > span') ?? createDiv();

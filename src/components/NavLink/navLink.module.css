@@ -44,8 +44,10 @@
   filter: blur(0.5rem);
 }
 
-.navLink:hover {
-  transform: scale(1.2) rotate(-10deg);
+@media (hover: hover) {
+  .navLink:hover {
+    transform: scale(1.2) rotate(-10deg);
+  }
 }
 
 .navLink + .navLink {

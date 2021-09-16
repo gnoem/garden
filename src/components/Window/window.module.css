@@ -34,6 +34,7 @@
 
 .Window.minimized {
   max-height: 2rem;
+  overflow: hidden;
 }
 
 .Window.minimized .Content {
@@ -166,8 +167,10 @@
   fill: var(--btn1-text);
 }
 
-.Bar > div:first-of-type button:hover {
-  transform: scale(1.1);
+@media (hover: hover) {
+  .Bar > div:first-of-type button:hover {
+    transform: scale(1.1);
+  }
 }
 
 .Window.active .Bar {
