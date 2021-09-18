@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { IMeshComponentsObject, IMeshRegistrationObject, IMeshesObject, ISimpleObject, MeshRegistrationFunction, IMeshComponentProps, SceneElement } from "@types";
 export * from "./scene";
 export { getInitialState, getAnimationData } from "./interactions";
-export { createMaterialFromTextures, defineMaterial } from "./materials";
+export * from "./materials";
 
 export const mutateStateArray = (update: ((array: any[]) => void) | null) => (prevArray: React.SetStateAction<any>): any[] => {
   const arrayToReturn = [...prevArray];

@@ -27,8 +27,8 @@ const load = (sceneComponents: IThreeScene) => {
   const { scene, camera } = sceneComponents;
   camera.position.set(0, 0, 10);
   addEnvironmentTexture('pinkclouds', sceneComponents);
-  const primaryLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
-  primaryLight.position.set(0, -20, 0);
+  const primaryLight = new THREE.DirectionalLight( 0xffffff, 0.1 );
+  primaryLight.position.set(0, 20, 0);
   scene.add(primaryLight);
   addOrbitControls(sceneComponents);
 }

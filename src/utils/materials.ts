@@ -1,25 +1,29 @@
 import * as THREE from "three";
 import { ILoadTextureInput, ISimpleObject, ILoadedTextureMap, ThreeMaterial, MappedTexturePath } from "@types";
 
+const textureLoader = new THREE.TextureLoader();
+
+export const loadTexture = (path: string): THREE.Texture => {
+  const texture = textureLoader.load(path, (texture: THREE.Texture): THREE.Texture => {
+    texture.encoding = THREE.sRGBEncoding;
+    texture.flipY = false;
+    return texture;
+  });
+  return texture;
+}
+
 export const createMaterialFromTextures = ({ textures, createMaterial }: ILoadTextureInput): ThreeMaterial => {
 
   let material: ThreeMaterial;
 
   const texturesArray: MappedTexturePath[] = Object.entries(textures);
-  const textureLoader = new THREE.TextureLoader();
 
   const getLoadedTextures = (): ILoadedTextureMap => {
     return texturesArray.reduce((
       obj: ILoadedTextureMap,
       [map, path]: MappedTexturePath
       ): ILoadedTextureMap => {
-      const texture = textureLoader.load(path, (texture: THREE.Texture): THREE.Texture => {
-        texture.name = map;
-        texture.encoding = THREE.sRGBEncoding;
-        texture.flipY = false;
-        return texture;
-      });
-      obj[map] = texture;
+      obj[map] = loadTexture(path);
       return obj;
     }, {});
   }
