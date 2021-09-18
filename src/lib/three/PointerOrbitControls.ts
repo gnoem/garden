@@ -1,3 +1,5 @@
+// failed attempt at modified orbitcontrols
+
 import { ISimpleObject, SceneObject } from "@types";
 import * as THREE from "three";
 
@@ -126,7 +128,7 @@ class PointerOrbitControls extends THREE.EventDispatcher {
 			if (e.pointerType === 'touch') {
 				rotateStart.set(e.pageX, e.pageY);
 			}
-			
+
 		}
 
 		const onPointerUp = (e) => {

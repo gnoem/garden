@@ -23,7 +23,8 @@ const useLoop = (renderer: THREE.WebGLRenderer): ILoop => {
 
   const dispose = () => {
     for (const object of updatables) {
-      object.userData.disconnect?.(); // remove any event listeners, etc. - this is primarly for updatables like CameraControls that need cleanup beyond just discontinuing their tick() method
+      // remove any event listeners, etc. - this is primarly for updatables like CameraControls that need cleanup beyond just discontinuing their tick() method
+      object.userData.disconnect?.();
     }
     setUpdatables([]);
   }
