@@ -39,7 +39,7 @@ graphical experiments
 - [x] add css for different themes
 - [x] convert water to ts
 - [ ] clean up lib
-- [ ] link themes to url paths??
+- [x] link themes to url paths??
 - [ ] add resize listener to canvas and see if that fixes mobile safari screen size thing or figure out what was causing that
 - [x] scene component should just go in Main instead of having to be loaded in from theme file
 - [ ] add orbit controls to baby bottle?
