@@ -73,6 +73,25 @@ main.donttouch {
   --window-glow: #5C6BB2;
 }
 
+main.handlewithcare {
+  --nav-margin: calc(var(--layout-margin) * 0.5);
+  --text-color: #FEE3E2;
+  --accent-color: #ffe6ee;
+  --bgcolor-preview: rgb(140, 108, 167);
+  --bgcolor-rgb: 140, 108, 167;
+  --bgcolor: rgb(var(--bgcolor-rgb));
+  --btn1-text: var(--bgcolor);
+  --btn1-deep: #f3bed0;
+  --btn1-mid: var(--accent-color);
+  --btn1-fade: #fff0f5;
+  --btn2-text: var(--text-color);
+  --btn2-deep: #795191;
+  --btn2-mid: #b78ad1;
+  --btn2-fade: #d5b0eb;
+  --window-drag: #dab7eb;
+  --window-glow: #EFB7D7;
+}
+
 main.groovy {
   --nav-margin: calc(var(--layout-margin) * 0.5);
   --text-color: #ffedc7;

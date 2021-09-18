@@ -4,14 +4,14 @@ import { SceneObject, IThreeScene, ThreeGroupChild } from "@types";
 
 const useAddObject = (
   object: SceneObject | null,
-  { scene, loop }: IThreeScene,
+  { scene }: IThreeScene,
   configObject: (object: SceneObject) => void,
   configChildMeshes?: (object: THREE.Mesh) => void
 ): boolean => {
   const [added, setAdded] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!(object && scene && loop) || added) return;
+    if (!(object && scene) || added) return;
     configObject(object);
     object.traverse((child: ThreeGroupChild): void => {
       if (child instanceof THREE.Mesh) {
@@ -21,7 +21,6 @@ const useAddObject = (
       }
     });
     scene.add(object);
-    loop.add(object);
     scene.userData.setLoaded?.(object.name);
     setAdded(true);
   }, [object, added]);

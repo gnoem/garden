@@ -11,6 +11,7 @@ const Crystal: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => 
     object.userData.tick = (delta) => {
       object.rotation.y += (delta / 2);
     }
+    sceneComponents.loop?.add(object);
   }, (obj) => {
     Object.assign(obj.material, {
       ior: 2.3,

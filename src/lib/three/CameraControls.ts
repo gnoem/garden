@@ -64,6 +64,8 @@ interface IBoundariesObj {
 class CameraControls extends THREE.EventDispatcher {
 
 	domElement: HTMLElement;
+	clickToDrag: boolean;
+	enableLocomotion: boolean;
 	mouseDown: boolean;
 	isPanning: boolean;
 	isPinching: boolean;
@@ -92,6 +94,8 @@ class CameraControls extends THREE.EventDispatcher {
 		super();
 		
 		this.domElement = domElement;
+		this.clickToDrag = false;
+		this.enableLocomotion = false;
 		this.mouseDown = false;
 		this.isEnabled = false;
 
@@ -173,6 +177,8 @@ class CameraControls extends THREE.EventDispatcher {
 		}
 
 		const isMovementPermitted = (newPosition: THREE.Vector3): boolean => {
+
+			if (!scope.enableLocomotion) return false;
 
 			const isNull = (x: any): boolean => x == null;
 			if (
@@ -292,7 +298,7 @@ class CameraControls extends THREE.EventDispatcher {
 		}
 
 		const onMouseMove = (e: MouseEvent): void => {
-			if (!scope.mouseDown) return;
+			if (scope.clickToDrag && !scope.mouseDown) return;
 
 			const movementX = e.movementX || 0;
 			const movementY = e.movementY || 0;

@@ -10,6 +10,7 @@ const DontTouch: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) =
     object.userData.tick = (delta) => {
       object.rotation.y -= (delta / 2);
     }
+    sceneComponents.loop?.add(object);
   });
 
   return null;

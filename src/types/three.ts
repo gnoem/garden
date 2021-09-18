@@ -43,7 +43,7 @@ export interface IThreeScene {
   scene: THREE.Scene | null;
   camera: THREE.Camera | null;
   renderer: THREE.WebGLRenderer | null;
-  loop?: ILoop | null;
+  loop: ILoop | null;
 }
 
 export type SceneObject = THREE.Group | THREE.Mesh;

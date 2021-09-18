@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { SceneContext } from "@contexts";
-import { Crystal, DontTouch, Oracle } from "@models";
+import { Crystal, DontTouch, HandleWithCare, Oracle } from "@models";
 import { IObjectComponentProps, ISceneContext, IThreeScene } from "@types";
 import { useVerifyLoaded } from "./hooks";
 import { addWatchCursor } from "@utils";
@@ -13,7 +13,8 @@ export interface ILoadedObject {
 const objectsMap: { [objectName: string]: React.FC<IObjectComponentProps> } = {
   'oracle': Oracle,
   'crystal': Crystal,
-  'donttouch': DontTouch
+  'donttouch': DontTouch,
+  'handlewithcare': HandleWithCare
 }
 
 interface IScene {
