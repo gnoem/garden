@@ -2,11 +2,11 @@ import { IThemeContext } from "@types";
 import { randomIntBetween } from "@utils";
 import { useEffect, useState } from "react";
 
-const themes: string[] = ['oracle', 'crystal', 'donttouch', 'handlewithcare'];
+const themes: string[] = ['oracle', 'donttouch', 'handlewithcare'];
 
 const useTheme = (setLoading: any): IThemeContext => {
   const random = randomIntBetween(0, themes.length);
-  const [activeTheme, setActiveTheme] = useState<number>(3 ?? random);
+  const [activeTheme, setActiveTheme] = useState<number>(random);
 
   const fade = (fn) => {
     // whenever theme is toggled, FIRST dim the canvas, THEN change the theme to prevent flicker

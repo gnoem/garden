@@ -232,7 +232,7 @@ ul li + li {
   .glossy:hover {
     transform: scale(1.1) rotate(-3deg);
     color: rgb(172, 63, 0);
-    filter: hue-rotate(-60deg);
+    /* filter: hue-rotate(-60deg); */
   }
 }
 

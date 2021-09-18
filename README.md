@@ -45,5 +45,5 @@ graphical experiments
 - [ ] add orbit controls to baby bottle?
 - [x] fix touch screen sticky hover
 - [x] prevent disembodied head from looking at nav button click
-- [ ] fix filter hue on buttons
+- [x] fix filter hue on buttons
 - [ ] maybe model components should be included inside theme folders

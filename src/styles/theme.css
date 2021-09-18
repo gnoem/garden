@@ -263,8 +263,7 @@ ul li + li {
     -webkit-transform: scale(1.1) rotate(-3deg);
             transform: scale(1.1) rotate(-3deg);
     color: #ac3f00;
-    -webkit-filter: hue-rotate(-60deg);
-            filter: hue-rotate(-60deg);
+    /* filter: hue-rotate(-60deg); */
   }
 }
 
