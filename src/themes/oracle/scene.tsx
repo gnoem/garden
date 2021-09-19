@@ -1,19 +1,26 @@
+import React from "react";
 import * as THREE from "three";
 import { Water } from "@lib";
 import { ILoop, IObjectComponentProps, SceneObject } from "@types";
-import { useAddObject, useGLTF } from "@hooks";
+import { Model } from "@components";
 
-export const Oracle: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
-  const object = useGLTF('gltf/oracle.glb');
+export const Oracle: React.FC<IObjectComponentProps> = ({ name, sceneComponents }): JSX.Element => {
 
-  useAddObject(object, sceneComponents, (object: SceneObject): void => {
-    object.name = name;
+  const configObject = (object: SceneObject): void => {
     object.position.set(0, 1.5, 2);
     sceneComponents.scene?.userData.enableWatchCursor?.(object);
     sceneComponents.loop?.add(object);
-  });
+  }
 
-  return null;
+  return (
+    <Model {...{
+      ...sceneComponents,
+      name,
+      filename: 'oracle.glb',
+      configObject
+    }} />
+  )
+  
 }
 
 export const addWater = (scene: THREE.Scene, loop: ILoop): Water => {

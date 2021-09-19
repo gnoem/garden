@@ -1,17 +1,26 @@
-import { useAddObject, useGLTF } from "@hooks";
+import React from "react";
+import { Model } from "@components";
 import { IObjectComponentProps, SceneObject } from "@types";
 
-export const DontTouch: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
-  const object = useGLTF('gltf/donttouch.gltf');
+export const DontTouch: React.FC<IObjectComponentProps> = ({ name, sceneComponents }): JSX.Element => {
 
-  useAddObject(object, sceneComponents, (object: SceneObject): void => {
-    object.name = name;
+  const filename = 'donttouch.gltf';
+
+  const configObject = (object: SceneObject): void => {
     object.position.set(0, -2.75, 5);
     object.userData.tick = (delta) => {
       object.rotation.y -= (delta / 2);
     }
     sceneComponents.loop?.add(object);
-  });
+  }
 
-  return null;
+  return (
+    <Model {...{
+      ...sceneComponents,
+      name,
+      filename,
+      configObject
+    }} />
+  )
+
 }

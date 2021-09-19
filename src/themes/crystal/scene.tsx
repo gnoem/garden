@@ -1,18 +1,20 @@
+import React from "react";
 import * as THREE from "three";
-import { useAddObject, useGLTF } from "@hooks";
 import { IObjectComponentProps, SceneObject } from "@types";
+import { Model } from "@components";
 
-export const Crystal: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
-  const object = useGLTF('gltf/crystal.gltf');
+export const Crystal: React.FC<IObjectComponentProps> = ({ name, sceneComponents }): JSX.Element => {
+  const filename = 'crystal.gltf';
 
-  useAddObject(object, sceneComponents, (object: SceneObject): void => {
-    object.name = name;
+  const configObject = (object: SceneObject): void => {
     object.position.set(0, 0, 2.5);
     object.userData.tick = (delta) => {
       object.rotation.y += (delta / 2);
     }
     sceneComponents.loop?.add(object);
-  }, (obj) => {
+  }
+
+  const configChildMeshes = (obj) => {
     Object.assign(obj.material, {
       ior: 2.3,
       roughness: 0,
@@ -23,7 +25,16 @@ export const Crystal: React.FC<IObjectComponentProps> = ({ name, sceneComponents
       clearcoat: 1,
       clearcoatRoughness: 1,
     });
-  });
+  }
 
-  return null;
+  return (
+    <Model {...{
+      ...sceneComponents,
+      name,
+      filename,
+      configObject,
+      configChildMeshes
+    }} />
+  )
+
 }
