@@ -1,7 +1,7 @@
 import { useAddObject, useGLTF } from "@hooks";
 import { IObjectComponentProps, SceneObject } from "@types";
 
-const DontTouch: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
+export const DontTouch: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
   const object = useGLTF('gltf/donttouch.gltf');
 
   useAddObject(object, sceneComponents, (object: SceneObject): void => {
@@ -15,5 +15,3 @@ const DontTouch: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) =
 
   return null;
 }
-
-export default DontTouch;

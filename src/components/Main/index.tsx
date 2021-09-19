@@ -54,7 +54,7 @@ const Main: React.FC = (): JSX.Element => {
 const ThreeScene: React.FC<{ theme: any }> = ({ theme }): JSX.Element => {
   return (
     <Backdrop styles={theme.backdropStyles}>
-      <Scene objects={theme.objects} load={theme.load} />
+      <Scene objects={theme.objects} loadTheme={theme.load} />
     </Backdrop>
   )
 }

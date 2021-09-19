@@ -46,6 +46,10 @@ export interface IThreeScene {
   loop: ILoop | null;
 }
 
+export interface ISceneObjectsMap {
+  [objectName: string]: React.FC<IObjectComponentProps>;
+}
+
 export type SceneObject = THREE.Group | THREE.Mesh;
 
 export type SceneElement = SceneObject | THREE.DirectionalLight;

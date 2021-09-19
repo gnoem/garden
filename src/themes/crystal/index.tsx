@@ -1,8 +1,11 @@
 import * as THREE from "three";
 import { IThreeScene } from "@types";
 import { addEnvironmentTexture } from "@utils";
+import { Crystal } from "./scene";
 
-const objects = ['crystal'];
+const objects = {
+  'crystal': Crystal
+}
 
 const load = (sceneComponents: IThreeScene) => {
   const { scene, camera } = sceneComponents;

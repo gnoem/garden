@@ -1,9 +1,11 @@
 import * as THREE from "three";
-import { addWater } from "./scene";
+import { addWater, Oracle } from "./scene";
 import { addEnvironmentTexture } from "@utils";
 import { IThreeScene } from "@types";
 
-const objects = ['oracle'];
+const objects = {
+  'oracle': Oracle
+}
 
 const load = (sceneComponents: IThreeScene) => {
   const { scene, camera, loop } = sceneComponents;

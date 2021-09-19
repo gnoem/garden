@@ -1,25 +1,22 @@
 import * as THREE from "three";
-import { CameraControls, Loop, Water } from "@lib";
-import { IThreeScene } from "@types";
+import { Water } from "@lib";
+import { ILoop, IObjectComponentProps, SceneObject } from "@types";
+import { useAddObject, useGLTF } from "@hooks";
 
-export const addCameraControls = ({ scene, camera, renderer, loop }: IThreeScene): CameraControls => {
-  const controls = new CameraControls(camera, renderer.domElement);
-  controls.setBoundaries({
-    x: [-1000, 1000],
-    y: [10, 10],
-    z: [-1000, 1000],
+export const Oracle: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
+  const object = useGLTF('gltf/oracle.glb');
+
+  useAddObject(object, sceneComponents, (object: SceneObject): void => {
+    object.name = name;
+    object.position.set(0, 1.5, 2);
+    sceneComponents.scene?.userData.enableWatchCursor?.(object);
+    sceneComponents.loop?.add(object);
   });
 
-  scene.userData.enableCameraControls = (enableControls: boolean = true): void => {
-    if (enableControls) controls.connect();
-    else controls.dispose();
-  }
-
-  loop.add(controls);
-  return controls;
+  return null;
 }
 
-export const addWater = (scene: THREE.Scene, loop: Loop): Water => {
+export const addWater = (scene: THREE.Scene, loop: ILoop): Water => {
   const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
   const water = new Water(waterGeometry, {
     textureWidth: 512,

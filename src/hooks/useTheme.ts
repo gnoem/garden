@@ -1,11 +1,14 @@
 import { useEffect } from "react";
 import { useThemeUrl } from "@hooks";
 import { IThemeContext } from "@types";
+import { randomIntBetween } from "@utils";
 
 const themes = ['oracle', 'donttouch', 'handlewithcare'];
+const enableKeyboardNav = false;
 
 const useTheme = (setLoading: any): IThemeContext => {
-  const [activeTheme, setActiveTheme] = useThemeUrl(themes);
+  const randomThemeId = randomIntBetween(0, themes.length);
+  const [activeTheme, setActiveTheme] = useThemeUrl(themes, randomThemeId);
 
   const fade = (fn) => {
     // whenever theme is toggled, FIRST dim the canvas, THEN change the theme to prevent flicker
@@ -26,6 +29,7 @@ const useTheme = (setLoading: any): IThemeContext => {
   }
 
   useEffect(() => {
+    if (!enableKeyboardNav) return;
     const handleKeyDown = (e) => {
       switch (e.code) {
         case 'ArrowRight': {
@@ -44,7 +48,7 @@ const useTheme = (setLoading: any): IThemeContext => {
   }, [activeTheme]);
 
   return {
-    activeTheme: themes[activeTheme] ?? themes[0],
+    activeTheme: themes[activeTheme] ?? themes[randomThemeId],
     switchTheme
   }
 }

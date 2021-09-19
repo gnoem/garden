@@ -1,13 +1,17 @@
-import { ISceneContext } from "@types";
+import { ISceneContext, ISceneObjectsMap } from "@types";
 import { mutateStateArray } from "@utils";
 import { useEffect, useState } from "react";
 import { ILoadedObject } from ".";
 
-export const useVerifyLoaded = (objectNames: string[], { activeTheme, loading, setLoading }: ISceneContext): {
-  setLoaded: (objectName: string) => void;
-} => {
+export const useVerifyLoaded = (
+  objects: ISceneObjectsMap,
+  sceneContext: ISceneContext
+): { setLoaded: (objectName: string) => void; } => {
   
-  const loadedObjects = objectNames.map((name: string): ILoadedObject => ({
+  const { activeTheme, loading, setLoading } = sceneContext;
+  
+  // create array to keep track of which objects have loaded
+  const loadedObjects = Object.keys(objects).map((name: string): ILoadedObject => ({
     name,
     loaded: false
   }));

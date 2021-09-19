@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { useAddObject, useGLTF } from "@hooks";
 import { IObjectComponentProps, SceneObject } from "@types";
 
-const Crystal: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
+export const Crystal: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
   const object = useGLTF('gltf/crystal.gltf');
 
   useAddObject(object, sceneComponents, (object: SceneObject): void => {
@@ -27,5 +27,3 @@ const Crystal: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => 
 
   return null;
 }
-
-export default Crystal;

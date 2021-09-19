@@ -2,8 +2,9 @@ import * as THREE from "three";
 import { useAddObject, useGLTF } from "@hooks";
 import { IObjectComponentProps, SceneObject } from "@types";
 import { loadTexture } from "@utils";
+import { OrbitControls } from "@lib";
 
-const HandleWithCare: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
+export const HandleWithCare: React.FC<IObjectComponentProps> = ({ name, sceneComponents }) => {
   const object = useGLTF('gltf/handlewithcare.gltf');
 
   useAddObject(object, sceneComponents, (object: SceneObject): void => {
@@ -30,4 +31,20 @@ const HandleWithCare: React.FC<IObjectComponentProps> = ({ name, sceneComponents
   return null;
 }
 
-export default HandleWithCare;
+export const addOrbitControls = ({ camera, renderer, loop }) => {
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.minPolarAngle = Math.PI * 0.3;
+  controls.maxPolarAngle = Math.PI * 0.45;
+  controls.minAzimuthAngle = -Math.PI * 0.25;
+  controls.maxAzimuthAngle = Math.PI * 0.25;
+  controls.rotateSpeed = 0.02;
+  controls.minDistance = 7;
+  controls.maxDistance = 22;
+  controls.enableMousePan = false;
+  controls.enableMouseZoom = false;
+  controls.speedTouchRotation = 10;
+  controls.setDragToRotate(false);
+  loop.add(controls);
+  controls.connect();
+  return controls;
+}
