@@ -19,7 +19,7 @@ export interface ILoop {
 }
 
 export interface ISwitchTheme {
-  [direction: string]: () => void;
+  [direction: string]: (num?: number) => void;
 }
 
 export interface IThemeContext {

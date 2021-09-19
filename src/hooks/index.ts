@@ -11,5 +11,6 @@ export { default as useResizeWindows } from "./useResizeWindows";
 export { default as useSceneComponents } from "./useSceneComponents";
 export { default as useTabs } from "./useTabs";
 export { default as useTheme } from "./useTheme";
+export { default as useThemeUrl } from "./useThemeUrl";
 export { default as useWatchCursor } from "./useWatchCursor";
 export { default as useWindows } from "./useWindows";

@@ -1,25 +1,11 @@
-import { IThemeContext } from "@types";
-import { randomIntBetween } from "@utils";
 import { useEffect } from "react";
-import { useQueryParam, NumberParam } from "use-query-params";
+import { useThemeUrl } from "@hooks";
+import { IThemeContext } from "@types";
 
 const themes = ['oracle', 'donttouch', 'handlewithcare'];
 
 const useTheme = (setLoading: any): IThemeContext => {
-  const [themeFromUrl, setThemeFromUrl] = useQueryParam('t', NumberParam);
-  const randomTheme = randomIntBetween(0, themes.length);
-  const activeTheme = themeFromUrl ?? randomTheme;
-
-  useEffect(() => {
-    if (themeFromUrl == null) {
-      setThemeFromUrl(activeTheme);
-      return;
-    }
-    const themeFromUrlIsValid = themes.map((_, i) => i).includes(themeFromUrl); // e.g. [0, 1, 2, 3].includes(themeFromUrl);
-    if (!themeFromUrlIsValid) {
-      setThemeFromUrl(randomTheme);
-    }
-  }, [themeFromUrl]);
+  const [activeTheme, setActiveTheme] = useThemeUrl(themes);
 
   const fade = (fn) => {
     // whenever theme is toggled, FIRST dim the canvas, THEN change the theme to prevent flicker
@@ -29,10 +15,13 @@ const useTheme = (setLoading: any): IThemeContext => {
 
   const switchTheme = {
     next: () => {
-      fade(() => setThemeFromUrl(num => (num < themes.length - 1) ? num + 1 : 0));
+      fade(() => setActiveTheme(num => (num < themes.length - 1) ? num + 1 : 0));
     },
     previous: () => {
-      fade(() => setThemeFromUrl(num => (num === 0) ? themes.length - 1 : num - 1));
+      fade(() => setActiveTheme(num => (num === 0) ? themes.length - 1 : num - 1));
+    },
+    to: (num: number) => {
+      fade(() => setActiveTheme(num));
     }
   }
 
@@ -55,7 +44,7 @@ const useTheme = (setLoading: any): IThemeContext => {
   }, [activeTheme]);
 
   return {
-    activeTheme: themes[activeTheme] ?? themes[randomTheme],
+    activeTheme: themes[activeTheme] ?? themes[0],
     switchTheme
   }
 }

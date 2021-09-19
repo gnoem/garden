@@ -8,7 +8,6 @@ module.exports = {
   plugins: [
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-typescript",
-    "gatsby-plugin-use-query-params",
     {
       resolve: `gatsby-plugin-google-gtag`,
       options: {
