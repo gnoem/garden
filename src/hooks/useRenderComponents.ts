@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import * as THREE from "three";
-import { IRenderContext } from "@types";
 import { useLoop } from "@hooks";
+import { ILoop } from "@types";
+
+interface IRenderContext {
+  renderer?: THREE.WebGLRenderer | null;
+  loop?: ILoop | null;
+}
 
 const useRenderComponents = (sceneContainer: HTMLDivElement): IRenderContext => {
   const [renderer, setRenderer] = useState<THREE.WebGLRenderer | null>(null);

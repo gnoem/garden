@@ -2,11 +2,6 @@ import React from "react";
 import * as THREE from "three";
 
 // THREE scenes, objects
-export interface IRenderContext {
-  renderer?: THREE.WebGLRenderer | null;
-  loop?: ILoop | null;
-}
-
 export interface ILoop {
   scene: THREE.Scene | null;
   camera: THREE.Camera | null;
@@ -20,11 +15,6 @@ export interface ILoop {
 
 export interface ISwitchTheme {
   [direction: string]: (num?: number) => void;
-}
-
-export interface IThemeContext {
-  activeTheme: string;
-  switchTheme: ISwitchTheme
 }
 
 export interface ISceneContext {
@@ -51,8 +41,6 @@ export interface ISceneObjectsMap {
 }
 
 export type SceneObject = THREE.Group | THREE.Mesh;
-
-export type SceneElement = SceneObject | THREE.DirectionalLight;
 
 export type ThreeGroupChild = THREE.Object3D | THREE.Mesh;
 
@@ -108,37 +96,7 @@ export interface IInteraction {
   events?: IInteractionEventMap | null;
 }
 
-// materials & textures
-
-export type ThreeMaterial = THREE.MeshBasicMaterial | THREE.MeshPhysicalMaterial | THREE.MeshPhongMaterial;
-
-export type MappedTexturePath = [string, string];
-
-export interface ITexturePathMap {
-  [mapName: string]: string;
-}
-
-export interface ILoadedTextureMap {
-  [mapName: string]: THREE.Texture;
-}
-
-export interface ILoadTextureInput {
-  textures: ITexturePathMap;
-  createMaterial: (textures: ILoadedTextureMap) => any;
-}
-
-// advanced mesh config for loading multi-mesh GLTFs
-
-export interface IMeshConfig {
-  name?: string;
-  material?: ThreeMaterial | 'loading',
-  userData?: {
-    hoverCursor?: string;
-    events?: {
-      click?: () => void;
-    }
-  }
-}
+// advanced mesh component config for loading multi-mesh GLTFs
 
 export interface IMeshComponentProps {
   name: string;

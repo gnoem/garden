@@ -1,7 +1,6 @@
 export { default as useDataTemplate } from "./useDataTemplate";
 export { default as useDragonDrop } from "./useDragonDrop";
 export { default as useGLTF } from "./useGLTF";
-export { default as useLoadTextures } from "./useLoadTextures";
 export { default as useLoop } from "./useLoop";
 export { default as usePrevious } from "./usePrevious";
 export { default as useRenderComponents } from "./useRenderComponents";

@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import * as THREE from "three";
-import { IMeshComponentsObject, IMeshRegistrationObject, IMeshesObject, ISimpleObject, MeshRegistrationFunction, IMeshComponentProps, SceneElement } from "@types";
+import { IMeshComponentsObject, IMeshRegistrationObject, IMeshesObject, ISimpleObject, MeshRegistrationFunction, IMeshComponentProps } from "@types";
 export * from "./scene";
 export { getInitialState, getAnimationData } from "./interactions";
 export * from "./materials";
@@ -37,16 +37,16 @@ export const sumMatrices = (firstMatrix: number[], secondMatrix: number[]): numb
 }
 
 export const transformObject: {
-  [property: string]: (model: SceneElement, [x, y, z]: number[]) => void
+  [property: string]: (model: THREE.Object3D, [x, y, z]: number[]) => void
 } = {
-  position: (model: SceneElement, [x, y, z]: number[]): void => {
+  position: (model: THREE.Object3D, [x, y, z]: number[]): void => {
     Object.assign(model.position, { x, y, z });
   },
-  rotation: (model: SceneElement, [x, y, z]: number[]): void => {
+  rotation: (model: THREE.Object3D, [x, y, z]: number[]): void => {
     const euler = new THREE.Euler(...[x, y, z]);
     model.setRotationFromEuler(euler);
   },
-  scale: (model: SceneElement, [x, y, z]: number[]): void => {
+  scale: (model: THREE.Object3D, [x, y, z]: number[]): void => {
     Object.assign(model.scale, { x, y, z });
   }
 }

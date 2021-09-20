@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { useThemeUrl } from "@hooks";
-import { IThemeContext } from "@types";
+import { ISwitchTheme } from "@types";
 import { randomIntBetween } from "@utils";
+
+interface IThemeContext {
+  activeTheme: string;
+  switchTheme: ISwitchTheme
+}
 
 const themes = ['oracle', 'donttouch', 'handlewithcare'];
 const enableKeyboardNav = false;
