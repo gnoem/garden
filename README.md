@@ -29,7 +29,6 @@ graphical experiments
 ## todo
 
 - [x] smooth transition between themes
-- [ ] add a loading indicator to theme transition?
 - [x] fix useVerifyLoaded
 - [x] button to pause/play animations
 - [x] arrow buttons to toggle theme
@@ -40,10 +39,13 @@ graphical experiments
 - [x] convert water to ts
 - [x] clean up lib
 - [x] link themes to url paths??
-- [ ] add resize listener to canvas and see if that fixes mobile safari screen size thing or figure out what was causing that
 - [x] scene component should just go in Main instead of having to be loaded in from theme file
 - [x] fix touch screen sticky hover
 - [x] prevent disembodied head from looking at nav button click
 - [x] fix filter hue on buttons
 - [x] maybe model components should be included inside theme folders
 - [x] create a better wrapper for model components, possibly by redoing/expanding useAddObject
+- [ ] add a loading indicator to theme transition?
+- [ ] add resize listener to canvas and see if that fixes mobile safari screen size thing or figure out what was causing that
+- [ ] themes should be able to have their own distinct UIs, not the same UI with a different color palette
+- [ ] fix SSR with window in theme url file!!
