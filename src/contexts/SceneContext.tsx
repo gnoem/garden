@@ -5,23 +5,25 @@ import { ISceneContext } from "@types";
 export const SceneContext = React.createContext<ISceneContext>(null);
 
 export const SceneContextProvider: React.FC = ({ children }): JSX.Element => {
-  const [isSet, setIsSet] = useState<boolean>(false);
+  const [sceneIsSet, setSceneIsSet] = useState<boolean>(false);
   const [sceneContainer, setSceneContainer] = useState<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   
   const { activeTheme, switchTheme } = useTheme(setLoading);
   const { renderer, loop } = useRenderComponents(sceneContainer);
-  const sceneComponents = useSceneComponents({ isSet, setIsSet, renderer, loop });
+  const sceneComponents = useSceneComponents({ sceneIsSet, setSceneIsSet, renderer, loop });
   
   useEffect(() => {
     loop?.dispose();
-    if (isSet) setIsSet(false);
+    if (sceneIsSet) {
+      setSceneIsSet(false);
+    }
   }, [activeTheme]);
 
   const context: ISceneContext = {
     activeTheme,
     switchTheme,
-    isSet, setIsSet,
+    sceneIsSet, setSceneIsSet,
     loading, setLoading,
     setSceneContainer,
     sceneComponents

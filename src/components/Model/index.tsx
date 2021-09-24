@@ -27,14 +27,17 @@ const Model: React.FC<IModelComponent> = ({ name, filename, scene, configObject,
       }
     });
     scene.add(object);
+    console.log(`added ${name}`);
     setAdded(true);
   }, [object, added]);
 
   useEffect(() => {
+    if (!scene.userData.setLoaded) return console.log(`no userData.setLoaded`);
     if (added) {
+      console.log(`setLoaded(${name})`);
       scene.userData.setLoaded?.(name);
     }
-  }, [added]);
+  }, [scene.userData.setLoaded, added]);
 
   return null;
 }
