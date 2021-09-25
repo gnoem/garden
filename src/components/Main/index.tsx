@@ -6,9 +6,10 @@ import { mainSiteNav } from "@config";
 import { SceneContext } from "@contexts";
 import { useResizeWindows, useWindows } from "@hooks";
 import * as themes from "@themes";
+import { IThreeScene } from "@types";
 
 const Main: React.FC = (): JSX.Element => {
-  const { loading, activeTheme, switchTheme, sceneComponents } = useContext(SceneContext);
+  const { setSceneContainer, loading, activeTheme, switchTheme, sceneComponents } = useContext(SceneContext);
   const { loop } = sceneComponents;
   const theme = themes[activeTheme];
   const { refs, content, handleNavClick } = useWindows();
@@ -34,7 +35,7 @@ const Main: React.FC = (): JSX.Element => {
         }} />
       </Nav>
       <Content>
-        {theme.objects ? <ThreeScene {...{ theme }} /> : theme.load()}
+        {theme.objects ? <SceneWrapper {...{ theme, sceneComponents, loading, setSceneContainer }} /> : theme.load()}
         {content}
       </Content>
       <Nav main>
@@ -51,10 +52,20 @@ const Main: React.FC = (): JSX.Element => {
   )
 }
 
-const ThreeScene: React.FC<{ theme: any }> = ({ theme }): JSX.Element => {
+interface ISceneWrapperProps {
+  theme: any;
+  sceneComponents: IThreeScene;
+  loading: boolean;
+  setSceneContainer: (element: HTMLElement) => void;
+}
+
+const SceneWrapper: React.FC<ISceneWrapperProps> = ({ theme, sceneComponents, loading, setSceneContainer }): JSX.Element => {
+  const { scene, camera, renderer } = sceneComponents;
   return (
     <Backdrop styles={theme.backdropStyles}>
-      <Scene objects={theme.objects} loadTheme={theme.load} />
+      <div ref={setSceneContainer} data-scene className={`${loading ? 'loading' : ''}`}>
+        {(scene && camera && renderer) && <Scene objects={theme.objects} loadTheme={theme.load} />}
+      </div>
     </Backdrop>
   )
 }

@@ -3,6 +3,7 @@ import { SceneContext } from "@contexts";
 import { ISceneContext, ISceneObjectsMap, IThreeScene } from "@types";
 import { useObjectRollCall } from "./hooks";
 import { addWatchCursor } from "@utils";
+import { usePrevious } from "@hooks";
 
 interface IScene {
   objects: ISceneObjectsMap;
@@ -11,34 +12,34 @@ interface IScene {
 
 const Scene: React.FC<IScene> = ({ objects, loadTheme }): JSX.Element => {
 
-  const { setSceneContainer, isSet, activeTheme, loading, setLoading, sceneComponents } = useContext<ISceneContext>(SceneContext);
-  const { scene, camera, renderer } = sceneComponents;
-  
+  const { setLoading, sceneComponents } = useContext<ISceneContext>(SceneContext);
   const [sceneReady, setSceneReady] = useState<boolean>(false);
   const { rollCallEnabled, allObjectsLoaded } = useObjectRollCall(objects, { sceneComponents });
 
-  // all of these need to be true before we can start loading objects
+  // what needs to be true before we can start loading objects
   const readyStates = [
-    isSet,
-    scene && camera && renderer,
     sceneReady,
     rollCallEnabled
   ]
 
   const ready = useMemo(() => readyStates.every(Boolean), readyStates);
 
+  const prevScene = usePrevious(sceneComponents.scene);
+  const newScene = prevScene?.uuid === sceneComponents.scene?.uuid;
+
   useEffect(() => {
+    if (!newScene) return;
     if (sceneReady) setSceneReady(false);
-  }, [activeTheme]);
+  }, [newScene]);
 
   useEffect(() => { // prepare scene before loading any objects
-    if (!isSet || sceneReady) return;
+    if (sceneReady || !newScene) return;
     // add effects
     addWatchCursor(sceneComponents);
     // load theme lighting, env, effects, etc
     loadTheme?.(sceneComponents);
     setSceneReady(true);
-  }, [isSet, sceneReady]);
+  }, [sceneReady, newScene]);
 
   // "lift the curtain" when all objects have loaded
   useEffect(() => {
@@ -67,9 +68,9 @@ const Scene: React.FC<IScene> = ({ objects, loadTheme }): JSX.Element => {
   }, [objects, sceneComponents]);
 
   return (
-    <div ref={setSceneContainer} data-scene className={`${loading ? 'loading' : ''}`}>
+    <>
       {ready && loadSceneObjects()}
-    </div>
+    </>
   )
 }
 

@@ -20,8 +20,6 @@ export interface ISwitchTheme {
 export interface ISceneContext {
   activeTheme?: string;
   switchTheme?: ISwitchTheme;
-  isSet?: boolean;
-  setIsSet?: (value: boolean) => void;
   loading?: boolean;
   setLoading?: (value: boolean) => void;
   setSceneContainer?: (value: HTMLDivElement) => void;

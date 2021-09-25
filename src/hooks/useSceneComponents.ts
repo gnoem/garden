@@ -3,15 +3,19 @@ import { useEffect, useState } from "react";
 import * as THREE from "three";
 
 interface ISceneComponentsArgs {
-  isSet: boolean;
-  setIsSet: (value: boolean) => void;
+  activeTheme: string;
   renderer: THREE.WebGLRenderer;
   loop: ILoop;
 }
 
-const useSceneComponents = ({ isSet, setIsSet, renderer, loop }: ISceneComponentsArgs): IThreeScene => {
+const useSceneComponents = ({ activeTheme, renderer, loop }: ISceneComponentsArgs): IThreeScene => {
+  const [isSet, setIsSet] = useState<boolean>(false);
   const [scene, setScene] = useState<THREE.Scene | null>(null);
   const [camera, setCamera] = useState<THREE.Camera | null>(null);
+
+  useEffect(() => {
+    if (isSet) setIsSet(false);
+  }, [activeTheme]);
 
   useEffect(() => {
     if (isSet || !renderer) return;

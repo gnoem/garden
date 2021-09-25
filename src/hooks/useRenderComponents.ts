@@ -8,11 +8,20 @@ interface IRenderContext {
   loop?: ILoop | null;
 }
 
-const useRenderComponents = (sceneContainer: HTMLDivElement): IRenderContext => {
+interface IRenderComponentsProps {
+  sceneContainer: HTMLDivElement;
+  activeTheme: string;
+}
+
+const useRenderComponents = ({ activeTheme, sceneContainer }: IRenderComponentsProps): IRenderContext => {
   const [renderer, setRenderer] = useState<THREE.WebGLRenderer | null>(null);
   // initialize loop which will be persistent throughout scene changes
   // scene and camera will be added to loop once renderComponents get passed into useSceneComponents
   const loop = useLoop(renderer);
+
+  useEffect(() => {
+    loop?.dispose();
+  }, [activeTheme]);
 
   useEffect(() => {
     if (renderer || !sceneContainer) return;
