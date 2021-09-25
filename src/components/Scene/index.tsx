@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { SceneContext } from "@contexts";
 import { ISceneContext, ISceneObjectsMap, IThreeScene } from "@types";
 import { useObjectRollCall } from "./hooks";
@@ -12,20 +12,22 @@ interface IScene {
 const Scene: React.FC<IScene> = ({ objects, loadTheme }): JSX.Element => {
   const [ready, setReady] = useState<boolean>(false);
 
-  const { setSceneContainer, isSet, loading, setLoading, sceneComponents } = useContext<ISceneContext>(SceneContext);
-  const { scene, camera, renderer } = sceneComponents;
+  const { setSceneContainer, isSet, activeTheme, loading, setLoading, sceneComponents } = useContext<ISceneContext>(SceneContext);
 
-  // ready states
   const { rollCallEnabled, allObjectsLoaded } = useObjectRollCall(objects, { sceneComponents });
-  
+
+  useEffect(() => {
+    if (ready) setReady(false);
+  }, [activeTheme]);
+
   useEffect(() => { // prepare scene before loading any objects
-    if (!isSet || !rollCallEnabled) return;
+    if (!isSet || ready) return;
     // add effects
     addWatchCursor(sceneComponents);
     // load theme lighting, env, effects, etc
     loadTheme?.(sceneComponents);
     setReady(true);
-  }, [isSet, rollCallEnabled]);
+  }, [isSet, ready]);
 
   useEffect(() => {
     if (allObjectsLoaded) {
@@ -36,23 +38,25 @@ const Scene: React.FC<IScene> = ({ objects, loadTheme }): JSX.Element => {
     }
   }, [allObjectsLoaded]);
 
-  const createObjects = ([objectName, Object]): JSX.Element | null => {
-    if (!(scene && camera && renderer) || !ready) return null;
-    if (!Object) {
-      console.error(`could not load ${objectName} due to missing component!`);
-      return null;
-    } else return (
-      <Object {...{
-        key: objectName,
-        name: objectName,
-        sceneComponents
-      }} />
-    )
-  }
+  const loadSceneObjects = useCallback(() => {
+    const createObjectComponents = ([objectName, Object]): JSX.Element | null => {
+      if (!Object) {
+        console.error(`could not load ${objectName} due to missing component!`);
+        return null;
+      } else return (
+        <Object {...{
+          key: objectName,
+          name: objectName,
+          sceneComponents
+        }} />
+      )
+    }
+    return Object.entries(objects).map(createObjectComponents);
+  }, [objects, sceneComponents]);
 
   return (
     <div ref={setSceneContainer} data-scene className={`${loading ? 'loading' : ''}`}>
-      {Object.entries(objects).map(createObjects)}
+      {(ready && rollCallEnabled) && loadSceneObjects()}
     </div>
   )
 }
