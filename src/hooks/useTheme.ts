@@ -4,8 +4,9 @@ import { ISwitchTheme } from "@types";
 import { randomIntBetween } from "@utils";
 
 interface IThemeContext {
+  fetchedTheme: boolean;
   activeTheme: string;
-  switchTheme: ISwitchTheme
+  switchTheme: ISwitchTheme;
 }
 
 const themes = ['oracle', 'donttouch', 'handlewithcare'];
@@ -53,6 +54,7 @@ const useTheme = (setLoading: any): IThemeContext => {
   }, [activeTheme]);
 
   return {
+    fetchedTheme: activeTheme !== null,
     activeTheme: themes[activeTheme] ?? themes[randomThemeId],
     switchTheme
   }
