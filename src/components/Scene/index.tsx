@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, { useState, useEffect, useContext, useCallback, useMemo } from "react";
 import { SceneContext } from "@contexts";
 import { ISceneContext, ISceneObjectsMap, IThreeScene } from "@types";
 import { useObjectRollCall } from "./hooks";
@@ -10,25 +10,37 @@ interface IScene {
 }
 
 const Scene: React.FC<IScene> = ({ objects, loadTheme }): JSX.Element => {
-  const [ready, setReady] = useState<boolean>(false);
 
   const { setSceneContainer, isSet, activeTheme, loading, setLoading, sceneComponents } = useContext<ISceneContext>(SceneContext);
-
+  const { scene, camera, renderer } = sceneComponents;
+  
+  const [sceneReady, setSceneReady] = useState<boolean>(false);
   const { rollCallEnabled, allObjectsLoaded } = useObjectRollCall(objects, { sceneComponents });
 
+  // all of these need to be true before we can start loading objects
+  const readyStates = [
+    isSet,
+    scene && camera && renderer,
+    sceneReady,
+    rollCallEnabled
+  ]
+
+  const ready = useMemo(() => readyStates.every(Boolean), readyStates);
+
   useEffect(() => {
-    if (ready) setReady(false);
+    if (sceneReady) setSceneReady(false);
   }, [activeTheme]);
 
   useEffect(() => { // prepare scene before loading any objects
-    if (!isSet || ready) return;
+    if (!isSet || sceneReady) return;
     // add effects
     addWatchCursor(sceneComponents);
     // load theme lighting, env, effects, etc
     loadTheme?.(sceneComponents);
-    setReady(true);
-  }, [isSet, ready]);
+    setSceneReady(true);
+  }, [isSet, sceneReady]);
 
+  // "lift the curtain" when all objects have loaded
   useEffect(() => {
     if (allObjectsLoaded) {
       const delay = 500; // some wiggle room
@@ -56,7 +68,7 @@ const Scene: React.FC<IScene> = ({ objects, loadTheme }): JSX.Element => {
 
   return (
     <div ref={setSceneContainer} data-scene className={`${loading ? 'loading' : ''}`}>
-      {(ready && rollCallEnabled) && loadSceneObjects()}
+      {ready && loadSceneObjects()}
     </div>
   )
 }
