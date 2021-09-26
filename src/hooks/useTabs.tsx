@@ -1,15 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { mutateArray } from "@utils";
-
-export interface ITab {
-  name: string;
-  scrolled: number;
-}
+import { ITab } from "@types";
 
 const useTabs = (defaultTabs: ITab[]) => {
   const [openInBackground, setOpenInBackground] = useState<boolean>(false);
   const [tabs, setTabs] = useState<ITab[]>(defaultTabs);
-  const [justOpened, setJustOpened] = useState<string | undefined>(null);
+  const [justOpened, setJustOpened] = useState<string | null>(null);
   // ^^ workaround for openTab function to work properly - openTab is called directly from the Tab component which doesn't have access to the latest tabs and openInBackground state :( todo see if there's a better way
   const [activeTab, setActiveTab] = useState<ITab>(defaultTabs[0]);
   const closeTab = useCallback((tabName: string) => {
@@ -38,7 +34,7 @@ const useTabs = (defaultTabs: ITab[]) => {
     savePrevTabScroll();
     if (tabs.some((tab: ITab) => tab.name === justOpened)) { // if tab is open in the background/not currently active
       const foundTab = tabs.find((tab: ITab) => tab.name === justOpened);
-      const amountScrolled = foundTab.scrolled;
+      const amountScrolled = foundTab?.scrolled ?? null;
       setActiveTab({ name: justOpened, scrolled: amountScrolled });
     } else { // opening new tab
       setTabs(mutateArray((array: ITab[]) => array.push({ name: justOpened, scrolled: 0 })));

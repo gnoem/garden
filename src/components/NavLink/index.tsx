@@ -8,7 +8,7 @@ interface INavLinkProps {
   handleClick: (name: string) => void;
 }
 
-const NavLink: React.FC<INavLinkProps> = ({ name, icon, handleClick }): JSX.Element => {
+const NavLink: React.FC<INavLinkProps> = ({ name, icon, handleClick }): (JSX.Element | null) => {
   const showIcon = iconsMap[icon];
   if (!showIcon) return null;
   return (

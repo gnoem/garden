@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const useThemeUrl = (themes: string[], fallbackId: number): [number, Dispatch<SetStateAction<number>>] => {
+const useThemeUrl = (themes: string[], fallbackId: number): [number | null, Dispatch<SetStateAction<number | null>>] => {
   const isValid = (themeId: any): boolean => themes.map((_, i) => i).includes(themeId); // e.g. [0, 1, 2, 3].includes(themeId);
 
   const [themeId, setThemeId] = useState<number | null>(null);

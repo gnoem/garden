@@ -4,12 +4,12 @@ import { useLoop } from "@hooks";
 import { ILoop } from "@types";
 
 interface IRenderContext {
-  renderer?: THREE.WebGLRenderer | null;
-  loop?: ILoop | null;
+  renderer: THREE.WebGLRenderer | null;
+  loop: ILoop;
 }
 
 interface IRenderComponentsProps {
-  sceneContainer: HTMLDivElement;
+  sceneContainer: HTMLDivElement | null;
   activeTheme: string;
 }
 

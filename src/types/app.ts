@@ -3,3 +3,8 @@ export interface IHeadProps {
   description?: string;
   image?: string;
 }
+
+export interface ITab {
+  name: string;
+  scrolled: number | null;
+}

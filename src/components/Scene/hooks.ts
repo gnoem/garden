@@ -1,4 +1,4 @@
-import { ISceneContext, ISceneObjectsMap } from "@types";
+import { ISceneObjectsMap, IThreeScene } from "@types";
 import { useEffect, useState } from "react";
 
 interface ILoadedObjectsMap {
@@ -20,9 +20,7 @@ its two responsibilities are to:
 2. let Scene know when all the objects in the scene have loaded, which is Scene's signal to go ahead and "lift the curtain" (remove the loading screen)
 */
 
-export const useObjectRollCall = (objects: ISceneObjectsMap, { sceneComponents }: ISceneContext): IObjectRollCall => {
-
-  const { scene } = sceneComponents;
+export const useObjectRollCall = (objects: ISceneObjectsMap, { scene }: IThreeScene): IObjectRollCall => {
   
   // create object of type ILoadedObjectsMap to keep track of which objects have loaded
   const createLoadedObjectsMap = (objects) => {

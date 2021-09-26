@@ -6,7 +6,7 @@ interface INavProps {
   addClass?: string;
 }
 
-const Nav: React.FC<INavProps> = ({ children, main, ariaLabel, addClass }): JSX.Element => {
+const Nav: React.FC<INavProps> = ({ children, main, ariaLabel, addClass }): (JSX.Element | null) => {
   if (!children) return null;
   return (
     <nav data-main={main} aria-label={main ? `Main site` : ariaLabel} className={addClass}>

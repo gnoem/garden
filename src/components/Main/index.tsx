@@ -9,7 +9,7 @@ import * as themes from "@themes";
 import { IThreeScene } from "@types";
 
 const Main: React.FC = (): JSX.Element => {
-  const { setSceneContainer, loading, activeTheme, switchTheme, sceneComponents } = useContext(SceneContext);
+  const { setSceneContainer, loading, activeTheme, switchTheme, sceneComponents } = useContext(SceneContext)!;
   const { loop } = sceneComponents;
   const theme = themes[activeTheme];
   const { refs, content, handleNavClick } = useWindows();
@@ -56,7 +56,7 @@ interface ISceneWrapperProps {
   theme: any;
   sceneComponents: IThreeScene;
   loading: boolean;
-  setSceneContainer: (element: HTMLElement) => void;
+  setSceneContainer: (element: HTMLDivElement) => void;
 }
 
 const SceneWrapper: React.FC<ISceneWrapperProps> = ({ theme, sceneComponents, loading, setSceneContainer }): JSX.Element => {

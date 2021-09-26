@@ -4,9 +4,9 @@ import * as styles from "./window.module.css";
 import { Icons } from "@components";
 import { pageConfig } from "@config";
 import { useDataTemplate, useDragonDrop, useTabs } from "@hooks";
-import { ITab } from "@hooks/useTabs";
 import { useRandomizeWindow } from "./hooks";
 import Tabs from "./Tabs";
+import { ITab } from "@types";
 
 interface IWindowProps {
   name: string;
@@ -19,11 +19,12 @@ interface IWindowProps {
 }
 
 const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focusWindow, switchToWindow, closeWindow, children }): JSX.Element => {
-  const [localRef, setLocalRef] = useState<HTMLDivElement | undefined>(null);
-  const [barRef, setBarRef] = useState<HTMLDivElement | undefined>(null);
-  const [maxHeight, setMaxHeight] = useState<{ minimized: boolean; value?: number }>({ minimized: false });
-  const prevMaxHeight = useRef<number | undefined>(null);
+  const [localRef, setLocalRef] = useState<HTMLDivElement | null>(null);
+  const [barRef, setBarRef] = useState<HTMLDivElement | null>(null);
+  const [maxHeight, setMaxHeight] = useState<{ minimized: boolean; value?: number | null }>({ minimized: false });
+  const prevMaxHeight = useRef<number | null>(null);
   const toggleMinimized = (): void => {
+    if (!(localRef && barRef)) return;
     if (maxHeight.minimized) {
       if (!active) focusWindow();
       setTimeout(() => {
@@ -106,24 +107,29 @@ interface IContentProps {
 }
 
 const Content: React.FC<IContentProps> = ({ children, name, activeTab, setActiveTab }): JSX.Element => {
-  const contentRef = useRef(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
   // if switching between tabs, scroll to tab's saved scroll position:
   useEffect(() => {
     if (!contentRef.current) return;
+    const amountScrolled = activeTab.scrolled ?? 0;
     contentRef.current.scrollTop = (name === activeTab.name)
       ? 0
-      : activeTab.scrolled;
+      : amountScrolled;
     if (name === activeTab.name) {
       setTimeout(() => {
-        contentRef.current.scrollTop = activeTab.scrolled;
+        if (contentRef.current) {
+          contentRef.current.scrollTop = amountScrolled;
+        }
       }, 1); // stupid workaround but i'm done wasting time on this
     }
   }, [contentRef.current, activeTab.name]);
+
   const saveScrollPosition = useCallback(() => { // todo debounce?
     if (!contentRef.current) return;
     setActiveTab(prevState => ({
       ...prevState,
-      scrolled: contentRef.current.scrollTop
+      scrolled: contentRef.current?.scrollTop
     }));
   }, [activeTab.name, contentRef.current]);
   return (
@@ -134,6 +140,7 @@ const Content: React.FC<IContentProps> = ({ children, name, activeTab, setActive
 }
 
 const createButton = (open) => (path) => {
+  if (!(path && open)) return null;
   const link = document.createElement('a');
   link.setAttribute('data-link', path);
   link.className = `glossy ${path.split(' ').join('-')}`;
@@ -143,6 +150,7 @@ const createButton = (open) => (path) => {
 }
 
 const createLink = (open) => (path, text) => {
+  if (!(path && text)) return null;
   const link = document.createElement('a');
   link.setAttribute('data-link', path);
   link.className = `${path.split(' ').join('-')}`;

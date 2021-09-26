@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback, useMemo } from "react";
 import { SceneContext } from "@contexts";
-import { ISceneContext, ISceneObjectsMap, IThreeScene } from "@types";
+import { ISceneObjectsMap, IThreeScene } from "@types";
 import { useObjectRollCall } from "./hooks";
 import { addWatchCursor } from "@utils";
 import { usePrevious } from "@hooks";
@@ -12,9 +12,9 @@ interface IScene {
 
 const Scene: React.FC<IScene> = ({ objects, loadTheme }): JSX.Element => {
 
-  const { setLoading, sceneComponents } = useContext<ISceneContext>(SceneContext);
+  const { setLoading, sceneComponents } = useContext(SceneContext)!;
   const [sceneReady, setSceneReady] = useState<boolean>(false);
-  const { rollCallEnabled, allObjectsLoaded } = useObjectRollCall(objects, { sceneComponents });
+  const { rollCallEnabled, allObjectsLoaded } = useObjectRollCall(objects, sceneComponents);
 
   // what needs to be true before we can start loading objects
   const readyStates = [

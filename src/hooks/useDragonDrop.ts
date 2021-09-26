@@ -2,7 +2,7 @@ import { preventTransformOffscreen } from "@utils";
 import { useEffect, useState } from "react";
 
 const useDragonDrop = (element, draggable = element) => {
-  const [mouseDownCoords, setMouseDownCoords] = useState<{ x: number; y: number } | undefined>(null);
+  const [mouseDownCoords, setMouseDownCoords] = useState<{ x: number; y: number } | null>(null);
   const [dragging, setDragging] = useState<boolean>(false);
   useEffect(() => {
     if (!mouseDownCoords) return;
@@ -43,7 +43,7 @@ const useDragonDrop = (element, draggable = element) => {
       e.preventDefault();
       const { clientX, clientY } = (e.type === 'touchmove') ? e.touches[0] : e;
       // get offset at time of mousedown
-      const [offsetX, offsetY] = [mouseDownCoords.x, mouseDownCoords.y];
+      const [offsetX, offsetY] = [mouseDownCoords?.x, mouseDownCoords?.y];
       element.style.transform = `translate3d(${clientX + offsetX}px, ${clientY + offsetY}px, 0)`;
     }
     window.addEventListener('mousemove', dragElement);

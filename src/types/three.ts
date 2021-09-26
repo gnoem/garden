@@ -14,16 +14,18 @@ export interface ILoop {
 }
 
 export interface ISwitchTheme {
-  [direction: string]: (num?: number) => void;
+  next: () => void;
+  previous: () => void;
+  to: (num: number) => void;
 }
 
 export interface ISceneContext {
-  activeTheme?: string;
-  switchTheme?: ISwitchTheme;
-  loading?: boolean;
-  setLoading?: (value: boolean) => void;
-  setSceneContainer?: (value: HTMLDivElement) => void;
-  sceneComponents?: IThreeScene;
+  activeTheme: string;
+  switchTheme: ISwitchTheme;
+  loading: boolean;
+  setLoading: (value: boolean) => void;
+  setSceneContainer: (value: HTMLDivElement) => void;
+  sceneComponents: IThreeScene;
 }
 
 export interface IThreeScene {
@@ -31,7 +33,7 @@ export interface IThreeScene {
   scene: THREE.Scene | null;
   camera: THREE.Camera | null;
   renderer: THREE.WebGLRenderer | null;
-  loop: ILoop | null;
+  loop: ILoop;
 }
 
 export interface ISceneObjectsMap {

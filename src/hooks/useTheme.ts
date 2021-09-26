@@ -24,10 +24,10 @@ const useTheme = (setLoading: any): IThemeContext => {
 
   const switchTheme = {
     next: () => {
-      fade(() => setActiveTheme(num => (num < themes.length - 1) ? num + 1 : 0));
+      fade(() => setActiveTheme(num => num ? ((num < themes.length - 1) ? num + 1 : 0) : null));
     },
     previous: () => {
-      fade(() => setActiveTheme(num => (num === 0) ? themes.length - 1 : num - 1));
+      fade(() => setActiveTheme(num => num ? ((num === 0) ? themes.length - 1 : num - 1) : null));
     },
     to: (num: number) => {
       fade(() => setActiveTheme(num));
@@ -55,7 +55,7 @@ const useTheme = (setLoading: any): IThemeContext => {
 
   return {
     fetchedTheme: activeTheme !== null,
-    activeTheme: themes[activeTheme] ?? themes[randomThemeId],
+    activeTheme: themes[activeTheme ?? randomThemeId] ?? themes[randomThemeId],
     switchTheme
   }
 }

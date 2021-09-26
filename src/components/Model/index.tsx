@@ -18,7 +18,7 @@ const Model: React.FC<IModelComponent> = ({ name, filename, scene, configObject,
   useEffect(() => {
     if (!(object && scene) || added) return;
     object.name = name;
-    configObject(object);
+    configObject?.(object);
     object.traverse((child: ThreeGroupChild): void => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRenderComponents, useSceneComponents, useTheme } from "@hooks";
 import { ISceneContext } from "@types";
 
-export const SceneContext = React.createContext<ISceneContext>(null);
+export const SceneContext = React.createContext<ISceneContext | null>(null);
 
 export const SceneContextProvider: React.FC = ({ children }): JSX.Element => {
   const [sceneContainer, setSceneContainer] = useState<HTMLDivElement | null>(null);

@@ -31,7 +31,6 @@ class Water extends THREE.Mesh {
   material: THREE.Material;
   userData: ISimpleObject;
   visible: boolean;
-  isWater: boolean;
 	position: THREE.Vector3;
 	rotation: THREE.Vector4;
   onBeforeRender: (renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera) => void;
@@ -224,6 +223,7 @@ class Water extends THREE.Mesh {
 		material.uniforms['distortionScale'].value = distortionScale;
 		material.uniforms['eye'].value = eye;
 
+		this.visible = false;
     this.material = material;
     this.userData = {};
 
