@@ -23,15 +23,17 @@ export const SectionNav: React.FC<ISectionNav> = ({ sectionType, linkType, paren
       }
     }
   }
+  
   const sectionNames = siteMap[parent]?.[(sectionType === 'child') ? 'children' : 'tabs'];
   if (!sectionNames) return null;
 
   const createNavLink = (sectionName: string): JSX.Element | null => {
     if (!sections[sectionName]) return null;
+    const attributeName = getAttributeName({ sectionType, linkType });
     return (
       <SectionNavLink {...{
-        attributeName: getAttributeName({ sectionType, linkType }),
-        parent,
+        key: `${attributeName}:${sectionName}@${parent}`,
+        attributeName,
         sectionName: sections[sectionName].title
       }} />
     )
@@ -46,14 +48,12 @@ export const SectionNav: React.FC<ISectionNav> = ({ sectionType, linkType, paren
 
 interface ISectionNavLink {
   attributeName: AttributeName;
-  parent: string;
   sectionName: string;
 }
 
-export const SectionNavLink: React.FC<ISectionNavLink> = ({ attributeName, parent, sectionName }): JSX.Element => {
+export const SectionNavLink: React.FC<ISectionNavLink> = ({ attributeName, sectionName }): JSX.Element => {
   return (
     <span {...{
-      key: `${attributeName}:${sectionName}@${parent}`,
       [attributeName]: sectionName
     }}></span>
   )

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 
 import { mutateArray, mutateStateArray } from "@utils";
 import { Window } from "@components";
-import * as siteSections from "@content/sections";
+import { siteSections } from "@content";
 import { useResizeWindows } from "@hooks";
 
 const getSection = (name: string) => siteSections[name.split(' ').join('')];
@@ -34,10 +34,14 @@ const useWindows = () => {
       if (!pageContent) return null;
 
       const createWindowRef = (element: HTMLDivElement): void => {
-        setWindowRefs(prevObj => ({
-          ...prevObj,
-          [name]: element
-        }));
+        setWindowRefs(prevObj => {
+          if (prevObj[name]) {
+            return prevObj;
+          }
+          const returnObj = {...prevObj};
+          returnObj[name] = element;
+          return returnObj;
+        });
       }
 
       // cleanup function for when this Window unmounts - remove element from windowRefs
@@ -72,14 +76,15 @@ const useWindows = () => {
           closeWindow={closeWindow}
           focusWindow={() => setActiveWindow(name)}
           switchToWindow={setActiveWindow}
+          windowRef={windowRefs[name]}
           registerRef={createWindowRef}
-          unregisterRef={removeWindowRef}>
+          destroyRef={removeWindowRef}>
             {pageContent}
         </Window>
       )
     }
     return windows.map(createWindow);
-  }, [windows]);
+  }, [windows, windowRefs]);
 
   return {
     content,

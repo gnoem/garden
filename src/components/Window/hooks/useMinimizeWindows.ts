@@ -9,13 +9,13 @@ interface IMinimizeWindowTools {
 const useMinimizeWindows = (
   active: boolean,
   focusWindow: () => void,
-  { localRef, barRef }: { [key: string]: HTMLDivElement | null }
+  { windowRef, titleBarRef }: { [key: string]: HTMLDivElement | null }
 ): IMinimizeWindowTools => {
   const [maxHeight, setMaxHeight] = useState<{ minimized: boolean; value: number | null }>({ minimized: false, value: null });
   const prevMaxHeight = useRef<number | null>(null);
   
   const toggleMinimized = (): void => {
-    if (!(localRef && barRef)) return;
+    if (!(windowRef && titleBarRef)) return;
     if (maxHeight.minimized) {
       if (!active) focusWindow();
       setTimeout(() => {
@@ -24,18 +24,18 @@ const useMinimizeWindows = (
           value: prevMaxHeight.current
         });
         setTimeout(() => {
-          localRef.style.maxHeight = '';
+          windowRef.style.maxHeight = '';
         }, 200); // transition duration
       }, active ? 0 : 10); // for some reason, if also focusing window, max height transition doesn't work without timeout
     } else {
       // get current height of window and store in ref
-      const { height: currentHeight } = localRef.getBoundingClientRect();
+      const { height: currentHeight } = windowRef.getBoundingClientRect();
       prevMaxHeight.current = currentHeight;
-      localRef.style.maxHeight = `${currentHeight}px`;
+      windowRef.style.maxHeight = `${currentHeight}px`;
       setTimeout(() => {
         setMaxHeight({
           minimized: true,
-          value: barRef.getBoundingClientRect().height
+          value: titleBarRef.getBoundingClientRect().height
         });
       }, 10);
     }

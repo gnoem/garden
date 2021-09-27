@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useDataTemplate, useDragonDrop, useTabs } from "@hooks";
-import { Icons } from "@components";
-import { pageConfig } from "@config";
+import { siteSections } from "@content";
 
 import * as styles from "./window.module.css";
 import { useRandomSpawn, useMinimizeWindows } from "./hooks";
-import { Bar, Tabs, WindowContent } from "./components";
+import { Bar, TitleBar, Tabs, WindowContent } from "./components";
 
 interface IWindowProps {
   name: string;
   index: number;
   active: boolean;
+  windowRef: HTMLDivElement | null,
   registerRef: (element: HTMLDivElement) => void;
-  unregisterRef: () => void;
+  destroyRef: () => void;
   closeWindow: () => void;
   focusWindow: () => void;
   switchToWindow: (name: string) => void;
@@ -22,28 +22,30 @@ const Window: React.FC<IWindowProps> = ({
   name,
   index,
   active,
+  windowRef,
   registerRef,
-  unregisterRef,
+  destroyRef,
   focusWindow,
   switchToWindow,
   closeWindow,
   children
 }): JSX.Element => {
 
-  const [localRef, setLocalRef] = useState<HTMLDivElement | null>(null);
-  const [barRef, setBarRef] = useState<HTMLDivElement | null>(null);
+  const [titleBarRef, setTitleBarRef] = useState<HTMLDivElement | null>(null);
   
-  const { minimized, windowMaxHeight, toggleMinimized } = useMinimizeWindows(active, focusWindow, { localRef, barRef });
+  const { minimized, windowMaxHeight, toggleMinimized } = useMinimizeWindows(active, focusWindow, { windowRef, titleBarRef });
   const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([{ name, scrolled: 0 }]);
-  const ready = useRandomSpawn(localRef);
-  useDragonDrop(localRef, barRef);
+  const ready = useRandomSpawn(windowRef);
+  useDragonDrop(windowRef, titleBarRef);
 
-  useDataTemplate(localRef, createButton(switchToWindow), 'data-path');
-  useDataTemplate(localRef, createButton(openTab), 'data-tab', [activeTab]);
-  useDataTemplate(localRef, createLink(openTab), 'data-tab-link', [activeTab]);
+  useDataTemplate(windowRef, createButton(switchToWindow), 'data-path');
+  useDataTemplate(windowRef, createButton(openTab), 'data-tab', [activeTab]);
+  useDataTemplate(windowRef, createLink(openTab), 'data-tab-link', [activeTab]);
 
   useEffect(() => {
-    return unregisterRef;
+    return () => {
+      destroyRef();
+    }
   }, []);
 
   const windowClassName = `${styles.Window} ${ready ? styles.ready : ''} ${active ? styles.active : ''} ${minimized ? styles.minimized : ''}`;
@@ -51,11 +53,6 @@ const Window: React.FC<IWindowProps> = ({
   const windowStyle = {
     zIndex: index,
     maxHeight: windowMaxHeight ? `${windowMaxHeight}px` : ''
-  }
-
-  const createWindowRef = (element) => {
-    registerRef(element);
-    setLocalRef(element);
   }
 
   const handleDivClick = (e) => {
@@ -68,15 +65,15 @@ const Window: React.FC<IWindowProps> = ({
       className={windowClassName}
       onMouseDown={handleDivClick}
       style={windowStyle}
-      ref={createWindowRef}>
+      ref={registerRef}>
         <Bar>
-          <div ref={setBarRef}>
-            <span>{pageConfig[name]?.title ?? name}</span>
-            <div className={styles.buttons}>
-              <button onMouseDown={toggleMinimized}>{minimized ? <Icons.WindowMaximize /> : <Icons.WindowMinimize />}</button>
-              <button onMouseDown={closeWindow}><Icons.Times /></button>
-            </div>
-          </div>
+          <TitleBar {...{
+            createRef: setTitleBarRef,
+            title: siteSections[name.split(' ').join('')]?.title ?? name,
+            minimized,
+            toggleMinimized,
+            closeWindow
+          }} />
           <Tabs {...{
             name,
             tabs,
@@ -86,7 +83,7 @@ const Window: React.FC<IWindowProps> = ({
           }} />
         </Bar>
         <WindowContent {...{ name, activeTab, setActiveTab }}>
-          {(name === activeTab.name) ? children : pageConfig[activeTab.name]?.jsx}
+          {(name === activeTab.name) ? children : siteSections[activeTab.name.split(' ').join('')]?.content()}
         </WindowContent>
     </div>
   )
@@ -96,8 +93,9 @@ const createButton = (open) => (path) => {
   if (!(path && open)) return null;
   const link = document.createElement('a');
   link.setAttribute('data-link', path);
-  link.className = `glossy ${path.split(' ').join('-')}`;
-  link.textContent = pageConfig[path]?.title ?? path;
+  const fileName = path.split(' ').join('');
+  link.className = `glossy ${fileName}`;
+  link.textContent = siteSections[fileName]?.title ?? path;
   link.onclick = () => open(path);
   return link;
 }
@@ -106,8 +104,9 @@ const createLink = (open) => (path, text) => {
   if (!(path && text)) return null;
   const link = document.createElement('a');
   link.setAttribute('data-link', path);
-  link.className = `${path.split(' ').join('-')}`;
-  link.textContent = text ?? pageConfig[path]?.title ?? path;
+  const fileName = path.split(' ').join('');
+  link.className = fileName;
+  link.textContent = text ?? siteSections[fileName]?.title ?? path;
   link.onclick = () => open(path);
   return link;
 }

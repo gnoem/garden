@@ -1,8 +1,7 @@
 import React from "react";
-
 import * as styles from "../window.module.css";
 import { Icons } from "@components";
-import { pageConfig } from "@config";
+import { siteSections } from "@content";
 import { ITab } from "@types";
 
 interface ITabsProps {
@@ -47,7 +46,7 @@ const Tab: React.FC<Omit<ITabProps, 'tabs'>> = ({ name, tab, openTab, closeTab, 
   
   return (
     <div className={`${styles.Tab} ${activeTab.name === tab.name ? styles.active : ''}`} onClick={handleTabClick}>
-      {pageConfig[tab.name]?.title ?? tab.name}
+      {siteSections[tab.name.split(' ').join('')]?.title ?? tab.name}
       {(tab.name !== name) && <button onClick={() => closeTab(tab.name)}><Icons.Times /></button>}
     </div>
   )
