@@ -1,65 +1,71 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-import { pageConfig } from "@config";
 import { mutateArray } from "@utils";
 import { Window } from "../components";
 import * as siteSections from "@content/sections";
 
+const getSection = (name: string) => siteSections[name.split(' ').join('')];
+
 const useWindows = () => {
   const [windows, setWindows] = useState<string[]>([]);
-  const [windowRefs, setWindowRefs] = useState<{ [key: string]: HTMLDivElement }>({});
-  const [activeWindow, setActiveWindow] = useState<string | undefined>(null);
+  const [windowRefs, setWindowRefs] = useState<{ [key: string]: HTMLDivElement | null }>({});
+  const [activeWindow, setActiveWindow] = useState<string | null>(null);
+
+  // when activeWindow changes, open up or switch focus to that window
   useEffect(() => {
-    const showWindow = (name) => {
-      // if not in array, add to top of array
-      // if in array, move to last position in array (window z-index will correspond to index)
-      if (!pageConfig[name]) return null;
+    const showWindow = (name: string) => {
+      if (!getSection(name)) return null;
       const windowIndex = windows.indexOf(name);
-      if (windowIndex === -1) {
+      if (windowIndex === -1) { // if not in array, add to top of array
         setWindows(mutateArray((array) => array.push(name)));
-      } else {
+      } else { // else, move to last position in array (window z-index will correspond to index)
         const moveArrayElementToEnd = (array, index) => {
           array.push(array.splice(index, 1)[0]);
         }
         setWindows(mutateArray((array) => moveArrayElementToEnd(array, windowIndex)));
       }
     }
-    showWindow(activeWindow);
+
+    if (activeWindow) {
+      showWindow(activeWindow);
+    }
   }, [activeWindow]);
+
+  // anytime windowRefs changes, clean up any null windowRefs
   useEffect(() => {
-    // clear null values from windows array + windowsRef object
-    if (windows.includes(null)) {
-      setWindows(mutateArray((array) => array.filter(el => el)));
-    }
     if (Object.values(windowRefs).includes(null)) {
-      const cleanObject = (obj) => {
-        for (const key in obj) {
-          if (obj[key] === null || obj[key] === undefined) {
-            delete obj[key];
-          }
+      for (const key in windowRefs) {
+        if (windowRefs[key] === null || windowRefs[key] === undefined) {
+          delete windowRefs[key];
         }
-        return obj;
       }
-      cleanObject(windowRefs);
     }
-  }, [windows, windowRefs]);
+  }, [Object.values(windowRefs)]);
+
+  // make sure that activeWindow is consistent with the last element in windows array
   useEffect(() => {
+    if (!activeWindow) return;
     if (!windows.includes(activeWindow)) {
       const lastIndex = windows.length - 1;
       setActiveWindow(windows[lastIndex]);
     }
   }, [windows]); // do NOT add activeWindow to dep array
+
+  // create the actual windows
   const content = useMemo(() => {
-    return windows.map(name => {
-      const pageContent = siteSections[name.split(' ').join('')]?.content();
+    const createWindow = (name: string): JSX.Element | null => {
+
+      const pageContent = getSection(name)?.content?.();
       if (!pageContent) return null;
-      const createWindowRef = (element) => {
+
+      const createWindowRef = (element: HTMLDivElement): void => {
         setWindowRefs(prevObj => ({
           ...prevObj,
           [name]: element
         }));
       }
-      const closeWindow = () => {
+
+      const closeWindow = (): void => {
         // remove from array
         const index = windows.indexOf(name);
         setWindows(mutateArray((array) => array.splice(index, 1)));
@@ -70,7 +76,9 @@ const useWindows = () => {
           return objToReturn;
         });
       }
+
       const index = windows.indexOf(name);
+      
       return (
         <Window
           key={name}
@@ -84,9 +92,15 @@ const useWindows = () => {
             {pageContent}
         </Window>
       )
-    });
+    }
+    return windows.map(createWindow);
   }, [windows]);
-  return { refs: windowRefs, content, handleNavClick: setActiveWindow }
+
+  return {
+    refs: windowRefs,
+    content,
+    handleNavClick: setActiveWindow
+  }
 }
 
 export default useWindows;
