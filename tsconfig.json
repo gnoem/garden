@@ -29,6 +29,9 @@
       "@config": ["config"],
       "@config/*": ["config/*"],
       
+      "@content": ["content"],
+      "@content/*": ["content/*"],
+      
       "@contexts": ["contexts"],
       "@contexts/*": ["contexts/*"],
       

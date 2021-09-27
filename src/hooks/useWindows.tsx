@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { pageConfig } from "@config";
 import { mutateArray } from "@utils";
 import { Window } from "../components";
+import * as siteSections from "@content/sections";
 
 const useWindows = () => {
   const [windows, setWindows] = useState<string[]>([]);
@@ -50,7 +51,7 @@ const useWindows = () => {
   }, [windows]); // do NOT add activeWindow to dep array
   const content = useMemo(() => {
     return windows.map(name => {
-      const pageContent = pageConfig[name]?.jsx;
+      const pageContent = siteSections[name.split(' ').join('')]?.content();
       if (!pageContent) return null;
       const createWindowRef = (element) => {
         setWindowRefs(prevObj => ({

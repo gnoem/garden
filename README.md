@@ -48,4 +48,5 @@ graphical experiments
 - [ ] add a loading indicator to theme transition?
 - [ ] add resize listener to canvas and see if that fixes mobile safari screen size thing or figure out what was causing that
 - [ ] themes should be able to have their own distinct UIs, not the same UI with a different color palette
-- [ ] fix SSR with window in theme url file!!
+- [x] fix SSR with window in theme url file!!
+- [ ] refactor windows/tab things
