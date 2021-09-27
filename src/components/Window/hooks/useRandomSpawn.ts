@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { randomIntBetween } from "@utils";
 
-export const useRandomizeWindow = (localRef) => {
+/*
+set random size/position of window and return true when done
+*/
+
+const useRandomSpawn = (windowRef: HTMLDivElement | null): boolean => {
   const [ready, setReady] = useState<boolean>(false);
+
   useEffect(() => {
-    /* set random size/position of window */
-    if (!localRef) return;
+    if (!windowRef) return;
     const setWindowSize = () => {
       const isMobile = window.innerWidth < 600;
-      const { minWidth = 350 } = localRef.dataset;
+      const { minWidth = 350 } = windowRef.dataset;
       const width = isMobile
         ? randomIntBetween(window.innerWidth * 0.75, window.innerWidth * 0.9)
         : randomIntBetween(minWidth, 600);
@@ -22,14 +26,16 @@ export const useRandomizeWindow = (localRef) => {
       const randomY = isMobile
         ? randomIntBetween(20, window.innerHeight - (height + (window.innerHeight * 0.1)))
         : randomIntBetween(20, window.innerHeight - (height + (window.innerHeight * 0.1)));
-      localRef.style.width = `${width}px`;
-      localRef.style.height = `${height}px`;
-      localRef.style.transform = `translate3d(${randomX}px, ${randomY}px, 0)`;
+      windowRef.style.width = `${width}px`;
+      windowRef.style.height = `${height}px`;
+      windowRef.style.transform = `translate3d(${randomX}px, ${randomY}px, 0)`;
       setReady(true);
     }
     if (!ready) {
       setWindowSize();
     }
-  }, [localRef]);
+  }, [windowRef]);
   return ready;
 }
+
+export default useRandomSpawn;
