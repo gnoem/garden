@@ -46,7 +46,7 @@ const Tab: React.FC<Omit<ITabProps, 'tabs'>> = ({ name, tab, openTab, closeTab, 
   
   return (
     <div className={`${styles.Tab} ${activeTab.name === tab.name ? styles.active : ''}`} onClick={handleTabClick}>
-      {siteSections[tab.name.split(' ').join('')]?.title ?? tab.name}
+      {siteSections[tab.name]?.title ?? tab.name}
       {(tab.name !== name) && <button onClick={() => closeTab(tab.name)}><Icons.Times /></button>}
     </div>
   )

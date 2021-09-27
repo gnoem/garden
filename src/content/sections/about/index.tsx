@@ -1,3 +1,4 @@
+import { InternalLink } from "@content/template";
 import React from "react";
 export * from "./tabs";
 
@@ -22,7 +23,9 @@ const content = () => {
   return (
     <>
       <h2>about</h2>
-      <p>hi i'm naomi and this is my Graphical Web Experimentation Laboratory [<span data-tab-link="about this project">read more about this project?</span>]</p>
+      <p>hi i'm naomi and this is my Graphical Web Experimentation Laboratory
+        [<InternalLink type="link" sectionType="tab" to="aboutthisproject">read more about this project?</InternalLink>]
+      </p>
       <p>not that much stuff here yet but it is regularly updated so keep checking back!</p>
       <h3>other places to find me online:</h3>
       <nav aria-label="External links" className="buttons">

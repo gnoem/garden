@@ -1,18 +1,15 @@
 import React from "react";
 import * as styles from "./navLink.module.css";
-import { iconsMap } from "@config";
 
 interface INavLinkProps {
   name: string;
-  icon: string;
+  Icon: React.FC;
   handleClick: (name: string) => void;
 }
 
-const NavLink: React.FC<INavLinkProps> = ({ name, icon, handleClick }): (JSX.Element | null) => {
-  const showIcon = iconsMap[icon];
-  if (!showIcon) return null;
+const NavLink: React.FC<INavLinkProps> = ({ name, Icon, handleClick }): (JSX.Element | null) => {
   return (
-    <button className={styles.navLink} onClick={() => handleClick(name)}>{showIcon()}</button>
+    <button className={styles.navLink} onClick={() => handleClick(name)}><Icon /></button>
   )
 }
 

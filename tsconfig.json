@@ -25,9 +25,6 @@
 
       "@components": ["components"],
       "@components/*": ["components/*"],
-
-      "@config": ["config"],
-      "@config/*": ["config/*"],
       
       "@content": ["content"],
       "@content/*": ["content/*"],

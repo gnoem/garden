@@ -1,11 +1,8 @@
 import React, { useMemo, useState } from "react";
-
 import { mutateArray, mutateStateArray } from "@utils";
 import { Window } from "@components";
 import { siteSections } from "@content";
 import { useResizeWindows } from "@hooks";
-
-const getSection = (name: string) => siteSections[name.split(' ').join('')];
 
 const useWindows = () => {
   const [windows, setWindows] = useState<string[]>([]);
@@ -14,7 +11,7 @@ const useWindows = () => {
   useResizeWindows(windowRefs);
 
   const setActiveWindow = (name: string): void => {
-    if (!getSection(name)) return;
+    if (!siteSections[name]) return;
     const indexOfActiveWindow = windows.indexOf(name);
     if (indexOfActiveWindow < 0) {
       setWindows(mutateStateArray(array => array.push(name)));
@@ -30,7 +27,7 @@ const useWindows = () => {
   const content = useMemo(() => {
     const createWindow = (name: string): JSX.Element | null => {
 
-      const pageContent = getSection(name)?.content?.();
+      const pageContent = siteSections[name]?.content?.();
       if (!pageContent) return null;
 
       const createWindowRef = (element: HTMLDivElement): void => {

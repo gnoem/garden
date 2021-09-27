@@ -1,6 +1,6 @@
 import React from "react";
 import * as tabs from "./tabs";
-import { SectionNav } from "@content/template";
+import { createSectionNav } from "@content/template";
 
 const title = 'misc';
 
@@ -10,12 +10,12 @@ const content = () => {
       <h2>misc</h2>
       <p>like everything else here this is under construction</p>
       <nav aria-label="Miscellaneous pages" className="buttons">
-        <SectionNav {...{
+        {createSectionNav({
           sectionType: 'child',
           linkType: 'button',
           parent: title,
           sections: tabs
-        }} />
+        })}
       </nav>
     </>
   )

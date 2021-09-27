@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import "@styles/globals.css";
 import "@styles/theme.css";
 import { Backdrop, Content, Nav, NavLink, Scene } from "@components";
-import { mainSiteNav } from "@config";
 import { SceneContext } from "@contexts";
 import { useWindows } from "@hooks";
 import * as themes from "@themes";
 import { IThreeScene } from "@types";
+import { siteNav } from "@content/site";
+import { ArrowLeft, ArrowRight, Pause, Play } from "@components/_icons";
 
 const Main: React.FC = (): JSX.Element => {
   const { setSceneContainer, loading, activeTheme, switchTheme, sceneComponents } = useContext(SceneContext)!;
@@ -19,17 +20,17 @@ const Main: React.FC = (): JSX.Element => {
       <Nav ariaLabel="toggle theme" addClass="toggleTheme">
         <NavLink {...{
           name: 'previous',
-          icon: 'arrowLeft',
+          Icon: ArrowLeft,
           handleClick: () => switchTheme.previous()
         }} />
         {loop && <NavLink {...{
           name: loop.isLooping ? 'pause' : 'play',
-          icon: loop.isLooping ? 'pause' : 'play',
+          Icon: loop.isLooping ? Pause : Play,
           handleClick: () => loop.isLooping ? loop.stop() : loop.start()
         }} />}
         <NavLink {...{
           name: 'next',
-          icon: 'arrowRight',
+          Icon: ArrowRight,
           handleClick: () => switchTheme.next()
         }} />
       </Nav>
@@ -38,11 +39,11 @@ const Main: React.FC = (): JSX.Element => {
         {content}
       </Content>
       <Nav main>
-        {mainSiteNav.map(({ name, icon }) => (
+        {siteNav.map(({ name, Icon }) => (
           <NavLink {...{
             key: name,
             name,
-            icon,
+            Icon,
             handleClick: handleNavClick
           }} />
         ))}

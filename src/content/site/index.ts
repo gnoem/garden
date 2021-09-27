@@ -1,24 +1,31 @@
+import { Book, Icons, Code, Palette, Question } from "@components/_icons";
+
 export const siteMap = {
   // ABOUT
   about: {
-    navIcon: 'question'
+    navIcon: Question
   },
   // NOTEBOOK
   notebook: {
-    navIcon: 'book',
+    navIcon: Book,
     tabs: ['ideas', 'questions', 'coolwords', 'toadnamesideas']
   },
   // CODE
   code: {
-    navIcon: 'code'
+    navIcon: Code
   },
   // ART
   art: {
-    navIcon: 'palette'
+    navIcon: Palette,
   },
   // MISC
   misc: {
-    navIcon: 'icons',
+    navIcon: Icons,
     children: ['siteideas', 'reminders']
   }
 }
+
+export const siteNav = Object.entries(siteMap).map(([name, { navIcon }]) => ({
+  name,
+  Icon: navIcon
+}));

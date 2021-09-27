@@ -1,60 +1,46 @@
 import React from "react";
 import { siteMap } from "@content/site";
+import { DataTemplateAttribute, LinkType, SectionType } from "@types";
 
 interface ISectionNav {
-  sectionType: 'child' | 'tab';
-  linkType: 'button' | 'link';
+  sectionType: SectionType;
+  linkType: LinkType;
   parent: string;
   sections: any;
 }
 
-type AttributeName = 'data-path' | 'data-tab' | 'data-tab-link' | 'data-child-button' | 'data-child-link' | 'data-tab-button';
+const getDataAttribute = (sectionType: SectionType, linkType: LinkType): DataTemplateAttribute => `data-${sectionType}-${linkType}`;
 
-export const SectionNav: React.FC<ISectionNav> = ({ sectionType, linkType, parent, sections }): (JSX.Element | null) => {
-  //const attributeName: AttributeName = `data-${sectionType}-${linkType}`;
-  const getAttributeName = ({ sectionType, linkType }: Pick<ISectionNav, 'sectionType' | 'linkType'>): AttributeName => {
-    if (sectionType === 'child') {
-      return 'data-path';
-    } else {
-      if (linkType === 'button') {
-        return 'data-tab';
-      } else {
-        return 'data-tab-link';
-      }
-    }
-  }
-  
-  const sectionNames = siteMap[parent]?.[(sectionType === 'child') ? 'children' : 'tabs'];
-  if (!sectionNames) return null;
+export const createSectionNav = ({ sectionType, linkType, parent, sections }: ISectionNav): (JSX.Element | null)[] => {
+
+  const dataAttribute = getDataAttribute(sectionType, linkType);
+  const sectionNames: string[] = siteMap[parent]?.[(sectionType === 'child') ? 'children' : 'tabs'] ?? [];
 
   const createNavLink = (sectionName: string): JSX.Element | null => {
     if (!sections[sectionName]) return null;
-    const attributeName = getAttributeName({ sectionType, linkType });
     return (
-      <SectionNavLink {...{
-        key: `${attributeName}:${sectionName}@${parent}`,
-        attributeName,
-        sectionName: sections[sectionName].title
+      <InternalLink {...{
+        key: `${dataAttribute}:${sectionName}@${parent}`,
+        sectionType,
+        type: linkType,
+        to: sectionName
       }} />
     )
   }
   
-  return (
-    <>
-      {sectionNames.map(createNavLink)}
-    </>
-  )
+  return sectionNames.map(createNavLink);
+
 }
 
-interface ISectionNavLink {
-  attributeName: AttributeName;
-  sectionName: string;
+interface IInternalLinkProps {
+  type: LinkType,
+  sectionType: SectionType,
+  to: string
 }
 
-export const SectionNavLink: React.FC<ISectionNavLink> = ({ attributeName, sectionName }): JSX.Element => {
+export const InternalLink: React.FC<IInternalLinkProps> = ({ children, type, sectionType, to }): JSX.Element => {
+  const dataAttribute = getDataAttribute(sectionType, type);
   return (
-    <span {...{
-      [attributeName]: sectionName
-    }}></span>
+    <span {...{ [dataAttribute]: to }}>{children}</span>
   )
 }

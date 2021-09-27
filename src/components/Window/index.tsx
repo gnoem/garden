@@ -38,8 +38,8 @@ const Window: React.FC<IWindowProps> = ({
   const ready = useRandomSpawn(windowRef);
   useDragonDrop(windowRef, titleBarRef);
 
-  useDataTemplate(windowRef, createButton(switchToWindow), 'data-path');
-  useDataTemplate(windowRef, createButton(openTab), 'data-tab', [activeTab]);
+  useDataTemplate(windowRef, createButton(switchToWindow), 'data-child-button');
+  useDataTemplate(windowRef, createButton(openTab), 'data-tab-button', [activeTab]);
   useDataTemplate(windowRef, createLink(openTab), 'data-tab-link', [activeTab]);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const Window: React.FC<IWindowProps> = ({
         <Bar>
           <TitleBar {...{
             createRef: setTitleBarRef,
-            title: siteSections[name.split(' ').join('')]?.title ?? name,
+            title: siteSections[name]?.title ?? name,
             minimized,
             toggleMinimized,
             closeWindow
@@ -83,7 +83,7 @@ const Window: React.FC<IWindowProps> = ({
           }} />
         </Bar>
         <WindowContent {...{ name, activeTab, setActiveTab }}>
-          {(name === activeTab.name) ? children : siteSections[activeTab.name.split(' ').join('')]?.content()}
+          {(name === activeTab.name) ? children : siteSections[activeTab.name]?.content()}
         </WindowContent>
     </div>
   )
@@ -93,9 +93,8 @@ const createButton = (open) => (path) => {
   if (!(path && open)) return null;
   const link = document.createElement('a');
   link.setAttribute('data-link', path);
-  const fileName = path.split(' ').join('');
-  link.className = `glossy ${fileName}`;
-  link.textContent = siteSections[fileName]?.title ?? path;
+  link.className = `glossy ${path}`;
+  link.textContent = siteSections[path]?.title ?? path;
   link.onclick = () => open(path);
   return link;
 }
@@ -104,9 +103,8 @@ const createLink = (open) => (path, text) => {
   if (!(path && text)) return null;
   const link = document.createElement('a');
   link.setAttribute('data-link', path);
-  const fileName = path.split(' ').join('');
-  link.className = fileName;
-  link.textContent = text ?? siteSections[fileName]?.title ?? path;
+  link.className = path;
+  link.textContent = text ?? siteSections[path]?.title ?? path;
   link.onclick = () => open(path);
   return link;
 }
