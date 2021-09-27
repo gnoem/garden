@@ -13,12 +13,23 @@ interface IWindowProps {
   index: number;
   active: boolean;
   registerRef: (element: HTMLDivElement) => void;
+  unregisterRef: () => void;
   closeWindow: () => void;
   focusWindow: () => void;
   switchToWindow: (name: string) => void;
 }
 
-const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focusWindow, switchToWindow, closeWindow, children }): JSX.Element => {
+const Window: React.FC<IWindowProps> = ({
+  name,
+  index,
+  active,
+  registerRef,
+  unregisterRef,
+  focusWindow,
+  switchToWindow,
+  closeWindow,
+  children
+}): JSX.Element => {
   const [localRef, setLocalRef] = useState<HTMLDivElement | null>(null);
   const [barRef, setBarRef] = useState<HTMLDivElement | null>(null);
   const [maxHeight, setMaxHeight] = useState<{ minimized: boolean; value?: number | null }>({ minimized: false });
@@ -55,6 +66,9 @@ const Window: React.FC<IWindowProps> = ({ name, index, active, registerRef, focu
   useDataTemplate(localRef, createButton(openTab), 'data-tab', [activeTab]);
   useDataTemplate(localRef, createLink(openTab), 'data-tab-link', [activeTab]);
   useDragonDrop(localRef, barRef);
+  useEffect(() => {
+    return unregisterRef;
+  }, []);
   const createWindowRef = (element) => {
     registerRef(element);
     setLocalRef(element);

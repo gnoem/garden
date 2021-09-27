@@ -4,7 +4,7 @@ import "@styles/theme.css";
 import { Backdrop, Content, Nav, NavLink, Scene } from "@components";
 import { mainSiteNav } from "@config";
 import { SceneContext } from "@contexts";
-import { useResizeWindows, useWindows } from "@hooks";
+import { useWindows } from "@hooks";
 import * as themes from "@themes";
 import { IThreeScene } from "@types";
 
@@ -12,8 +12,7 @@ const Main: React.FC = (): JSX.Element => {
   const { setSceneContainer, loading, activeTheme, switchTheme, sceneComponents } = useContext(SceneContext)!;
   const { loop } = sceneComponents;
   const theme = themes[activeTheme];
-  const { refs, content, handleNavClick } = useWindows();
-  useResizeWindows(refs);
+  const { content, handleNavClick } = useWindows();
 
   return (
     <main className={`${theme.className ?? activeTheme} ${loading ? 'loading' : ''}`}>

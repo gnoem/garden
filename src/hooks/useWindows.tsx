@@ -1,15 +1,17 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { mutateArray, mutateStateArray } from "@utils";
-import { Window } from "../components";
+import { Window } from "@components";
 import * as siteSections from "@content/sections";
+import { useResizeWindows } from "@hooks";
 
 const getSection = (name: string) => siteSections[name.split(' ').join('')];
 
 const useWindows = () => {
   const [windows, setWindows] = useState<string[]>([]);
-  const [windowRefs, setWindowRefs] = useState<{ [key: string]: HTMLDivElement | null }>({});
-  // why do these have to be possibly null? can't we create a cleanup function for each window and pass it in as a prop to return in useEffect
+  const [windowRefs, setWindowRefs] = useState<{ [key: string]: HTMLDivElement }>({});
+
+  useResizeWindows(windowRefs);
 
   const setActiveWindow = (name: string): void => {
     if (!getSection(name)) return;
@@ -24,17 +26,6 @@ const useWindows = () => {
     }
   }
 
-  // anytime windowRefs changes, clean up any null windowRefs
-  useEffect(() => {
-    if (Object.values(windowRefs).includes(null)) {
-      for (const key in windowRefs) {
-        if (windowRefs[key] === null || windowRefs[key] === undefined) {
-          delete windowRefs[key];
-        }
-      }
-    }
-  }, [Object.values(windowRefs)]);
-
   // create the actual windows
   const content = useMemo(() => {
     const createWindow = (name: string): JSX.Element | null => {
@@ -47,6 +38,15 @@ const useWindows = () => {
           ...prevObj,
           [name]: element
         }));
+      }
+
+      // cleanup function for when this Window unmounts - remove element from windowRefs
+      const removeWindowRef = (): void => {
+        setWindowRefs(prevObj => {
+          const objToReturn = {...prevObj};
+          delete objToReturn[name];
+          return objToReturn;
+        });
       }
 
       const closeWindow = (): void => {
@@ -72,7 +72,8 @@ const useWindows = () => {
           closeWindow={closeWindow}
           focusWindow={() => setActiveWindow(name)}
           switchToWindow={setActiveWindow}
-          registerRef={createWindowRef}>
+          registerRef={createWindowRef}
+          unregisterRef={removeWindowRef}>
             {pageContent}
         </Window>
       )
@@ -81,7 +82,6 @@ const useWindows = () => {
   }, [windows]);
 
   return {
-    refs: windowRefs,
     content,
     handleNavClick: setActiveWindow
   }
