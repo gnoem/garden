@@ -30,6 +30,7 @@ class Water extends THREE.Mesh {
   matrixWorld: THREE.Matrix4;
   material: THREE.Material;
   userData: ISimpleObject;
+	isWater: boolean;
   visible: boolean;
 	position: THREE.Vector3;
 	rotation: THREE.Vector4;
@@ -223,7 +224,8 @@ class Water extends THREE.Mesh {
 		material.uniforms['distortionScale'].value = distortionScale;
 		material.uniforms['eye'].value = eye;
 
-		this.visible = false;
+		this.visible = true;
+		this.isWater = true;
     this.material = material;
     this.userData = {};
 
