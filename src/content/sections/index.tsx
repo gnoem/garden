@@ -1,5 +1,6 @@
 import React from "react";
 import { ISectionComponentProps } from "@types";
+import { Link } from "@content/template";
 
 /**
  * NOTE!!
@@ -18,7 +19,7 @@ const FallbackComponent: React.FC<ISectionComponentProps> = ({ name }): JSX.Elem
     <>
       <h2>something went wrong!</h2>
       <p>so sorry about that!!</p>
-      <p>i would much appreciate it if you could <a href={`mailto:contact@ngw.dev?subject=page ${name} missing!`}>email me</a> letting me know that this happened so I can fix this broken link asap. thank you!!</p>
+      <p>i would much appreciate it if you could <Link href={`mailto:contact@ngw.dev?subject=page ${name} missing!`}>email me</Link> letting me know that this happened so I can fix this broken link asap. thank you!!</p>
     </>
   )
 }

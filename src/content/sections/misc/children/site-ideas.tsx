@@ -1,5 +1,6 @@
 import React from "react";
 import { ISectionComponentProps } from "@types";
+import { Link } from "@content/template";
 
 export const title = 'site ideas';
 
@@ -26,7 +27,7 @@ export const SectionContent: React.FC<ISectionComponentProps> = (): JSX.Element 
       </ul>
       <h3>code/art/theory intensive</h3>
       <ul>
-        <li>mini MMO if I can figure out how to get <a href="https://vercel.com/guides/deploying-pusher-channels-with-vercel" target="_blank">websockets working on vercel</a></li>
+        <li>mini MMO if I can figure out how to get <Link href="https://vercel.com/guides/deploying-pusher-channels-with-vercel">websockets working on vercel</Link></li>
         <li>closet organizer like on clueless where visitors can create outfits from my OWN WARDROBE and send them to me as suggestions</li>
         <li>tamagotchi simulator</li>
         <li>naomi's magic beans... one day</li>

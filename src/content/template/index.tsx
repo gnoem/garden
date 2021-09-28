@@ -1,48 +1,59 @@
 import React from "react";
-import { siteMap } from "@content/site";
-import { DataTemplateAttribute, LinkType, ChildType, ISectionsModule } from "@types";
+import { ISiteMapChildren, siteMap } from "@content/site";
+import { siteSections } from "@content";
+import { FlattenUnion, LinkType } from "@types";
 
-interface ISectionNav {
-  childType: ChildType;
-  linkType: LinkType;
-  parentName: string;
-  childSections: ISectionsModule;
+export const getChildren = (parentName: string): Required<ISiteMapChildren> => {
+  const { tab, window } = siteMap[parentName]?.children ?? {};
+  return {
+    tab: tab ?? [],
+    window: window ?? []
+  }
 }
 
-const getDataAttribute = (childType: ChildType, linkType: LinkType): DataTemplateAttribute => `data-${childType}-${linkType}`;
+interface ISectionNavigationProps {
+  label: string;
+  action: (name: string) => () => void;
+  linkType: LinkType;
+  sectionNames: string[];
+}
 
-export const createChildNavMenu = ({ childType, linkType, parentName, childSections }: ISectionNav): (JSX.Element | null)[] => {
-
-  const dataAttribute = getDataAttribute(childType, linkType);
-  const parentSection = siteMap[parentName];
-  const sectionNames: string[] = parentSection?.children?.[childType] ?? [];
-  //const sectionNames: string[] = siteMap[parentName]?.[(childType === 'window') ? 'children' : 'tabs'] ?? [];
+export const SectionNavigation: React.FC<ISectionNavigationProps> = ({ label, linkType, action, sectionNames }): JSX.Element => {
+  const button = linkType === 'button';
 
   const createNavLink = (sectionName: string): JSX.Element | null => {
-    if (!childSections[sectionName]) return null;
-    return (
-      <InternalLink {...{
-        key: `${dataAttribute}:${sectionName}@${parentName}`,
-        sectionType: childType,
-        type: linkType,
-        to: sectionName
-      }} />
-    )
+    const section = siteSections[sectionName];
+    if (!section?.SectionContent) return null;
+    return <Link button={button} className={button ? 'glossy' : ''} click={action(sectionName)}>{section.title}</Link>
   }
-  
-  return sectionNames.map(createNavLink);
 
-}
-
-interface IInternalLinkProps {
-  type: LinkType,
-  sectionType: ChildType,
-  to: string
-}
-
-export const InternalLink: React.FC<IInternalLinkProps> = ({ children, type, sectionType, to }): JSX.Element => {
-  const dataAttribute = getDataAttribute(sectionType, type);
   return (
-    <span {...{ [dataAttribute]: to }}>{children}</span>
+    <nav aria-label={label} className={button ? 'buttons' : ''}>
+      {sectionNames.map(createNavLink)}
+    </nav>
   )
+}
+
+type InternalLink = {
+  click: () => void;
+  button?: boolean;
+}
+
+type ExternalLink = {
+  href: string;
+  button?: false;
+}
+
+type ILinkProps = {
+  className?: string;
+} & FlattenUnion<InternalLink | ExternalLink>;
+
+export const Link: React.FC<ILinkProps> = ({ click, href, button, className, children }) => {
+  const action = click ? { onClick: click } : { href, target: '_blank' };
+  const props = {
+    ...action,
+    className,
+    children
+  }
+  return button ? <button {...props} /> : <a {...props} />;
 }

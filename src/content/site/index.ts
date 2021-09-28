@@ -1,12 +1,14 @@
 import React from "react";
 import { Book, Icons, Code, Palette, Question } from "@components/_icons";
 
+export interface ISiteMapChildren {
+  tab?: string[];
+  window?: string[];
+}
+
 interface IMainPage {
   navIcon: React.FC;
-  children?: {
-    tab?: string[];
-    window?: string[];
-  }
+  children?: ISiteMapChildren
 }
 
 interface ISiteMap {

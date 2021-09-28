@@ -13,6 +13,8 @@ export interface ITab {
 
 export interface ISectionComponentProps {
   name: string;
+  openTab: (tabName: string) => () => void;
+  openWindow: (windowName: string) => () => void;
 }
 
 export interface ISectionModule {

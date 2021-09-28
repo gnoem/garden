@@ -1,6 +1,7 @@
 declare module "*.module.css";
 
-declare module "*/children" {
-  export const title: string;
-  export const SectionContent: React.FC;
+type Section = import("@types").ISectionsModule;
+
+declare module "@content" {
+  export const siteSections: Section;
 }

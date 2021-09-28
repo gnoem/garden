@@ -1,28 +1,24 @@
 import React from "react";
-import { createChildNavMenu } from "@content/template";
+import { SectionNavigation, getChildren } from "@content/template";
 import { ISectionComponentProps } from "@types";
-import * as childSections from "./children";
+export * from "./children";
 
 const title = 'misc';
 
-const SectionContent: React.FC<ISectionComponentProps> = (): JSX.Element => {
+const SectionContent: React.FC<ISectionComponentProps> = ({ openWindow }): JSX.Element => {
   return (
     <>
       <h2>misc</h2>
       <p>like everything else here this is under construction</p>
-      <nav aria-label="Miscellaneous pages" className="buttons">
-        {createChildNavMenu({
-          childType: 'window',
-          linkType: 'button',
-          parentName: title,
-          childSections
-        })}
-      </nav>
+      <SectionNavigation
+        label="Miscellaneous pages"
+        linkType="button"
+        sectionNames={getChildren(title).window}
+        action={openWindow}
+      />
     </>
   )
 }
-
-export * from "./children";
 
 export const misc = {
   title,

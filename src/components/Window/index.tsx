@@ -5,6 +5,7 @@ import { siteSections } from "@content";
 import * as styles from "./window.module.css";
 import { useRandomSpawn, useMinimizeWindows } from "./hooks";
 import { Bar, TitleBar, Tabs, WindowContent } from "./components";
+import { ISectionModule } from "@types";
 
 interface IWindowProps {
   name: string;
@@ -27,8 +28,7 @@ const Window: React.FC<IWindowProps> = ({
   destroyRef,
   focusWindow,
   switchToWindow,
-  closeWindow,
-  children
+  closeWindow
 }): JSX.Element => {
 
   const [titleBarRef, setTitleBarRef] = useState<HTMLDivElement | null>(null);
@@ -60,7 +60,7 @@ const Window: React.FC<IWindowProps> = ({
     focusWindow();
   }
 
-  const { SectionContent } = siteSections[activeTab.name] ?? siteSections.fallbackSection;
+  const { SectionContent }: ISectionModule = siteSections[activeTab.name] ?? siteSections.fallbackSection;
 
   return (
     <div
@@ -85,10 +85,11 @@ const Window: React.FC<IWindowProps> = ({
           }} />
         </Bar>
         <WindowContent {...{ name, activeTab, setActiveTab }}>
-          {(name === activeTab.name)
-            ? children
-            : <SectionContent name={activeTab.name} />
-          }
+          <SectionContent {...{
+            name: activeTab.name,
+            openTab: (tabName: string) => () => openTab(tabName),
+            openWindow: (windowName: string) => () => switchToWindow(windowName)
+          }} />
         </WindowContent>
     </div>
   )
