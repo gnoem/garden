@@ -1,6 +1,7 @@
 import { InternalLink } from "@content/template";
+import { ISectionComponentProps } from "@types";
 import React from "react";
-export * from "./tabs";
+export * from "./children";
 
 const title = 'about';
 
@@ -19,7 +20,7 @@ const externalLinks = [
   }
 ]
 
-const content = () => {
+const SectionContent: React.FC<ISectionComponentProps> = (): JSX.Element => {
   return (
     <>
       <h2>about</h2>
@@ -37,5 +38,5 @@ const content = () => {
 
 export const about = {
   title,
-  content
+  SectionContent
 }

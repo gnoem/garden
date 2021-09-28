@@ -1,6 +1,19 @@
+import React from "react";
 import { Book, Icons, Code, Palette, Question } from "@components/_icons";
 
-export const siteMap = {
+interface IMainPage {
+  navIcon: React.FC;
+  children?: {
+    tab?: string[];
+    window?: string[];
+  }
+}
+
+interface ISiteMap {
+  [mainPage: string]: IMainPage;
+}
+
+export const siteMap: ISiteMap = {
   // ABOUT
   about: {
     navIcon: Question
@@ -8,7 +21,9 @@ export const siteMap = {
   // NOTEBOOK
   notebook: {
     navIcon: Book,
-    tabs: ['ideas', 'questions', 'coolwords', 'toadnamesideas']
+    children: {
+      tab: ['ideas', 'questions', 'coolwords', 'toadnamesideas']
+    }
   },
   // CODE
   code: {
@@ -21,11 +36,18 @@ export const siteMap = {
   // MISC
   misc: {
     navIcon: Icons,
-    children: ['siteideas', 'reminders']
+    children: {
+      window: ['siteideas', 'reminders']
+    }
   }
 }
 
-export const siteNav = Object.entries(siteMap).map(([name, { navIcon }]) => ({
+interface ISiteNavInfo {
+  name: string;
+  Icon: React.FC;
+}
+
+export const siteNav: ISiteNavInfo[] = Object.entries(siteMap).map(([name, { navIcon }]) => ({
   name,
   Icon: navIcon
 }));

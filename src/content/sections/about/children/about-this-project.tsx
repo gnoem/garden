@@ -1,8 +1,9 @@
 import React from "react";
+import { ISectionComponentProps } from "@types";
 
 export const title = 'about this project';
 
-export const content = () => {
+export const SectionContent: React.FC<ISectionComponentProps> = (): JSX.Element => {
   return (
     <>
       <h2>about this project</h2>

@@ -1,27 +1,29 @@
 import React from "react";
 import { siteMap } from "@content/site";
-import { DataTemplateAttribute, LinkType, SectionType } from "@types";
+import { DataTemplateAttribute, LinkType, ChildType, ISectionsModule } from "@types";
 
 interface ISectionNav {
-  sectionType: SectionType;
+  childType: ChildType;
   linkType: LinkType;
-  parent: string;
-  sections: any;
+  parentName: string;
+  childSections: ISectionsModule;
 }
 
-const getDataAttribute = (sectionType: SectionType, linkType: LinkType): DataTemplateAttribute => `data-${sectionType}-${linkType}`;
+const getDataAttribute = (childType: ChildType, linkType: LinkType): DataTemplateAttribute => `data-${childType}-${linkType}`;
 
-export const createSectionNav = ({ sectionType, linkType, parent, sections }: ISectionNav): (JSX.Element | null)[] => {
+export const createChildNavMenu = ({ childType, linkType, parentName, childSections }: ISectionNav): (JSX.Element | null)[] => {
 
-  const dataAttribute = getDataAttribute(sectionType, linkType);
-  const sectionNames: string[] = siteMap[parent]?.[(sectionType === 'child') ? 'children' : 'tabs'] ?? [];
+  const dataAttribute = getDataAttribute(childType, linkType);
+  const parentSection = siteMap[parentName];
+  const sectionNames: string[] = parentSection?.children?.[childType] ?? [];
+  //const sectionNames: string[] = siteMap[parentName]?.[(childType === 'window') ? 'children' : 'tabs'] ?? [];
 
   const createNavLink = (sectionName: string): JSX.Element | null => {
-    if (!sections[sectionName]) return null;
+    if (!childSections[sectionName]) return null;
     return (
       <InternalLink {...{
-        key: `${dataAttribute}:${sectionName}@${parent}`,
-        sectionType,
+        key: `${dataAttribute}:${sectionName}@${parentName}`,
+        sectionType: childType,
         type: linkType,
         to: sectionName
       }} />
@@ -34,7 +36,7 @@ export const createSectionNav = ({ sectionType, linkType, parent, sections }: IS
 
 interface IInternalLinkProps {
   type: LinkType,
-  sectionType: SectionType,
+  sectionType: ChildType,
   to: string
 }
 

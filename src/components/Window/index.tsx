@@ -38,7 +38,7 @@ const Window: React.FC<IWindowProps> = ({
   const ready = useRandomSpawn(windowRef);
   useDragonDrop(windowRef, titleBarRef);
 
-  useDataTemplate(windowRef, createButton(switchToWindow), 'data-child-button');
+  useDataTemplate(windowRef, createButton(switchToWindow), 'data-window-button');
   useDataTemplate(windowRef, createButton(openTab), 'data-tab-button', [activeTab]);
   useDataTemplate(windowRef, createLink(openTab), 'data-tab-link', [activeTab]);
 
@@ -59,6 +59,8 @@ const Window: React.FC<IWindowProps> = ({
     if (e.target.closest('button')) return;
     focusWindow();
   }
+
+  const { SectionContent } = siteSections[activeTab.name] ?? siteSections.fallbackSection;
 
   return (
     <div
@@ -83,7 +85,10 @@ const Window: React.FC<IWindowProps> = ({
           }} />
         </Bar>
         <WindowContent {...{ name, activeTab, setActiveTab }}>
-          {(name === activeTab.name) ? children : siteSections[activeTab.name]?.content()}
+          {(name === activeTab.name)
+            ? children
+            : <SectionContent name={activeTab.name} />
+          }
         </WindowContent>
     </div>
   )

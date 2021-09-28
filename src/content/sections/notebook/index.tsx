@@ -1,28 +1,30 @@
 import React from "react";
-import { createSectionNav } from "@content/template";
-import * as tabs from "./tabs";
+import { createChildNavMenu } from "@content/template";
+import { ISectionComponentProps } from "@types";
+import * as childSections from "./children";
 
 const title = 'notebook';
 
-const content = () => {
+const SectionContent: React.FC<ISectionComponentProps> = (): JSX.Element => {
   return (
     <>
       <h2>notebook</h2>
       <p>browse collections:</p>
       <nav aria-label="Notebook collections" className="buttons">
-        {createSectionNav({
-          sectionType: 'tab',
+        {createChildNavMenu({
+          childType: 'tab',
           linkType: 'button',
-          parent: title,
-          sections: tabs
+          parentName: title,
+          childSections
         })}
       </nav>
     </>
   )
 }
 
-export * from "./tabs";
+export * from "./children";
+
 export const notebook = {
   title,
-  content
+  SectionContent
 }

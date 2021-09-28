@@ -39,7 +39,7 @@ a {
   cursor: pointer;
 }
 
-span[data-tab-link] > a, span[data-child-link] > a {
+span[data-tab-link] > a, span[data-window-link] > a {
   text-decoration: underline;
 }
 

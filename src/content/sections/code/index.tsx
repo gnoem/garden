@@ -1,8 +1,9 @@
 import React from "react";
+import { ISectionComponentProps } from "@types";
 
 const title = 'code';
 
-const content = () => {
+const SectionContent: React.FC<ISectionComponentProps> = (): JSX.Element => {
   return (
     <>
       <h2>code</h2>
@@ -13,5 +14,5 @@ const content = () => {
 
 export const code = {
   title,
-  content
+  SectionContent
 }
