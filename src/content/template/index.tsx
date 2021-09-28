@@ -24,7 +24,7 @@ export const SectionNavigation: React.FC<ISectionNavigationProps> = ({ label, li
   const createNavLink = (sectionName: string): JSX.Element | null => {
     const section = siteSections[sectionName];
     if (!section?.SectionContent) return null;
-    return <Link button={button} className={button ? 'glossy' : ''} click={action(sectionName)}>{section.title}</Link>
+    return <Link key={`${label}:${linkType}~${sectionName}`} button={button} className={button ? 'glossy' : ''} click={action(sectionName)}>{section.title}</Link>
   }
 
   return (

@@ -2,12 +2,20 @@ import { useCallback, useEffect, useState } from "react";
 import { mutateArray } from "@utils";
 import { ITab } from "@types";
 
-const useTabs = (defaultTabs: ITab[]) => {
+interface ITabData {
+  tabs: ITab[];
+  openTab: (tabName: string) => void;
+  closeTab: (tabName: string) => void;
+  activeTab: ITab;
+  setActiveTab: (tab: ITab) => void;
+}
+
+const useTabs = (defaultTabs: ITab[]): ITabData => {
   const [openInBackground, setOpenInBackground] = useState<boolean>(false);
   const [tabs, setTabs] = useState<ITab[]>(defaultTabs);
   const [justOpened, setJustOpened] = useState<string | null>(null);
-  // ^^ workaround for openTab function to work properly - openTab is called directly from the Tab component which doesn't have access to the latest tabs and openInBackground state :( todo see if there's a better way
   const [activeTab, setActiveTab] = useState<ITab>(defaultTabs[0]);
+
   const closeTab = useCallback((tabName: string) => {
     if (tabName === activeTab.name) {
       const index = tabs.findIndex((tab: ITab) => tab.name === tabName);
@@ -19,7 +27,10 @@ const useTabs = (defaultTabs: ITab[]) => {
       return array.splice(index, 1);
     }));
   }, [activeTab, tabs]);
+
   const openTab = (tabName: string) => setJustOpened(tabName); // will trigger useEffect which has access to the most recent tabs/openInBackground state
+
+  // open justOpened tab:
   useEffect(() => {
     if (!justOpened) return;
     // first save scrollTop of current activeTab in tabs array
@@ -32,7 +43,9 @@ const useTabs = (defaultTabs: ITab[]) => {
       }));
     }
     savePrevTabScroll();
-    if (tabs.some((tab: ITab) => tab.name === justOpened)) { // if tab is open in the background/not currently active
+
+    // if tab is open in the background/not currently active:
+    if (tabs.some((tab: ITab) => tab.name === justOpened)) {
       const foundTab = tabs.find((tab: ITab) => tab.name === justOpened);
       const amountScrolled = foundTab?.scrolled ?? null;
       setActiveTab({ name: justOpened, scrolled: amountScrolled });
@@ -41,7 +54,9 @@ const useTabs = (defaultTabs: ITab[]) => {
       if (!openInBackground) setActiveTab({ name: justOpened, scrolled: 0 });
     }
     setJustOpened(null);
+
   }, [openInBackground, justOpened]);
+
   useEffect(() => {
     // todo double check this isnt causing bugs if multiple useTabs <Window>s are onscreen
     const handleKeydown = (e) => {
@@ -57,6 +72,7 @@ const useTabs = (defaultTabs: ITab[]) => {
       window.removeEventListener('keyup', handleKeyup);
     }
   }, []);
+
   return {
     tabs, openTab, closeTab,
     activeTab, setActiveTab

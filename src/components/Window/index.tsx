@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDataTemplate, useDragonDrop, useTabs } from "@hooks";
+import { useDragonDrop, useTabs } from "@hooks";
 import { siteSections } from "@content";
 
 import * as styles from "./window.module.css";
@@ -37,10 +37,6 @@ const Window: React.FC<IWindowProps> = ({
   const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([{ name, scrolled: 0 }]);
   const ready = useRandomSpawn(windowRef);
   useDragonDrop(windowRef, titleBarRef);
-
-  useDataTemplate(windowRef, createButton(switchToWindow), 'data-window-button');
-  useDataTemplate(windowRef, createButton(openTab), 'data-tab-button', [activeTab]);
-  useDataTemplate(windowRef, createLink(openTab), 'data-tab-link', [activeTab]);
 
   useEffect(() => {
     return () => {
@@ -93,26 +89,6 @@ const Window: React.FC<IWindowProps> = ({
         </WindowContent>
     </div>
   )
-}
-
-const createButton = (open) => (path) => {
-  if (!(path && open)) return null;
-  const link = document.createElement('a');
-  link.setAttribute('data-link', path);
-  link.className = `glossy ${path}`;
-  link.textContent = siteSections[path]?.title ?? path;
-  link.onclick = () => open(path);
-  return link;
-}
-
-const createLink = (open) => (path, text) => {
-  if (!(path && text)) return null;
-  const link = document.createElement('a');
-  link.setAttribute('data-link', path);
-  link.className = path;
-  link.textContent = text ?? siteSections[path]?.title ?? path;
-  link.onclick = () => open(path);
-  return link;
 }
 
 export default Window;

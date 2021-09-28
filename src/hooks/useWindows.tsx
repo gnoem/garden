@@ -25,10 +25,7 @@ const useWindows = () => {
 
   // create the actual windows
   const content = useMemo(() => {
-    const createWindow = (name: string): JSX.Element | null => {
-
-      const { SectionContent } = siteSections[name] ?? siteSections.fallbackSection;
-      if (!SectionContent) return null;
+    const createWindow = (name: string): JSX.Element => {
 
       const createWindowRef = (element: HTMLDivElement): void => {
         setWindowRefs(prevObj => {
@@ -75,9 +72,8 @@ const useWindows = () => {
           switchToWindow={setActiveWindow}
           windowRef={windowRefs[name]}
           registerRef={createWindowRef}
-          destroyRef={removeWindowRef}>
-            <SectionContent />
-        </Window>
+          destroyRef={removeWindowRef}
+        />
       )
     }
     return windows.map(createWindow);
