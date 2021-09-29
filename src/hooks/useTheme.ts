@@ -12,11 +12,11 @@ interface IThemeContext {
 const themes = ['oracle', 'donttouch', 'handlewithcare'];
 const enableKeyboardNav = false;
 
-const useTheme = (setLoading: any): IThemeContext => {
+const useTheme = (setLoading: (value: boolean) => void): IThemeContext => {
   const randomThemeId = randomIntBetween(0, themes.length);
   const [activeTheme, setActiveTheme] = useThemeUrl(themes, randomThemeId);
 
-  const fade = (fn) => {
+  const fade = (fn: () => void): void => {
     // whenever theme is toggled, FIRST dim the canvas, THEN change the theme to prevent flicker
     setLoading(true);
     setTimeout(fn, 250);

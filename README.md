@@ -49,4 +49,5 @@ graphical experiments
 - [ ] add resize listener to canvas and see if that fixes mobile safari screen size thing or figure out what was causing that
 - [ ] themes should be able to have their own distinct UIs, not the same UI with a different color palette
 - [x] fix SSR with window in theme url file!!
-- [ ] refactor windows/tab things
+- [x] refactor windows/tab things
+- [ ] add some documentation
