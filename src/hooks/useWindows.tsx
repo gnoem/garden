@@ -4,29 +4,46 @@ import { Window } from "@components";
 import { siteSections } from "@content";
 import { useResizeWindows } from "@hooks";
 
-const useWindows = () => {
+interface IWindowManager {
+  content: JSX.Element[],
+  handleNavClick: (name: string) => void;
+}
+
+/**
+ * Handles all window-related logic: the names of the windows, what order they're in, what HTML elements correspond to them. Internally calls the useResizeWindows hook to enable window resizing, and returns an interface containing (a) the array of windows as JSX elements and (b) a function to set the active (focused) window.
+ */
+const useWindows = (): IWindowManager => {
   const [windows, setWindows] = useState<string[]>([]);
   const [windowRefs, setWindowRefs] = useState<{ [key: string]: HTMLDivElement }>({});
 
   useResizeWindows(windowRefs);
 
+  /**
+   * Set a window as the active/focused window.
+   * @param name the name of the window to focus
+   */
   const setActiveWindow = (name: string): void => {
-    if (!siteSections[name]) return;
+    if (!siteSections[name]) return; // if there's no site section by this name, do nothing
     const indexOfActiveWindow = windows.indexOf(name);
-    if (indexOfActiveWindow < 0) {
+    if (indexOfActiveWindow < 0) { // if the window is open at all
       setWindows(mutateStateArray(array => array.push(name)));
-    } else {
-      const moveArrayElementToEnd = (array, index) => {
+    } else { // the window is open, just not active/focused
+      const moveArrayElementToEnd = (array: any[], index: number) => {
         array.push(array.splice(index, 1)[0]);
       }
       setWindows(mutateStateArray(array => moveArrayElementToEnd(array, indexOfActiveWindow)));
     }
   }
 
-  // create the actual windows
+  /**
+   * Create the actual windows (JSX elements) to be rendered
+   */
   const content = useMemo(() => {
     const createWindow = (name: string): JSX.Element => {
-
+      /**
+       * The createRef function to be passed in as ref
+       * @param element the element to bind this React ref to
+       */
       const createWindowRef = (element: HTMLDivElement): void => {
         setWindowRefs(prevObj => {
           if (prevObj[name]) {
@@ -38,7 +55,9 @@ const useWindows = () => {
         });
       }
 
-      // cleanup function for when this Window unmounts - remove element from windowRefs
+      /**
+       * Cleanup function for when this Window unmounts: remove element from windowRefs object
+       */
       const removeWindowRef = (): void => {
         setWindowRefs(prevObj => {
           const objToReturn = {...prevObj};
@@ -47,16 +66,13 @@ const useWindows = () => {
         });
       }
 
+      /**
+       * Close this window by removing it from the array
+       */
       const closeWindow = (): void => {
-        // remove from array
-        const index = windows.indexOf(name);
+        const index = windows.indexOf(name); // fixme! this should go inside the callback
         setWindows(mutateArray((array) => array.splice(index, 1)));
-        // delete ref
-        setWindowRefs(prevObj => {
-          const objToReturn = {...prevObj};
-          delete objToReturn[name];
-          return objToReturn;
-        });
+        removeWindowRef();
       }
 
       const index = windows.indexOf(name);

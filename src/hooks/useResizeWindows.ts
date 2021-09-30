@@ -103,8 +103,11 @@ interface ITarget {
   element: HTMLElement;
 }
 
+/**
+ * Allows us to resize our HTML element windows
+ * @param windowRefs an object containing all the windows (HTML elements) that should be resizable
+ */
 const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => {
-
   const [mouseDownCoords, setMouseDownCoords] = useState<{ x: number; y: number; } | null>(null);
   const [target, setTarget] = useState<ITarget | null>(null);
   const [anchoredEdge, setAnchoredEdge] = useState<string | null>(null);
@@ -112,7 +115,10 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
   const [minimumDimensions, setMinimumDimensions] = useState<{ width: number; height: number; } | null>(null);
   const prevTarget = usePrevious(target);
 
-  // get min dimensions from target:
+  /**
+   * useEffect runs as soon as a "target element" has been identified
+   * Set the minimum dimensions of the target element
+   */
   useEffect(() => {
     if (!target?.element) return;
     const { minWidth = '200', minHeight = '200' } = target.element.dataset;
@@ -120,9 +126,11 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
     setMinimumDimensions({ width, height });
   }, [target?.element]);
 
-  // add "resizable" class to all elements
+  /**
+   * useEffect runs whenever windowRefs changes
+   * Add a little corner drag icon to each window via the "resizable" CSS class, mainly so it's clear on touchscreens when there's no cursor change to indicate draggableness
+   */
   useEffect(() => {
-    // all this does is add a little corner drag icon, mainly so it's clear on touchscreens where there's no cursor to indicate draggableness
     Object.values(windowRefs).forEach((element: HTMLElement) => {
       if (element.getAttribute('data-resize')) return;
       const arrow = document.createElement('span');
@@ -132,7 +140,11 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
     });
   }, [windowRefs]);
 
-  // set up the basic mouseup, mousedown listeners
+  /**
+   * SET UP BASIC MOUSEUP & MOUSEDOWN LISTENERS
+   * add mousedown listener to store the original size (DOMRect) of the target element and the initial mousedown coordinates
+   * add mouseup listener to reset certain states (target element, mousedown coords, & anchored edge) and finalize element transform
+   */
   useEffect(() => {
     const handleMouseUp = () => {
       setTarget(null); // NECESSARY FOR DRAGONDROP TO WORK FOR SOME REASON
@@ -169,7 +181,9 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
     }
   }, [anchoredEdge, target]);
 
-  // handleMouseMove event listener (the one that determines if hovering over a window and if so what edge)
+  /**
+   * add mousemove event listener to determine if the user is hovering over a window and if so, which edge
+   */
   useEffect(() => {
     const handleMouseMove = (e) => { // determine current window, edge and target
       e.preventDefault();
@@ -235,7 +249,9 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
     }
   }, [windowRefs, mouseDownCoords, target]);
 
-  // while edge is active, set cursor and disable pointer events:
+  /**
+   * while edge is active, set cursor and disable pointer events
+   */
   useEffect(() => {
     const handlePointerBehavior = (element: HTMLElement, activeCursor: string | null): void => {
       document.body.style.cursor = activeCursor ?? '';
@@ -254,7 +270,9 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
     
   }, [target?.element, target?.edge, prevTarget]);
 
-  // adjust for the fact that, unless dragging from E, SE, or S edge, window position must be based on NOT the top left corner:
+  /**
+   * adjust for the fact that, unless dragging from E, SE, or S edge, window position must be based on NOT the top left corner
+   */
   useEffect(() => {
     if (!target?.element || !anchoredEdge) return;
     if (!originalRect) return;
@@ -289,7 +307,10 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
     }
   }, [target?.element, anchoredEdge]);
 
-  // the actual drag-to-resize part:
+  /**
+   * THE ACTUAL DRAG-TO-RESIZE PART
+   * add mousemove & touchmove listeners to set the window's width and height based on current mouse/touch position
+   */
   useEffect(() => {
     if (!minimumDimensions) return;
     const startDragging = (e) => {

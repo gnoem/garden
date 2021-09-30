@@ -1,9 +1,20 @@
-import { preventTransformOffscreen } from "@utils";
 import { useEffect, useState } from "react";
+import { preventTransformOffscreen } from "@utils";
 
-const useDragonDrop = (element, draggable = element) => {
+/**
+ * Custom hook that you can use to make an element drag-and-droppable
+ * @param element the HTML element to be made drag-and-droppable
+ * @param draggable the HTML element that will actually respond to the mouse/touch events for dragging and dropping (e.g. the title bar of a draggable div: the whole div should move around when you drag it, but you can only drag it around by the title bar). if not specified, defaults to the element given in the first param
+ */
+const useDragonDrop = (element: HTMLElement, draggable: HTMLElement = element): void => {
   const [mouseDownCoords, setMouseDownCoords] = useState<{ x: number; y: number } | null>(null);
   const [dragging, setDragging] = useState<boolean>(false);
+
+  /**
+   * useEffect runs if mouseDownCoords have been set
+   * add mousemove listener to setDragging(true) (which will trigger the next useEffect)
+   * add mouseup listener to reset dragging & mouseDownCoords states and finalize element transform, including checking to make sure the element is still visible onscreen
+   */
   useEffect(() => {
     if (!mouseDownCoords) return;
     const handleMouseUp = () => {
@@ -37,12 +48,17 @@ const useDragonDrop = (element, draggable = element) => {
       window.removeEventListener('touchend', handleMouseUp);
     }
   }, [mouseDownCoords, element]);
+  
+  /**
+   * useEffect runs if dragging === true
+   * add mousemove & touchmove listeners to actually transform the element based on current mouse/touch coordinates
+   */
   useEffect(() => {
     if (!element || !dragging) return;
     const dragElement = (e) => {
       e.preventDefault();
       const { clientX, clientY } = (e.type === 'touchmove') ? e.touches[0] : e;
-      // get offset at time of mousedown
+      // get offset from initial mouseDownCoords
       const [offsetX, offsetY] = [mouseDownCoords?.x, mouseDownCoords?.y];
       element.style.transform = `translate3d(${clientX + offsetX}px, ${clientY + offsetY}px, 0)`;
     }
@@ -53,6 +69,11 @@ const useDragonDrop = (element, draggable = element) => {
       window.removeEventListener('touchmove', dragElement);
     }
   }, [element, dragging, mouseDownCoords]);
+  
+  /**
+   * useEffect runs as soon as element + draggable are defined
+   * add mousedown & touchstart listener to setMouseDownCoords
+   */
   useEffect(() => {
     if (!element || !draggable) return;
     const getCoords = (e) => {
