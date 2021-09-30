@@ -1,20 +1,27 @@
 import { useRef, useState } from "react";
 
-interface IMinimizeWindowTools {
+interface IMinimizeWindowManager {
   minimized: boolean;
   windowMaxHeight: number | null;
   toggleMinimized: () => void;
 }
 
+/**
+ * Manages all logic relating to a given window's minimized/unminimized state.
+ * @param active this window's active state
+ * @param focusWindow the function to focus this window
+ * @param param2 the window ref and title bar ref
+ * @returns interface to manage this window's minimized/unminimized state
+ */
 const useMinimizeWindows = (
   active: boolean,
   focusWindow: () => void,
   { windowRef, titleBarRef }: { [key: string]: HTMLDivElement | null }
-): IMinimizeWindowTools => {
+): IMinimizeWindowManager => {
   const [maxHeight, setMaxHeight] = useState<{ minimized: boolean; value: number | null }>({ minimized: false, value: null });
   const prevMaxHeight = useRef<number | null>(null);
   
-  const toggleMinimized = (): void => {
+  const toggleMinimized = () => {
     if (!(windowRef && titleBarRef)) return;
     if (maxHeight.minimized) {
       if (!active) focusWindow();

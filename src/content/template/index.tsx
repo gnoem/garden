@@ -3,6 +3,11 @@ import { ISiteMapChildren, siteMap } from "@content/site";
 import { siteSections } from "@content";
 import { FlattenUnion, LinkType } from "@types";
 
+/**
+ * Gets the names of a parent section's children
+ * @param parentName the name of the parent
+ * @returns The names of this section's children organized into two arrays, tab and window
+ */
 export const getChildren = (parentName: string): Required<ISiteMapChildren> => {
   const { tab, window } = siteMap[parentName]?.children ?? {};
   return {

@@ -10,20 +10,24 @@ interface IObjectRollCall {
   allObjectsLoaded: boolean;
 }
 
-/* 
-this custom hook keeps track of which objects in our scene have loaded.
-it does this by adding a setLoaded function to scene.userData, which each object will call when it's done loading.
-object components will essentially "announce themselves" and be marked as present on the attendance sheet
-
-its two responsibilities are to:
-1. let the parent component (Scene) know when the setLoaded function has been added, which is Scene's signal to go ahead and load those object components. this lets us avoid loading any objects before we can track them.
-2. let Scene know when all the objects in the scene have loaded, which is Scene's signal to go ahead and "lift the curtain" (remove the loading screen)
-*/
-
+/**
+ * Keeps track of which objects in our scene have loaded by adding a setLoaded function to `scene.userData`, which each object will use to "announce itself" when it's done loading.
+ * 
+ * Two responsibilities:
+ * 1. Let the parent component (Scene) know when roll call has been enabled, which is Scene's signal to go ahead and load those object components (avoid loading any objects before we can track them)
+ * 2. Let Scene know when all the objects in the scene have loaded, which is Scene's signal to go ahead and "lift the curtain" (remove the loading screen).
+ * @param objects an object mapping the names of scene objects to their corresponding React components
+ * @param sceneComponents the scene components (though only .scene is needed)
+ * @returns object roll call interface: has roll call been enabled yet (is it okay to start loading) and have all the objects in the scene loaded yet (is it okay to "lift the curtain")
+ */
 export const useObjectRollCall = (objects: ISceneObjectsMap, { scene }: IThreeScene): IObjectRollCall => {
   
-  // create object of type ILoadedObjectsMap to keep track of which objects have loaded
-  const createLoadedObjectsMap = (objects) => {
+  /**
+   * Create an object to keep track of which scene objects have loaded
+   * @param objects SceneObjectsMap
+   * @returns LoadedObjectsMap 
+   */
+  const createLoadedObjectsMap = (objects: ISceneObjectsMap): ILoadedObjectsMap => {
     return Object.keys(objects).reduce((obj, objectName) => {
       obj[objectName] = false;
       return obj;
@@ -33,6 +37,9 @@ export const useObjectRollCall = (objects: ISceneObjectsMap, { scene }: IThreeSc
   const [objectsList, setObjectsList] = useState<ILoadedObjectsMap>(createLoadedObjectsMap(objects));
   const [rollCallEnabled, setRollCallEnabled] = useState<boolean>(false);
 
+  /**
+   * when 'objects' changes (e.g. due to theme change), reset rollCallEnabled and objectsList
+   */
   useEffect(() => {
     // tell Scene we're not ready to load any objects yet
     setRollCallEnabled(false);
@@ -40,6 +47,10 @@ export const useObjectRollCall = (objects: ISceneObjectsMap, { scene }: IThreeSc
     setObjectsList(createLoadedObjectsMap(objects));
   }, [objects]);
 
+  /**
+   * as soon as the scene loads, add the setLoaded function to scene.userData and then set rollCallEnabled to true
+   * does nothing if rollCallEnabled is already true, or if scene.userData.setLoaded already exists
+   */
   useEffect(() => {
     if (rollCallEnabled) return;
     if (!scene || scene?.userData.setLoaded) return;

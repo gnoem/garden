@@ -6,7 +6,7 @@ import { preventTransformOffscreen } from "@utils";
  * @param element the HTML element to be made drag-and-droppable
  * @param draggable the HTML element that will actually respond to the mouse/touch events for dragging and dropping (e.g. the title bar of a draggable div: the whole div should move around when you drag it, but you can only drag it around by the title bar). if not specified, defaults to the element given in the first param
  */
-const useDragonDrop = (element: HTMLElement, draggable: HTMLElement = element): void => {
+const useDragonDrop = (element: HTMLElement | null, draggable: HTMLElement | null = element): void => {
   const [mouseDownCoords, setMouseDownCoords] = useState<{ x: number; y: number } | null>(null);
   const [dragging, setDragging] = useState<boolean>(false);
 
@@ -16,7 +16,7 @@ const useDragonDrop = (element: HTMLElement, draggable: HTMLElement = element): 
    * add mouseup listener to reset dragging & mouseDownCoords states and finalize element transform, including checking to make sure the element is still visible onscreen
    */
   useEffect(() => {
-    if (!mouseDownCoords) return;
+    if (!mouseDownCoords || !element) return;
     const handleMouseUp = () => {
       setDragging(false);
       setMouseDownCoords(null);
