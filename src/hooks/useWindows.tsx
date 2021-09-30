@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { mutateArray, mutateStateArray } from "@utils";
+import { newArrayFrom, newObjectFrom } from "@utils";
 import { Window } from "@components";
 import { siteSections } from "@content";
 import { useResizeWindows } from "@hooks";
@@ -24,15 +24,17 @@ const useWindows = (): IWindowManager => {
    */
   const setActiveWindow = (name: string): void => {
     if (!siteSections[name]) return; // if there's no site section by this name, do nothing
-    const indexOfActiveWindow = windows.indexOf(name);
-    if (indexOfActiveWindow < 0) { // if the window is open at all
-      setWindows(mutateStateArray(array => array.push(name)));
-    } else { // the window is open, just not active/focused
-      const moveArrayElementToEnd = (array: any[], index: number) => {
-        array.push(array.splice(index, 1)[0]);
+    setWindows(newArrayFrom(windows => {
+      const indexOfActiveWindow = windows.indexOf(name);
+      if (indexOfActiveWindow > 0) { // if the window is open and we just need to switch to it/focus it
+        const moveArrayElementToEnd = (array: any[], index: number) => {
+          array.push(array.splice(index, 1)[0]);
+        }
+        moveArrayElementToEnd(windows, indexOfActiveWindow);
+      } else { // we need to actually open the window
+        windows.push(name);
       }
-      setWindows(mutateStateArray(array => moveArrayElementToEnd(array, indexOfActiveWindow)));
-    }
+    }));
   }
 
   /**
@@ -45,33 +47,29 @@ const useWindows = (): IWindowManager => {
        * @param element the element to bind this React ref to
        */
       const createWindowRef = (element: HTMLDivElement): void => {
-        setWindowRefs(prevObj => {
-          if (prevObj[name]) {
-            return prevObj;
-          }
-          const returnObj = {...prevObj};
-          returnObj[name] = element;
-          return returnObj;
-        });
+        setWindowRefs(newObjectFrom(windowRefs => {
+          if (windowRefs[name]) return;
+          windowRefs[name] = element;
+        }));
       }
 
       /**
        * Cleanup function for when this Window unmounts: remove element from windowRefs object
        */
       const removeWindowRef = (): void => {
-        setWindowRefs(prevObj => {
-          const objToReturn = {...prevObj};
-          delete objToReturn[name];
-          return objToReturn;
-        });
+        setWindowRefs(newObjectFrom(windowRefs => {
+          delete windowRefs[name];
+        }));
       }
 
       /**
        * Close this window by removing it from the array
        */
       const closeWindow = (): void => {
-        const index = windows.indexOf(name); // fixme! this should go inside the callback
-        setWindows(mutateArray((array) => array.splice(index, 1)));
+        setWindows(newArrayFrom(array => {
+          const index = array.indexOf(name);
+          return array.splice(index, 1);
+        }));
         removeWindowRef();
       }
 

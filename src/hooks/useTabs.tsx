@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { mutateArray } from "@utils";
+import { newArrayFrom } from "@utils";
 import { ITab } from "@types";
 
 interface ITabData {
@@ -27,13 +27,13 @@ const useTabs = (defaultTabs: ITab[]): ITabData => {
    */
   const closeTab = useCallback((tabName: string) => {
     if (tabName === activeTab.name) {
-      const index = tabs.findIndex((tab: ITab) => tab.name === tabName);
+      const index = tabs.findIndex(tab => tab.name === tabName);
       const nextInLine = tabs[index + 1] ?? tabs[index - 1] ?? defaultTabs[0];
       setActiveTab(nextInLine);
     }
-    setTabs(mutateArray((array: ITab[]) => {
-      const index = array.findIndex((tab: ITab) => tab.name === tabName);
-      return array.splice(index, 1);
+    setTabs(newArrayFrom(tabs => {
+      const index = tabs.findIndex(tab => tab.name === tabName);
+      tabs.splice(index, 1);
     }));
   }, [activeTab, tabs]);
 
@@ -52,11 +52,9 @@ const useTabs = (defaultTabs: ITab[]): ITabData => {
     if (!justOpened) return;
     // first save scrollTop of current activeTab in tabs array
     const savePrevTabScroll = () => {
-      // find entry in tabs and mutate
-      const updatedPrevTab = {...activeTab};
-      setTabs(mutateArray((array: ITab[]) => {
-        const prevTabIndex = array.findIndex((tab: ITab) => tab.name === activeTab.name);
-        return array.splice(prevTabIndex, 1, updatedPrevTab);
+      setTabs(newArrayFrom(tabs => {
+        const prevTabIndex = tabs.findIndex(tab => tab.name === activeTab.name);
+        tabs.splice(prevTabIndex, 1, activeTab);
       }));
     }
     savePrevTabScroll();
@@ -67,7 +65,7 @@ const useTabs = (defaultTabs: ITab[]): ITabData => {
       const amountScrolled = foundTab?.scrolled ?? null;
       setActiveTab({ name: justOpened, scrolled: amountScrolled });
     } else { // opening new tab
-      setTabs(mutateArray((array: ITab[]) => array.push({ name: justOpened, scrolled: 0 })));
+      setTabs(newArrayFrom(array => array.push({ name: justOpened, scrolled: 0 })));
       if (!openInBackground) setActiveTab({ name: justOpened, scrolled: 0 });
     }
     setJustOpened(null);

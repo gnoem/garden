@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { mutateStateArray } from "@utils";
+import { newArrayFrom } from "@utils";
 import { useCallback, useEffect, useState } from "react";
 import { ILoop, SceneObject } from "@types";
 
@@ -39,7 +39,7 @@ const useLoop = (renderer: THREE.WebGLRenderer): ILoop => {
    * Adds a given object to the loop
    * @param obj scene object to be added to the loop
    */
-  const add = (obj: SceneObject) => setUpdatables(mutateStateArray(array => array.push(obj)));
+  const add = (obj: SceneObject) => setUpdatables(newArrayFrom(updatables => updatables.push(obj)));
 
   /**
    * Clear the loop of all scene objects

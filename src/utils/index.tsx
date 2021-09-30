@@ -8,12 +8,23 @@ export * from "./materials";
 /**
  * setState callback generator for updating arrays held in React state
  * @param update what function to perform on the array
- * @returns setState callback (which in turn returns the updated array)
+ * @returns setState callback function
  */
-export const mutateStateArray = (update: ((array: any[]) => void) | null) => (prevArray: React.SetStateAction<any>): any[] => {
+export const newArrayFrom = (update: (array: any[]) => void) => (prevArray: React.SetStateAction<any>): any[] => {
   const arrayToReturn = [...prevArray];
-  update?.(arrayToReturn);
+  update(arrayToReturn);
   return arrayToReturn;
+}
+
+/**
+ * setState callback generator for updating objects held in React state
+ * @param update what function to perform on the object
+ * @returns setState callback function
+ */
+export const newObjectFrom = (update: (obj: ISimpleObject) => void) => (prevObj: React.SetStateAction<ISimpleObject>): ISimpleObject => {
+  const objectToReturn = {...prevObj};
+  update(objectToReturn);
+  return objectToReturn;
 }
 
 /**
@@ -90,7 +101,7 @@ export const meshRegistration = (
 ): IMeshRegistrationObject => {
   return meshNames.reduce((obj: ISimpleObject, meshName: string): IMeshRegistrationObject => {
     const registerMesh: MeshRegistrationFunction = (object: THREE.Mesh): void => {
-      setMeshes((prevState: IMeshesObject): IMeshesObject => ({
+      setMeshes(prevState => ({
         ...prevState,
         [meshName]: object
       }));
@@ -122,17 +133,6 @@ export const createMeshComponent = (
       mesh
     }} />;
   }
-}
-
-/**
- * setState callback generator for updating arrays held in React state
- * @param update what function to perform on the array
- * @returns setState callback (which in turn returns the updated array)
- */
-export const mutateArray = (update) => (prevArray) => {
-  const arrayToReturn = [...prevArray];
-  update(arrayToReturn);
-  return arrayToReturn;
 }
 
 /**
