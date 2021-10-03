@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDragonDrop, useTabs } from "@hooks";
+import React, { useState } from "react";
+import { useDragonDrop, useResizeWindows, useTabs } from "@hooks";
 import { siteSections } from "@content";
 
 import * as styles from "./window.module.css";
@@ -11,9 +11,6 @@ interface IWindowProps {
   name: string;
   index: number;
   active: boolean;
-  windowRef: HTMLDivElement | null,
-  registerRef: (element: HTMLDivElement) => void;
-  destroyRef: () => void;
   closeWindow: () => void;
   focusWindow: () => void;
   switchToWindow: (name: string) => void;
@@ -23,26 +20,19 @@ const Window: React.FC<IWindowProps> = ({
   name,
   index,
   active,
-  windowRef,
-  registerRef,
-  destroyRef,
   focusWindow,
   switchToWindow,
   closeWindow
 }): JSX.Element => {
 
+  const [windowRef, setWindowRef] = useState<HTMLDivElement | null>(null);
   const [titleBarRef, setTitleBarRef] = useState<HTMLDivElement | null>(null);
   
   const { minimized, windowMaxHeight, toggleMinimized } = useMinimizeWindows(active, focusWindow, { windowRef, titleBarRef });
   const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([{ name, scrolled: 0 }]);
   const ready = useRandomSpawn(windowRef);
   useDragonDrop(windowRef, titleBarRef);
-
-  useEffect(() => {
-    return () => {
-      destroyRef();
-    }
-  }, []);
+  useResizeWindows({ name, windowRef });
 
   const windowClassName = `${styles.Window} ${ready ? styles.ready : ''} ${active ? styles.active : ''} ${minimized ? styles.minimized : ''}`;
 
@@ -63,7 +53,7 @@ const Window: React.FC<IWindowProps> = ({
       className={windowClassName}
       onMouseDown={handleDivClick}
       style={windowStyle}
-      ref={registerRef}>
+      ref={setWindowRef}>
         <Bar>
           <TitleBar {...{
             createRef: setTitleBarRef,

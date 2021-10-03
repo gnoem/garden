@@ -105,9 +105,9 @@ interface ITarget {
 
 /**
  * Allows us to resize our HTML element windows
- * @param windowRefs an object containing all the windows (HTML elements) that should be resizable
+ * @param windowRef an object containing all the windows (HTML elements) that should be resizable
  */
-const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => {
+const useResizeWindows = ({ name, windowRef }: { name: string; windowRef: HTMLElement | null }): void => {
   const [mouseDownCoords, setMouseDownCoords] = useState<{ x: number; y: number; } | null>(null);
   const [target, setTarget] = useState<ITarget | null>(null);
   const [anchoredEdge, setAnchoredEdge] = useState<string | null>(null);
@@ -127,18 +127,17 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
   }, [target?.element]);
 
   /**
-   * useEffect runs whenever windowRefs changes
-   * Add a little corner drag icon to each window via the "resizable" CSS class, mainly so it's clear on touchscreens when there's no cursor change to indicate draggableness
+   * useEffect runs whenever windowRef changes
+   * Add a little corner drag icon to the window via the "resizable" CSS class, mainly so it's clear on touchscreens when there's no cursor change to indicate draggableness
    */
   useEffect(() => {
-    Object.values(windowRefs).forEach((element: HTMLElement) => {
-      if (element.getAttribute('data-resize')) return;
-      const arrow = document.createElement('span');
-      arrow.setAttribute('data-drag', 'true');
-      element.appendChild(arrow);
-      element.setAttribute('data-resize', 'true');
-    });
-  }, [windowRefs]);
+    if (!windowRef) return;
+    if (windowRef.getAttribute('data-resize')) return;
+    const arrow = document.createElement('span');
+    arrow.setAttribute('data-drag', 'true');
+    windowRef.appendChild(arrow);
+    windowRef.setAttribute('data-resize', 'true');
+  }, [windowRef]);
 
   /**
    * SET UP BASIC MOUSEUP & MOUSEDOWN LISTENERS
@@ -185,19 +184,13 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
    * add mousemove event listener to determine if the user is hovering over a window and if so, which edge
    */
   useEffect(() => {
+    if (!windowRef) return;
     const handleMouseMove = (e) => { // determine current window, edge and target
       e.preventDefault();
       if (mouseDownCoords) return;
       const touchscreen = e.type === 'touchstart';
       const { clientX, clientY } = touchscreen ? e.touches[0] : e;
-      let foundElement; // = currentElement;
-      for (const entry of Object.entries(windowRefs)) {
-        const [name, element]: [string, HTMLElement] = entry;
-        if (element.contains(e.target)) {
-          foundElement = { name, element };
-          //setCurrentElement(foundElement); // is this just so that on each mousemove event, foundElement doesn't get briefly reset to null
-        }
-      }
+      const foundElement = (windowRef.contains(e.target)) ? { name, element: windowRef } : null;
       if (!foundElement) {
         setTarget(null);
         return;
@@ -247,7 +240,7 @@ const useResizeWindows = (windowRefs: { [key: string]: HTMLElement; }): void => 
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchstart', handleMouseMove);
     }
-  }, [windowRefs, mouseDownCoords, target]);
+  }, [windowRef, mouseDownCoords, target]);
 
   /**
    * while edge is active, set cursor and disable pointer events
