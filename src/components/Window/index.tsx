@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useDragonDrop, useResizeWindows, useTabs } from "@hooks";
+import { useDragonDrop, useTabs } from "@hooks";
 import { siteSections } from "@content";
 
 import * as styles from "./window.module.css";
-import { useRandomSpawn, useMinimizeWindows } from "./hooks";
+import { useRandomSpawn, useResizeWindow, useMinimizeWindows } from "./hooks";
 import { Bar, TitleBar, Tabs, WindowContent } from "./components";
 import { ISectionModule } from "@types";
 
@@ -32,7 +32,7 @@ const Window: React.FC<IWindowProps> = ({
   const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([{ name, scrolled: 0 }]);
   const ready = useRandomSpawn(windowRef);
   useDragonDrop(windowRef, titleBarRef);
-  useResizeWindows({ name, windowRef });
+  useResizeWindow({ name, windowRef });
 
   const windowClassName = `${styles.Window} ${ready ? styles.ready : ''} ${active ? styles.active : ''} ${minimized ? styles.minimized : ''}`;
 
