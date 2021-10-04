@@ -29,7 +29,7 @@ const Window: React.FC<IWindowProps> = ({
   const [titleBarRef, setTitleBarRef] = useState<HTMLDivElement | null>(null);
   
   const { minimized, windowMaxHeight, toggleMinimized } = useMinimizeWindows(active, focusWindow, { windowRef, titleBarRef });
-  const { tabs, openTab, closeTab, activeTab, setActiveTab } = useTabs([{ name, scrolled: 0 }]);
+  const { tabs, openTab, closeTab, activeTab, saveScrollPosition } = useTabs(name);
   const ready = useRandomSpawn(windowRef);
   useDragonDrop(windowRef, titleBarRef);
   useResizeWindow({ name, windowRef });
@@ -70,7 +70,7 @@ const Window: React.FC<IWindowProps> = ({
             activeTab
           }} />
         </Bar>
-        <WindowContent {...{ name, activeTab, setActiveTab }}>
+        <WindowContent {...{ name, activeTab, saveScrollPosition: saveScrollPosition }}>
           <SectionContent {...{
             name: activeTab.name,
             openTab: (tabName: string) => () => openTab(tabName),

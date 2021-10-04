@@ -7,13 +7,13 @@ import { ITab } from "@types";
 interface ITabsProps {
   name: string;
   tabs: ITab[];
-  openTab: (string) => void;
-  closeTab: (string) => void;
   activeTab: ITab;
+  openTab: (tabName: string) => void;
+  closeTab: (tabName: string) => void;
 }
 
-const Tabs: React.FC<ITabsProps> = ({ name, tabs, openTab, closeTab, activeTab }): JSX.Element | null => {
-  if (tabs?.length <= 1) return null;
+const Tabs: React.FC<ITabsProps> = ({ name, tabs, activeTab, openTab, closeTab }): JSX.Element | null => {
+  if (tabs.length <= 1) return null;
 
   const loadTab = (tab: ITab): JSX.Element => (
     <Tab {...{

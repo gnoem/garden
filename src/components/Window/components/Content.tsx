@@ -5,10 +5,10 @@ import { ITab } from "@types";
 interface IContentProps {
   name: string;
   activeTab: ITab;
-  setActiveTab: (ITab) => void;
+  saveScrollPosition: (value: number) => void;
 }
 
-const WindowContent: React.FC<IContentProps> = ({ children, name, activeTab, setActiveTab }): JSX.Element => {
+const WindowContent: React.FC<IContentProps> = ({ children, name, activeTab, saveScrollPosition }): JSX.Element => {
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   // if switching between tabs, scroll to tab's saved scroll position:
@@ -27,16 +27,13 @@ const WindowContent: React.FC<IContentProps> = ({ children, name, activeTab, set
     }
   }, [contentRef.current, activeTab.name]);
 
-  const saveScrollPosition = useCallback(() => { // todo debounce?
+  const handleScroll = useCallback(() => { // todo debounce?
     if (!contentRef.current) return;
-    setActiveTab(prevState => ({
-      ...prevState,
-      scrolled: contentRef.current?.scrollTop
-    }));
+    saveScrollPosition(contentRef.current.scrollTop);
   }, [activeTab.name, contentRef.current]);
 
   return (
-    <div className={styles.Content} ref={contentRef} onScroll={saveScrollPosition}>
+    <div className={styles.Content} ref={contentRef} onScroll={handleScroll}>
       {children}
     </div>
   )

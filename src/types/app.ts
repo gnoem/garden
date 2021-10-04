@@ -8,7 +8,8 @@ export interface IHeadProps {
 
 export interface ITab {
   name: string;
-  scrolled: number | null;
+  scrolled: number;
+  active: boolean;
 }
 
 export interface ISectionComponentProps {

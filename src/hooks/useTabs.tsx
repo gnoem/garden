@@ -1,99 +1,135 @@
-import { useCallback, useEffect, useState } from "react";
-import { newArrayFrom } from "@utils";
 import { ITab } from "@types";
+import { newArrayFrom } from "@utils";
+import { useEffect, useMemo, useState } from "react";
 
-interface ITabData {
+interface ITabInfo {
   tabs: ITab[];
+  activeTab: ITab;
   openTab: (tabName: string) => void;
   closeTab: (tabName: string) => void;
-  activeTab: ITab;
-  setActiveTab: (tab: ITab) => void;
+  saveScrollPosition: (scrolled: number) => void;
 }
 
-/**
- * Used inside Window component to handle tab management — which tabs exist, which one is active/focused, how much each one is scrolled — and expose methods for easy opening/closing/switching of tabs
- * @param defaultTabs the default/starting tabs for this window
- * @returns tab management interface
- */
-const useTabs = (defaultTabs: ITab[]): ITabData => {
+const useTabs = (baseTabName: string): ITabInfo => {
+  const baseTab = useMemo<ITab>(() => ({
+    name: baseTabName,
+    scrolled: 0,
+    active: true
+  }), [baseTabName]);
+
+  const [tabs, setTabs] = useState<ITab[]>([baseTab]);
   const [openInBackground, setOpenInBackground] = useState<boolean>(false);
-  const [tabs, setTabs] = useState<ITab[]>(defaultTabs);
-  const [justOpened, setJustOpened] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<ITab>(defaultTabs[0]);
+
+  const getActiveTabIndex = (tabArray = tabs) => tabArray.findIndex(tab => tab.active === true);
+  const activeTab = useMemo<ITab>(() => {
+    return tabs[getActiveTabIndex()];
+  }, [tabs]);
 
   /**
-   * remove this tab from the tabs array
-   * if this tab is currently the active tab, find the tab that's "next in line" and switch to it
+   * Find a tab by name and open it up
+   * @param tabName the name of the target tab
    */
-  const closeTab = useCallback((tabName: string) => {
-    if (tabName === activeTab.name) {
-      const index = tabs.findIndex(tab => tab.name === tabName);
-      const nextInLine = tabs[index + 1] ?? tabs[index - 1] ?? defaultTabs[0];
-      setActiveTab(nextInLine);
-    }
-    setTabs(newArrayFrom(tabs => {
-      const index = tabs.findIndex(tab => tab.name === tabName);
-      tabs.splice(index, 1);
+  const openTab = (tabName: string): void => {
+    setTabs(newArrayFrom<ITab>(tabs => {
+      const currentTabIndex = getActiveTabIndex(tabs);
+      const targetTabIndex = tabs.findIndex(tab => tab.name === tabName);
+      const currentTab = tabs[currentTabIndex];
+      if (currentTabIndex === targetTabIndex) return;
+      // if targetTab is already in tabs array (just not active/focused), set targetTab.active to true:
+      if (targetTabIndex >= 0) {
+        currentTab.active = false;
+        tabs[targetTabIndex].active = true;
+      } else { // otherwise, push it to tabs array
+        const newTab = {
+          name: tabName,
+          scrolled: 0,
+          active: !openInBackground
+        }
+        if (!openInBackground) {
+          currentTab.active = false;
+        }
+        tabs.push(newTab);
+      }
     }));
-  }, [activeTab, tabs]);
+  }
 
   /**
-   * Sets the justOpened state, which triggers the useEffect responsible for actually opening/switching to a tab
-   * @param tabName the name of the tab to open
+   * Find a tab by name and close it
+   * @param tabName the name of the target tab
    */
-  const openTab = (tabName: string) => setJustOpened(tabName);
+  const closeTab = (tabName: string): void => {
+    setTabs(newArrayFrom<ITab>(tabs => {
+      const activeTab = tabs[getActiveTabIndex(tabs)];
+      if (!activeTab) return;
+      const targetTabIndex = tabs.findIndex(tab => tab.name === tabName);
+      const targetIsActive = tabName === activeTab.name;
+      if (targetIsActive) { // if the tab we want to close is the currently active tab
+        const nextInLine = tabs[targetTabIndex + 1] ?? tabs[targetTabIndex - 1] ?? tabs[0];
+        const nextInLineIndex = tabs.findIndex(tab => tab.name === nextInLine.name);
+        tabs[nextInLineIndex].active = true;
+      }
+      tabs.splice(targetTabIndex, 1);
+    }));
+  }
 
   /**
-   * Actually open up the "just opened" tab
-   * Save the amount scrolled of the current active tab
-   * Open up or switch to the justOpened tab
+   * Save the scroll position of the active tab
+   * @param scrolled the amount scrolled downwards, in pixels
+   */
+  const saveScrollPosition = (scrolled: number): void => {
+    setTabs(newArrayFrom<ITab>(tabs => {
+      const activeTab = tabs[getActiveTabIndex(tabs)];
+      activeTab.scrolled = scrolled;
+    }));
+  }
+
+  /**
+   * useEffect prevents:
+   * • accidentally emptying the tabs array
+   * • none of the tabs being active
    */
   useEffect(() => {
-    if (!justOpened) return;
-    // first save scrollTop of current activeTab in tabs array
-    const savePrevTabScroll = () => {
-      setTabs(newArrayFrom(tabs => {
-        const prevTabIndex = tabs.findIndex(tab => tab.name === activeTab.name);
-        tabs.splice(prevTabIndex, 1, activeTab);
+    if (tabs.length === 0) { // if tabs is empty, push baseTab
+      setTabs(newArrayFrom<ITab>(tabs => {
+        tabs.push(baseTab);
+      }));
+      return;
+    }
+    if (!activeTab) { // if no active tab can be found, make the first one active
+      setTabs(newArrayFrom<ITab>(tabs => {
+        tabs[0].active = true; // we know that tabs[0] is defined because we already handled the empty array case above
       }));
     }
-    savePrevTabScroll();
-
-    // if tab is open in the background/not currently active:
-    if (tabs.some(tab => tab.name === justOpened)) {
-      const foundTab = tabs.find(tab => tab.name === justOpened);
-      const amountScrolled = foundTab?.scrolled ?? null;
-      setActiveTab({ name: justOpened, scrolled: amountScrolled });
-    } else { // opening new tab
-      setTabs(newArrayFrom(array => array.push({ name: justOpened, scrolled: 0 })));
-      if (!openInBackground) setActiveTab({ name: justOpened, scrolled: 0 });
-    }
-    setJustOpened(null);
-
-  }, [openInBackground, justOpened]);
+  }, [tabs, baseTab]);
 
   /**
-   * Add keydown/keyup listeners to enable "quietly" opening up a tab by holding down the meta (ctrl/command) key
+   * Add keydown/keyup listeners to enable "quietly" opening up tabs by holding down Ctrl/Cmd
    */
   useEffect(() => {
-    // todo double check this isnt causing bugs if multiple useTabs <Window>s are onscreen
-    const handleKeydown = (e) => {
-      if (e.key === 'Meta') setOpenInBackground(true);
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Meta') {
+        setOpenInBackground(true);
+      }
     }
-    const handleKeyup = (e) => {
-      if (e.key === 'Meta') setOpenInBackground(false);
+    const onKeyUp = (e: KeyboardEvent) => {
+      if (e.key === 'Meta') {
+        setOpenInBackground(false);
+      }
     }
-    window.addEventListener('keydown', handleKeydown);
-    window.addEventListener('keyup', handleKeyup);
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
     return () => {
-      window.removeEventListener('keydown', handleKeydown);
-      window.removeEventListener('keyup', handleKeyup);
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
     }
   }, []);
 
   return {
-    tabs, openTab, closeTab,
-    activeTab, setActiveTab
+    tabs,
+    activeTab,
+    openTab,
+    closeTab,
+    saveScrollPosition
   }
 }
 

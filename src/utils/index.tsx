@@ -10,7 +10,7 @@ export * from "./materials";
  * @param update what function to perform on the array
  * @returns setState callback function
  */
-export const newArrayFrom = (update: (array: any[]) => void) => (prevArray: React.SetStateAction<any>): any[] => {
+export const newArrayFrom = <T extends unknown>(update: (array: T[]) => void) => (prevArray: T[]): T[] => {
   const arrayToReturn = [...prevArray];
   update(arrayToReturn);
   return arrayToReturn;
@@ -21,7 +21,7 @@ export const newArrayFrom = (update: (array: any[]) => void) => (prevArray: Reac
  * @param update what function to perform on the object
  * @returns setState callback function
  */
-export const newObjectFrom = (update: (obj: ISimpleObject) => void) => (prevObj: React.SetStateAction<ISimpleObject>): ISimpleObject => {
+export const newObjectFrom = <T extends ISimpleObject>(update: (obj: T) => void) => (prevObj: T): T => {
   const objectToReturn = {...prevObj};
   update(objectToReturn);
   return objectToReturn;
@@ -32,7 +32,7 @@ export const newObjectFrom = (update: (obj: ISimpleObject) => void) => (prevObj:
  * @param array the array
  * @returns the last member of the array
  */
-export const last = (array: any[] = []): any => {
+export const last = <T extends unknown>(array: T[] = []): T => {
   return array[array.length - 1];
 }
 
