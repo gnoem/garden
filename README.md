@@ -50,4 +50,5 @@ graphical experiments
 - [ ] themes should be able to have their own distinct UIs, not the same UI with a different color palette
 - [x] fix SSR with window in theme url file!!
 - [x] refactor windows/tab things
-- [ ] add some documentation
+- [x] add some documentation
+- [ ] add WatchCursorControls to loop

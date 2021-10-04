@@ -2,6 +2,11 @@ export interface ISimpleObject {
   [key: string]: any;
 }
 
+export interface ICoords {
+  x: number;
+  y: number;
+}
+
 /**
  * create a type from T that is the same union, but with each member of the union augmented with the missing fields from all the union with the missing fields being optional and of type undefined
  * https://stackoverflow.com/questions/51889715/require-at-least-one-of-two-properties-to-be-provided-in-props

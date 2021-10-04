@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import * as THREE from "three";
-import { IMeshComponentsObject, IMeshRegistrationObject, IMeshesObject, ISimpleObject, MeshRegistrationFunction, IMeshComponentProps } from "@types";
+import { IMeshComponentsObject, IMeshRegistrationObject, IMeshesObject, ISimpleObject, MeshRegistrationFunction, IMeshComponentProps, ICoords } from "@types";
 export * from "./scene";
 export { getInitialState, getAnimationData } from "./interactions";
 export * from "./materials";
@@ -166,6 +166,32 @@ export const preventTransformOffscreen = (element: HTMLElement, translate: { x: 
   }
   checkTopLeft();
   checkBottomRight();
+}
+
+/**
+ * Sanitizes the translation coordinates of a drag & drop element
+ * @param current the element's current translate coordinates
+ * @param boundary the { x, y } boundaries that the element can't cross
+ * @returns corrected { x, y } coordinates
+ */
+export const getFinalTransform = (current: ICoords, boundary: ICoords): ICoords => {
+  let finalX, finalY;
+  const checkTopLeft = () => {
+    if (current.x >= 0 && current.y >= 0) return;
+    if (current.x < 0) finalX = 0;
+    if (current.y < 0) finalY = 0;
+  }
+  const checkBottomRight = () => {
+    if (current.x <= boundary.x && current.y <= boundary.y) return;
+    if (current.x > boundary.x) finalX = boundary.x;
+    if (current.y > boundary.y) finalY = boundary.y;
+  }
+  checkTopLeft();
+  checkBottomRight();
+  return {
+    x: finalX,
+    y: finalY
+  }
 }
 
 /**
